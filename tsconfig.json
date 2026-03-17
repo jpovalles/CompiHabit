@@ -12,6 +12,14 @@
     "**/*.ts",
     "**/*.tsx",
     ".expo/types/**/*.ts",
-    "expo-env.d.ts"
+    "expo-env.d.ts",
+    "app/(auth)/login.jsx",
+    "app/(auth)/register.jsx",
+    "app/_layout.jsx",
+    "app/index.jsx",
+    "app/test.jsx",
+    "components/AuthButton.jsx",
+    "components/AuthInput.jsx",
+    "components/button.jsx"
   ]
 }
