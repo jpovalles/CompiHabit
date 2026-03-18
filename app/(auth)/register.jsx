@@ -82,6 +82,7 @@ const styles = StyleSheet.create({
   scrollContent: {
     flexGrow: 1,
     alignItems: 'center',
+    justifyContent: 'center',
     padding: theme.spacing.xl,
   },
   header: {
@@ -116,8 +117,8 @@ const styles = StyleSheet.create({
     fontSize: theme.textSizes.sm,
   },
   logo: {
-    width: 180,
-    height: 180,
+    width: 160,
+    height: 160,
     marginBottom: theme.spacing.xl,
     objectFit: 'contain',
   }
