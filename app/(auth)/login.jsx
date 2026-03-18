@@ -9,7 +9,7 @@ import { theme } from '../../constants/theme';
 
 export default function LoginScreen() {
   
-  const { session, signIn } = useAuth()
+  const { session, loading, signIn } = useAuth()
   
 
   const [email, setEmail] = useState('');
@@ -62,7 +62,7 @@ export default function LoginScreen() {
             onSubmitEditing={handleLogin}
           />
 
-          <AuthButton label="Iniciar sesión" onPress={handleLogin} />
+          <AuthButton label="Iniciar sesión" onPress={handleLogin} disabled={loading}/>
 
           <View style={styles.footer}>
             <Text style={styles.footerText}>¿No tienes una cuenta? </Text>

@@ -1,20 +1,41 @@
+import { AuthButton } from '@/components/AuthButton';
+import { AuthInput } from '@/components/AuthInput';
+import { theme } from '@/constants/theme';
+import { useAuth } from '@/context/AuthContext';
 import { Link, useRouter } from 'expo-router';
 import React, { useState } from 'react';
-import { Image, KeyboardAvoidingView, Platform, ScrollView, StyleSheet, Text, View } from 'react-native';
-import { AuthButton } from '../../components/AuthButton';
-import { AuthInput } from '../../components/AuthInput';
-import { theme } from '../../constants/theme';
+import { Alert, Image, KeyboardAvoidingView, Platform, ScrollView, StyleSheet, Text, View } from 'react-native';
 
 export default function RegisterScreen() {
+  const {signUp} = useAuth()
   const [email, setEmail] = useState('');
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const router = useRouter();
 
-  const handleRegister = () => {
-    // Implement register logic here
-    console.log('Register with', email, username);
+  const handleRegister = async () => {
+    // Field validations
+    if (!email || !password || !username) {
+      Alert.alert('Error', 'Todos los campos son obligatorios')
+      return
+    }
+
+    if (password !== confirmPassword) {
+      Alert.alert('Error', 'Las contraseñas no coinciden')
+      return
+    }
+
+    if (password.length < 6) {
+      Alert.alert('Error', 'La contraseña debe tener al menos 6 caracteres')
+      return
+    }
+
+    try {
+      await signUp(email, password, username)
+    } catch (error) {
+      Alert.alert('Error', error.message)
+    }
   };
 
   return (
