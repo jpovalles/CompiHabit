@@ -1,20 +1,31 @@
+import { useAuth } from '@/context/AuthContext';
 import { Link, useRouter } from 'expo-router';
 import { useRef, useState } from 'react';
-import { Image, KeyboardAvoidingView, Platform, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { Alert, Image, KeyboardAvoidingView, Platform, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { AuthButton } from '../../components/AuthButton';
 import { AuthInput } from '../../components/AuthInput';
+import { error_msg } from '../../constants/error_msg';
 import { theme } from '../../constants/theme';
 
 export default function LoginScreen() {
-  const [username, setUsername] = useState('');
+  
+  const { session, signIn } = useAuth()
+  
+
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const passwordRef = useRef(null);
   const router = useRouter();
 
-  const handleLogin = () => {
-    // Implement login logic here
-    console.log('Login with', username, password);
-  };
+    const handleLogin = async () => {
+    try {
+      await signIn(email, password)
+    } catch (error) {
+    Alert.alert('Error', error_msg[error.message])
+    }
+  }
+
+  
 
   return (
     <KeyboardAvoidingView
@@ -33,12 +44,13 @@ export default function LoginScreen() {
 
         <View style={styles.form}>
           <AuthInput
-            placeholder="Usuario"
-            value={username}
-            onChangeText={setUsername}
+            placeholder="Correo electrónico"
+            value={email}
+            onChangeText={setEmail}
             autoCapitalize="none"
             returnKeyType="next"
             onSubmitEditing={() => passwordRef.current.focus()}
+            keyboardType="email-address"
           />
           <AuthInput
             placeholder="Contraseña"
@@ -72,6 +84,7 @@ const styles = StyleSheet.create({
   scrollContent: {
     flex: 1,
     alignItems: 'center',
+    justifyContent: 'center',
     padding: theme.spacing.xl,
   },
   header: {
@@ -106,8 +119,8 @@ const styles = StyleSheet.create({
     fontSize: theme.textSizes.sm,
   },
   logo: {
-    width: 180,
-    height: 180,
+    width: 160,
+    height: 160,
     marginBottom: theme.spacing.xl,
     objectFit: 'contain',
   }
