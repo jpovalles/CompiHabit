@@ -4,7 +4,7 @@ import { useRef, useState } from 'react';
 import { Alert, Image, KeyboardAvoidingView, Platform, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { AuthButton } from '../../components/AuthButton';
 import { AuthInput } from '../../components/AuthInput';
-import { error_msg } from '../../constants/error_msg';
+import { error_msg_login } from '../../constants/auth/error_msg';
 import { theme } from '../../constants/theme';
 
 export default function LoginScreen() {
@@ -21,7 +21,7 @@ export default function LoginScreen() {
     try {
       await signIn(email, password)
     } catch (error) {
-    Alert.alert('Error', error_msg[error.message])
+      Alert.alert('Error', error_msg_login[error.message])
     }
   }
 

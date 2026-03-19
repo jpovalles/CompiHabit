@@ -5,6 +5,7 @@ import { useAuth } from '@/context/AuthContext';
 import { Link, useRouter } from 'expo-router';
 import React, { useState } from 'react';
 import { Alert, Image, KeyboardAvoidingView, Platform, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { error_msg_register } from '../../constants/auth/error_msg';
 
 export default function RegisterScreen() {
   const {signUp} = useAuth()
@@ -17,17 +18,17 @@ export default function RegisterScreen() {
   const handleRegister = async () => {
     // Field validations
     if (!email || !password || !username) {
-      Alert.alert('Error', 'Todos los campos son obligatorios')
+      Alert.alert('Error', error_msg_register.required_fields)
       return
     }
 
     if (password !== confirmPassword) {
-      Alert.alert('Error', 'Las contraseñas no coinciden')
+      Alert.alert('Error', error_msg_register.password_mismatch)
       return
     }
 
     if (password.length < 6) {
-      Alert.alert('Error', 'La contraseña debe tener al menos 6 caracteres')
+      Alert.alert('Error', error_msg_register.weak_password)
       return
     }
 
