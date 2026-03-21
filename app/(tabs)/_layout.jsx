@@ -6,15 +6,18 @@ import { useAuth } from "../../context/AuthContext";
 export default function TabsLayout() {
   const { session, loading } = useAuth();
 
-  if (loading) return null; // o un splash screen
+  if (loading) return null;
 
   if (!session) return <Redirect href="/(auth)/login" />;
   return (
     <Tabs
       screenOptions={{
         headerShown: false,
+        sceneContainerStyle: {
+          backgroundColor: theme.colors.border,
+        },
         tabBarStyle: {
-          backgroundColor: theme.colors.background,
+          backgroundColor: theme.colors.surface,
           borderTopWidth: 0,
           height: 90,
           paddingBottom: theme.spacing.xs,
@@ -31,7 +34,7 @@ export default function TabsLayout() {
       <Tabs.Screen
         name="pacts"
         options={{
-          title: "Pacts",
+          title: "Pactos",
           tabBarIcon: ({ color, size }) => (
             <FontAwesome6 name="handshake-angle" size={size} color={color} />
           ),
@@ -40,7 +43,7 @@ export default function TabsLayout() {
       <Tabs.Screen
         name="achievements"
         options={{
-          title: "Achievements",
+          title: "Logros",
           tabBarIcon: ({ color, size }) => (
             <FontAwesome6 name="trophy" size={size} color={color} />
           ),
@@ -49,7 +52,7 @@ export default function TabsLayout() {
       <Tabs.Screen
         name="profile"
         options={{
-          title: "Profile",
+          title: "Perfil",
           tabBarIcon: ({ color, size }) => (
             <FontAwesome6 name="user-large" size={size} color={color} />
           ),

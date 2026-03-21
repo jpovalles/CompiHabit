@@ -1,12 +1,20 @@
-import { Text, View } from "react-native";
+import { theme } from "@/constants/theme";
+import { StyleSheet, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
-export default function pacts() {
+export default function Achievements() {
   return (
-    <SafeAreaView style={{ flex: 1, width: "100%" }}>
+    <SafeAreaView style={styles.container}>
       <View>
         <Text>This is achievements</Text>
       </View>
     </SafeAreaView>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: theme.colors.border,
+  },
+});
