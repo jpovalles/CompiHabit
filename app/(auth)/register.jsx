@@ -1,51 +1,62 @@
-import { AuthButton } from '@/components/AuthButton';
-import { AuthInput } from '@/components/AuthInput';
-import { theme } from '@/constants/theme';
-import { useAuth } from '@/context/AuthContext';
-import { Link, useRouter } from 'expo-router';
-import React, { useState } from 'react';
-import { Alert, Image, KeyboardAvoidingView, Platform, ScrollView, StyleSheet, Text, View } from 'react-native';
-import { error_msg_register } from '../../constants/auth/error_msg';
+import { AuthButton } from "@/components/AuthButton";
+import { FancyInput } from "@/components/FancyInput";
+import { theme } from "@/constants/theme";
+import { useAuth } from "@/context/AuthContext";
+import { Link, useRouter } from "expo-router";
+import React, { useState } from "react";
+import {
+  Alert,
+  Image,
+  KeyboardAvoidingView,
+  Platform,
+  ScrollView,
+  StyleSheet,
+  Text,
+  View,
+} from "react-native";
+import { error_msg_register } from "../../constants/auth/error_msg";
 
 export default function RegisterScreen() {
-  const {signUp} = useAuth()
-  const [email, setEmail] = useState('');
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
+  const { signUp } = useAuth();
+  const [email, setEmail] = useState("");
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
   const router = useRouter();
 
   const handleRegister = async () => {
     // Field validations
     if (!email || !password || !username) {
-      Alert.alert('Error', error_msg_register.required_fields)
-      return
+      Alert.alert("Error", error_msg_register.required_fields);
+      return;
     }
 
     if (password !== confirmPassword) {
-      Alert.alert('Error', error_msg_register.password_mismatch)
-      return
+      Alert.alert("Error", error_msg_register.password_mismatch);
+      return;
     }
 
     if (password.length < 6) {
-      Alert.alert('Error', error_msg_register.weak_password)
-      return
+      Alert.alert("Error", error_msg_register.weak_password);
+      return;
     }
 
     try {
-      await signUp(email, password, username)
+      await signUp(email, password, username);
     } catch (error) {
-      Alert.alert('Error', error.message)
+      Alert.alert("Error", error.message);
     }
   };
 
   return (
     <KeyboardAvoidingView
       style={styles.container}
-      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+      behavior={Platform.OS === "ios" ? "padding" : "height"}
     >
-
-      <ScrollView contentContainerStyle={styles.scrollContent} keyboardShouldPersistTaps="handled">
+      <ScrollView
+        contentContainerStyle={styles.scrollContent}
+        keyboardShouldPersistTaps="handled"
+      >
         <Image
           source={require("../../assets/images/isotype_nobg.webp")}
           style={styles.logo}
@@ -56,26 +67,26 @@ export default function RegisterScreen() {
         </View>
 
         <View style={styles.form}>
-          <AuthInput
+          <FancyInput
             placeholder="Correo electrónico"
             value={email}
             onChangeText={setEmail}
             keyboardType="email-address"
             autoCapitalize="none"
           />
-          <AuthInput
+          <FancyInput
             placeholder="Nombre de usuario"
             value={username}
             onChangeText={setUsername}
             autoCapitalize="none"
           />
-          <AuthInput
+          <FancyInput
             placeholder="Contraseña"
             value={password}
             onChangeText={setPassword}
             secureTextEntry
           />
-          <AuthInput
+          <FancyInput
             placeholder="Confirmar contraseña"
             value={confirmPassword}
             onChangeText={setConfirmPassword}
@@ -103,17 +114,17 @@ const styles = StyleSheet.create({
   },
   scrollContent: {
     flexGrow: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
+    alignItems: "center",
+    justifyContent: "center",
     padding: theme.spacing.xl,
   },
   header: {
     marginBottom: theme.spacing.xl,
-    alignItems: 'center',
+    alignItems: "center",
   },
   title: {
     fontSize: theme.textSizes.xl,
-    fontWeight: '700',
+    fontWeight: "700",
     color: theme.colors.textPrimary,
     marginBottom: theme.spacing.xs,
   },
@@ -122,11 +133,11 @@ const styles = StyleSheet.create({
     color: theme.colors.textMuted,
   },
   form: {
-    width: '100%',
+    width: "100%",
   },
   footer: {
-    flexDirection: 'row',
-    justifyContent: 'center',
+    flexDirection: "row",
+    justifyContent: "center",
     marginTop: theme.spacing.lg,
   },
   footerText: {
@@ -135,13 +146,13 @@ const styles = StyleSheet.create({
   },
   link: {
     color: theme.colors.primary,
-    fontWeight: '600',
+    fontWeight: "600",
     fontSize: theme.textSizes.sm,
   },
   logo: {
     width: 160,
     height: 160,
     marginBottom: theme.spacing.xl,
-    objectFit: 'contain',
-  }
+    objectFit: "contain",
+  },
 });

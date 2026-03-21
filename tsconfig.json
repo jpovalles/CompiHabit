@@ -3,9 +3,7 @@
   "compilerOptions": {
     "strict": true,
     "paths": {
-      "@/*": [
-        "./*"
-      ]
+      "@/*": ["./*"]
     }
   },
   "include": [
@@ -19,7 +17,7 @@
     "app/index.jsx",
     "app/test.jsx",
     "components/AuthButton.jsx",
-    "components/AuthInput.jsx",
+    "components/FancyInput.jsx",
     "components/button.jsx"
   ]
 }
