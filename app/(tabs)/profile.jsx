@@ -1,10 +1,10 @@
-import { AuthButton } from "@/components/AuthButton";
+import FancyButton from "@/components/FancyButton";
 import { theme } from "@/constants/theme";
 import { StyleSheet, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useAuth } from "../../context/AuthContext";
 
-export default function pacts() {
+export default function Profile() {
   const { signOut } = useAuth();
 
   const handleLogout = async () => {
@@ -18,7 +18,7 @@ export default function pacts() {
     <SafeAreaView style={styles.container}>
       <View>
         <Text>This is profile</Text>
-        <AuthButton label="Cerrar sesión" onPress={handleLogout} />
+        <FancyButton label="Cerrar sesión" onPress={handleLogout} />
       </View>
     </SafeAreaView>
   );
@@ -27,6 +27,6 @@ export default function pacts() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: theme.colors.borderk,
+    backgroundColor: theme.colors.border,
   },
 });

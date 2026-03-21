@@ -32,10 +32,10 @@ export const presets = StyleSheet.create({
   },
   text_primary: {
     color: theme.colors.textPrimary,
-    fontWeight: theme.font.semibold,
+    fontWeight: theme.font.semibold.toString(),
   },
   text_secondary: {
     color: theme.colors.primary,
-    fontWeight: theme.font.semibold,
+    fontWeight: theme.font.semibold.toString(),
   },
 });

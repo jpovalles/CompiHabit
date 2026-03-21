@@ -11,8 +11,8 @@ import {
   Text,
   View,
 } from "react-native";
-import { AuthButton } from "../../components/AuthButton";
-import { FancyInput } from "../../components/FancyInput";
+import FancyButton from "../../components/FancyButton";
+import FancyInput from "../../components/FancyInput";
 import { error_msg_login } from "../../constants/auth/error_msg";
 import { theme } from "../../constants/theme";
 
@@ -69,7 +69,7 @@ export default function LoginScreen() {
             onSubmitEditing={handleLogin}
           />
 
-          <AuthButton
+          <FancyButton
             label="Iniciar sesión"
             onPress={handleLogin}
             disabled={loading}

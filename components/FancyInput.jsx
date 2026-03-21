@@ -2,7 +2,7 @@ import React from "react";
 import { StyleSheet, TextInput, View } from "react-native";
 import { theme } from "../constants/theme";
 
-export const FancyInput = (props) => {
+export default function FancyInput(props) {
   return (
     <View style={styles.container}>
       <TextInput
@@ -12,7 +12,7 @@ export const FancyInput = (props) => {
       />
     </View>
   );
-};
+}
 
 const styles = StyleSheet.create({
   container: {

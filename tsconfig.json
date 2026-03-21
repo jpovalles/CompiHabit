@@ -16,7 +16,7 @@
     "app/_layout.jsx",
     "app/index.jsx",
     "app/test.jsx",
-    "components/AuthButton.jsx",
+    "components/FancyButton.jsx",
     "components/FancyInput.jsx",
     "components/button.jsx"
   ]

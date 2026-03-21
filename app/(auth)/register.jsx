@@ -1,5 +1,5 @@
-import { AuthButton } from "@/components/AuthButton";
-import { FancyInput } from "@/components/FancyInput";
+import FancyButton from "@/components/FancyButton";
+import FancyInput from "@/components/FancyInput";
 import { theme } from "@/constants/theme";
 import { useAuth } from "@/context/AuthContext";
 import { Link, useRouter } from "expo-router";
@@ -93,7 +93,7 @@ export default function RegisterScreen() {
             secureTextEntry
           />
 
-          <AuthButton label="Registrarse" onPress={handleRegister} />
+          <FancyButton label="Registrarse" onPress={handleRegister} />
 
           <View style={styles.footer}>
             <Text style={styles.footerText}>¿Ya tienes una cuenta? </Text>
