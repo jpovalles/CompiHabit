@@ -1,9 +1,8 @@
-import React from 'react';
-import { StyleSheet, TextInput, View } from 'react-native';
-import { theme } from '../constants/theme';
+import React from "react";
+import { StyleSheet, TextInput, View } from "react-native";
+import { theme } from "../constants/theme";
 
-
-export const AuthInput = (props) => {
+export const FancyInput = (props) => {
   return (
     <View style={styles.container}>
       <TextInput
@@ -17,7 +16,7 @@ export const AuthInput = (props) => {
 
 const styles = StyleSheet.create({
   container: {
-    width: '100%',
+    width: "100%",
     marginBottom: theme.spacing.md,
   },
   input: {
