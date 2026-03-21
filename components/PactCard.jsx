@@ -1,15 +1,16 @@
 import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 
 import { theme } from "../constants/theme";
+import FlameBadge from "./FlameBadge";
 
 export default function PactCard({
-  title = "Meditación",
-  partnerName = "Marco",
-  partnerAvatar = null,
-  streakDays = 0,
-  badgeLevel = 1,
-  daysRemaining = 21,
-  progressPercent = 10,
+  habit,
+  partnerName,
+  partnerAvatar,
+  streakDays,
+  badgeLevel,
+  daysRemaining,
+  progressPercent,
   todayStatus = "done",
   onRegister,
 }) {
@@ -31,7 +32,7 @@ export default function PactCard({
         {/* Top row */}
         <View style={styles.topRow}>
           <View style={styles.titleBlock}>
-            <Text style={styles.title}>{title}</Text>
+            <Text style={styles.title}>{habit}</Text>
             <View style={styles.partnerRow}>
               {partnerAvatar ? (
                 <Image source={{ uri: partnerAvatar }} style={styles.avatar} />
@@ -47,7 +48,7 @@ export default function PactCard({
           </View>
 
           <View style={styles.streakBlock}>
-            <Text style={styles.streakIcon}>🔥</Text>
+            <FlameBadge level={5} />
             <Text style={styles.streakCount}>{streakDays} DÍAS</Text>
           </View>
         </View>
