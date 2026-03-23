@@ -1,6 +1,6 @@
 import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 
-import { theme } from "../constants/theme";
+import { theme } from "@/constants/theme";
 import FlameBadge from "./FlameBadge";
 
 export default function PactCard({

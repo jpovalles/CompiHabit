@@ -1,6 +1,6 @@
-import CreatePactModal from "@/components/CreatePactModal";
+import CreatePactModal from "@/components/create_pact/CreatePactModal";
 import FAB from "@/components/FAB";
-import PactCard from "@/components/PactCard";
+import PactCard from "@/components/pact_card/PactCard";
 import { theme } from "@/constants/theme";
 import { useState } from "react";
 import { StyleSheet, Text, View } from "react-native";

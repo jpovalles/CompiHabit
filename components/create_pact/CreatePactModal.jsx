@@ -1,9 +1,11 @@
 import FAB from "@/components/FAB";
 import FancyButton from "@/components/FancyButton";
 import { theme } from "@/constants/theme";
-import { FontAwesome5, MaterialCommunityIcons } from "@expo/vector-icons";
-import { useState } from "react";
-import { Modal, Pressable, StyleSheet, Text, View } from "react-native";
+import { useAuth } from "@/context/AuthContext";
+import { getHabits } from "@/services/habits_service";
+import { useEffect, useState } from "react";
+import { Alert, Modal, StyleSheet, Text, View } from "react-native";
+import HabitButton from "./HabitButton";
 
 export default function CreatePactModal({ visible, onClose }) {
   const TABS = [
@@ -15,17 +17,53 @@ export default function CreatePactModal({ visible, onClose }) {
 
   const [selectedHabit, setSelectedHabit] = useState(null);
 
+  const { session } = useAuth();
+
+  const [pactData, setPactData] = useState({
+    id_host: session.user.id,
+    id_guest: '',
+    id_status_pact: 1,
+    id_habit_type: 0,
+    pact_days: [],
+    pact_hours: 0,
+  });
+
   const handleClose = () => {
     setActiveTab(TABS[0]);
     setSelectedHabit(null);
     onClose();
   };
 
+
+
+
+  // Habits handle functions
+  const [habits, setHabits] = useState([]);
+
+
+
+  const loadHabits = async () => {
+    try {
+      const data = await getHabits();
+      setHabits(data);
+      console.log(data);
+    } catch (error) {
+      Alert.alert("Error al obtener hábitos: ", error.message);
+    }
+  };
+
+  useEffect(() => {
+    if (visible) {
+      loadHabits();
+    }
+  }, [visible]);
+
   const renderContent = () => {
     switch (activeTab) {
       case TABS[0]:
         return (
           <HabitSelectionTab
+            habits={habits}
             selected={selectedHabit}
             onSelect={setSelectedHabit}
           />
@@ -76,7 +114,7 @@ export default function CreatePactModal({ visible, onClose }) {
   );
 }
 
-function HabitSelectionTab({ selected, onSelect }) {
+function HabitSelectionTab({ habits, selected, onSelect, pactData, setPactData }) {
   return (
     <View style={styles.bentoContainer}>
       <Text style={styles.subtitle}>Crea tu nuevo pacto</Text>
@@ -85,89 +123,20 @@ function HabitSelectionTab({ selected, onSelect }) {
       </Text>
 
       <View style={styles.bentoGrid}>
-        <Pressable
-          style={[
-            styles.bentoItem,
-            styles.bentoItemLarge,
-            selected === "actividad" && styles.bentoItemSelected,
-          ]}
-          onPress={() => onSelect("actividad")}
-        >
-          <View
-            style={[
-              styles.iconContainer,
-              selected === "actividad" && styles.iconContainerSelected,
-              { marginBottom: 0, marginRight: theme.spacing.md },
-            ]}
-          >
-            <FontAwesome5
-              name="dumbbell"
-              size={24}
-              color={
-                selected === "actividad"
-                  ? theme.colors.background
-                  : theme.colors.primary
-              }
+        {habits?.length > 0 ? (
+          habits.map((habit) => (
+            <HabitButton
+              key={habit.id_habit_type}
+              selected={selected}
+              onSelect={onSelect}
+              habit={habit}
+              pactData={pactData}
+              setPactData={setPactData}
             />
-          </View>
-          <Text style={styles.bentoText}>Actividad física</Text>
-        </Pressable>
-
-        <View style={styles.bentoRow}>
-          <Pressable
-            style={[
-              styles.bentoItem,
-              styles.bentoItemSmall,
-              selected === "lectura" && styles.bentoItemSelected,
-            ]}
-            onPress={() => onSelect("lectura")}
-          >
-            <View
-              style={[
-                styles.iconContainer,
-                selected === "lectura" && styles.iconContainerSelected,
-              ]}
-            >
-              <MaterialCommunityIcons
-                name="book-open-page-variant"
-                size={28}
-                color={
-                  selected === "lectura"
-                    ? theme.colors.background
-                    : theme.colors.primary
-                }
-              />
-            </View>
-            <Text style={styles.bentoText}>Lectura diaria</Text>
-          </Pressable>
-
-          <Pressable
-            style={[
-              styles.bentoItem,
-              styles.bentoItemSmall,
-              selected === "pantalla" && styles.bentoItemSelected,
-            ]}
-            onPress={() => onSelect("pantalla")}
-          >
-            <View
-              style={[
-                styles.iconContainer,
-                selected === "pantalla" && styles.iconContainerSelected,
-              ]}
-            >
-              <MaterialCommunityIcons
-                name="cellphone-check"
-                size={28}
-                color={
-                  selected === "pantalla"
-                    ? theme.colors.background
-                    : theme.colors.primary
-                }
-              />
-            </View>
-            <Text style={styles.bentoText}>Tiempo en pantalla</Text>
-          </Pressable>
-        </View>
+          ))
+        ) : (
+          <Text style={[styles.description, { textAlign: "center" }]}>No hay hábitos para mostrar</Text>
+        )}
       </View>
     </View>
   );
@@ -232,6 +201,16 @@ const styles = StyleSheet.create({
   bentoContainer: {
     flex: 1,
   },
+  bentoTextContainer: {
+    flex: 1,
+    flexDirection: "column",
+    justifyContent: "center",
+    gap: theme.spacing.xs,
+  },
+  bentoDescription: {
+    fontSize: theme.textSizes.sm,
+    color: theme.colors.textMuted,
+  },
   bentoGrid: {
     gap: theme.spacing.md,
   },
@@ -242,7 +221,7 @@ const styles = StyleSheet.create({
   bentoItem: {
     backgroundColor: theme.colors.surface,
     borderRadius: theme.radius.lg,
-    padding: theme.spacing.lg,
+    padding: theme.spacing.md,
     borderWidth: 2,
     borderColor: "transparent",
   },
