@@ -16,7 +16,10 @@ export default function Pacts() {
         <PactCard onRegister={() => console.log("Registrado!")} />
       </View>
       <FAB onPress={() => setShowCreate(true)} />
-      <CreatePactModal visible={showCreate} onClose={() => setShowCreate(false)} />
+      <CreatePactModal
+        visible={showCreate}
+        onClose={() => setShowCreate(false)}
+      />
     </SafeAreaView>
   );
 }
