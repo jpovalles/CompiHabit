@@ -1,13 +1,38 @@
 import { theme } from "@/constants/theme";
-import { StyleSheet, Text, View } from "react-native";
+import { getHabits } from "@/services/habits_service";
+import { useEffect, useState } from "react";
+import { Alert, StyleSheet, Text, View } from "react-native";
 import HabitButton from "./HabitButton";
 
 
 
-export default function HabitSelectionTab({ habits, selected, onSelect, pactData, setPactData }) {
+export default function HabitSelectionTab({ pactData, setPactData }) {
+    const [habits, setHabits] = useState([]);
+
+    const loadHabits = async () => {
+        try {
+            const data = await getHabits();
+            setHabits(data);
+            console.log(data);
+        } catch (error) {
+            Alert.alert("Error al obtener hábitos: ", error.message);
+        }
+    };
+
+    useEffect(() => {
+        loadHabits();
+    }, []);
+
+    const [selectedHabit, setSelectedHabit] = useState(null);
+
+    const handleSelect = (id_selected) => {
+        setSelectedHabit(id_selected);
+        setPactData({ ...pactData, id_habit_type: id_selected });
+    };
+
     return (
         <View style={styles.bentoContainer}>
-            <Text style={styles.subtitle}>Crea tu nuevo pacto</Text>
+            <Text style={styles.title}>Crea tu nuevo pacto</Text>
             <Text style={styles.description}>
                 Selecciona el hábito que quieres incluir en tu pacto
             </Text>
@@ -17,8 +42,8 @@ export default function HabitSelectionTab({ habits, selected, onSelect, pactData
                     habits.map((habit) => (
                         <HabitButton
                             key={habit.id_habit_type}
-                            selected={selected}
-                            onSelect={onSelect}
+                            selected={selectedHabit}
+                            onSelect={handleSelect}
                             habit={habit}
                             pactData={pactData}
                             setPactData={setPactData}
@@ -36,7 +61,7 @@ const styles = StyleSheet.create({
     bentoContainer: {
         flex: 1,
     },
-    subtitle: {
+    title: {
         fontSize: theme.textSizes.xl,
         fontWeight: theme.font.bold.toString(),
         color: theme.colors.textPrimary,

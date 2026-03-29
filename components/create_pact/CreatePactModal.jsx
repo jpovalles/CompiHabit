@@ -2,17 +2,14 @@ import FAB from "@/components/FAB";
 import FancyButton from "@/components/FancyButton";
 import { theme } from "@/constants/theme";
 import { useAuth } from "@/context/AuthContext";
-import { getHabits } from "@/services/habits_service";
-import { useEffect, useState } from "react";
-import { Alert, Modal, StyleSheet, Text, View } from "react-native";
+import { useState } from "react";
+import { Modal, StyleSheet, Text, View } from "react-native";
 import HabitSelectionTab from "./HabitSelectionTab";
 
 export default function CreatePactModal({ visible, onClose }) {
   const { session } = useAuth();
 
   const [activeTab, setActiveTab] = useState(0);
-
-  const [selectedHabit, setSelectedHabit] = useState(null);
 
   const nextStep = () => setActiveTab(prev => prev + 1);
   const prevStep = () => setActiveTab(prev => prev - 1);
@@ -28,39 +25,16 @@ export default function CreatePactModal({ visible, onClose }) {
 
   const handleClose = () => {
     setActiveTab(0);
-    setSelectedHabit(null);
     onClose();
   };
-
-  // Habits handle functions
-  const [habits, setHabits] = useState([]);
-
-
-
-  const loadHabits = async () => {
-    try {
-      const data = await getHabits();
-      setHabits(data);
-      console.log(data);
-    } catch (error) {
-      Alert.alert("Error al obtener hábitos: ", error.message);
-    }
-  };
-
-  useEffect(() => {
-    if (visible) {
-      loadHabits();
-    }
-  }, [visible]);
 
   const renderContent = () => {
     switch (activeTab) {
       case 0:
         return (
           <HabitSelectionTab
-            habits={habits}
-            selected={selectedHabit}
-            onSelect={setSelectedHabit}
+            pactData={pactData}
+            setPactData={setPactData}
           />
         );
       case 1:
@@ -86,10 +60,6 @@ export default function CreatePactModal({ visible, onClose }) {
           }}
         />
 
-        <View style={styles.header}>
-          <Text style={styles.title}>{activeTab}</Text>
-        </View>
-
         <View style={styles.body}>{renderContent()}</View>
 
         <View style={styles.footer}>
@@ -97,11 +67,13 @@ export default function CreatePactModal({ visible, onClose }) {
             <FancyButton
               label="Regresar"
               onPress={prevStep}
+              style={{ width: "25%" }}
             />
           )}
           <FancyButton
             label={activeTab === 2 ? "Crear Pacto" : "Continuar"}
             onPress={nextStep}
+            style={{ flex: 1 }}
           />
         </View>
       </View>
@@ -152,6 +124,8 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   footer: {
+    flexDirection: "row",
+    gap: theme.spacing.md,
     paddingVertical: theme.spacing.lg,
     paddingBottom: theme.spacing.xl,
   },

@@ -3,17 +3,12 @@ import { FontAwesome5 } from "@expo/vector-icons";
 import { Pressable, StyleSheet, Text, View } from "react-native";
 
 
-export default function HabitButton({ selected, onSelect, habit, pactData, setPactData }) {
+export default function HabitButton({ selected, onSelect, habit }) {
     const icons = {
         "Actividad física": "dumbbell",
         "Lectura": "book-open",
         "Tiempo en pantalla": "hourglass",
     }
-
-    const handleSelect = () => {
-        onSelect(habit.id_habit_type);
-        setPactData({ ...pactData, id_habit_type: habit.id_habit_type });
-    };
 
     return (
         <Pressable
