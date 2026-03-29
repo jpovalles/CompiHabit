@@ -3,18 +3,22 @@ import FancyButton from "@/components/FancyButton";
 import { theme } from "@/constants/theme";
 import { useAuth } from "@/context/AuthContext";
 import { useState } from "react";
-import { Modal, StyleSheet, Text, View } from "react-native";
+import { Modal, StyleSheet, View } from "react-native";
+import FrequencyTab from "./FrequencyTab";
+import GuestSelectionTab from "./GuestSelectionTab";
 import HabitSelectionTab from "./HabitSelectionTab";
 
 export default function CreatePactModal({ visible, onClose }) {
   const { session } = useAuth();
 
+  // Tabs Handling
   const [activeTab, setActiveTab] = useState(0);
   const [fieldFilled, setFieldFilled] = useState(false);
 
   const nextStep = () => setActiveTab(prev => prev + 1);
   const prevStep = () => setActiveTab(prev => prev - 1);
 
+  // Object to be sent to the database
   const [pactData, setPactData] = useState({
     id_host: session.user.id,
     id_guest: '',
@@ -37,6 +41,7 @@ export default function CreatePactModal({ visible, onClose }) {
     onClose();
   };
 
+  // Rendering tabs
   const renderContent = () => {
     switch (activeTab) {
       case 0:
@@ -48,9 +53,15 @@ export default function CreatePactModal({ visible, onClose }) {
           />
         );
       case 1:
-        return <FrequencyTab />;
+        return (
+          <FrequencyTab
+            pactData={pactData}
+            setPactData={setPactData}
+            setFieldFilled={setFieldFilled}
+          />
+        );
       case 2:
-        return <CompaTab />;
+        return <GuestSelectionTab />;
       default:
         return null;
     }
@@ -92,31 +103,11 @@ export default function CreatePactModal({ visible, onClose }) {
   );
 }
 
-function FrequencyTab() {
-  return (
-    <View>
-      <Text style={{ color: theme.colors.textPrimary }}>
-        Establece la frecuencia
-      </Text>
-    </View>
-  );
-}
-
-function CompaTab() {
-  return (
-    <View>
-      <Text style={{ color: theme.colors.textPrimary }}>
-        Selecciona tu Compi
-      </Text>
-    </View>
-  );
-}
-
 const styles = StyleSheet.create({
   modalContent: {
     flex: 1,
     backgroundColor: theme.colors.background,
-    paddingTop: theme.spacing.xl * 2.5,
+    paddingTop: theme.spacing.xl * 3,
     paddingHorizontal: theme.spacing.lg,
   },
   header: {

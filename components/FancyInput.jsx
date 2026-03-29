@@ -2,9 +2,9 @@ import React from "react";
 import { StyleSheet, TextInput, View } from "react-native";
 import { theme } from "../constants/theme";
 
-export default function FancyInput(props) {
+export default function FancyInput({ style, ...props }) {
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, style]}>
       <TextInput
         style={styles.input}
         placeholderTextColor={theme.colors.textMuted}

@@ -1,5 +1,5 @@
 import { theme } from "@/constants/theme";
-import { getHabits } from "@/services/habits_service";
+import { getHabits } from "@/services/habitsService";
 import { useEffect, useState } from "react";
 import { Alert, StyleSheet, Text, View } from "react-native";
 import HabitButton from "./HabitButton";
