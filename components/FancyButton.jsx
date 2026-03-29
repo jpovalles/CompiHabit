@@ -2,9 +2,14 @@ import React from "react";
 import { StyleSheet, Text, TouchableOpacity } from "react-native";
 import { theme } from "../constants/theme";
 
-export default function FancyButton({ label, style, ...props }) {
+export default function FancyButton({ label, style, disabled = false, ...props }) {
   return (
-    <TouchableOpacity style={[styles.button, style]} activeOpacity={0.8} {...props}>
+    <TouchableOpacity
+      style={[styles.button, style, disabled && { opacity: 0.5 }]}
+      activeOpacity={0.8}
+      disabled={disabled}
+      {...props}
+    >
       <Text style={styles.label}>{label}</Text>
     </TouchableOpacity>
   );

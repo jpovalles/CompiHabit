@@ -10,6 +10,7 @@ export default function CreatePactModal({ visible, onClose }) {
   const { session } = useAuth();
 
   const [activeTab, setActiveTab] = useState(0);
+  const [fieldFilled, setFieldFilled] = useState(false);
 
   const nextStep = () => setActiveTab(prev => prev + 1);
   const prevStep = () => setActiveTab(prev => prev - 1);
@@ -25,6 +26,14 @@ export default function CreatePactModal({ visible, onClose }) {
 
   const handleClose = () => {
     setActiveTab(0);
+    setPactData({
+      id_host: session.user.id,
+      id_guest: '',
+      id_status_pact: 1,
+      id_habit_type: 0,
+      pact_days: [],
+      pact_hours: null,
+    });
     onClose();
   };
 
@@ -35,6 +44,7 @@ export default function CreatePactModal({ visible, onClose }) {
           <HabitSelectionTab
             pactData={pactData}
             setPactData={setPactData}
+            setFieldFilled={setFieldFilled}
           />
         );
       case 1:
@@ -74,6 +84,7 @@ export default function CreatePactModal({ visible, onClose }) {
             label={activeTab === 2 ? "Crear Pacto" : "Continuar"}
             onPress={nextStep}
             style={{ flex: 1 }}
+            disabled={!fieldFilled}
           />
         </View>
       </View>

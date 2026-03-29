@@ -6,7 +6,7 @@ import HabitButton from "./HabitButton";
 
 
 
-export default function HabitSelectionTab({ pactData, setPactData }) {
+export default function HabitSelectionTab({ pactData, setPactData, setFieldFilled }) {
     const [habits, setHabits] = useState([]);
 
     const loadHabits = async () => {
@@ -23,12 +23,20 @@ export default function HabitSelectionTab({ pactData, setPactData }) {
         loadHabits();
     }, []);
 
-    const [selectedHabit, setSelectedHabit] = useState(null);
+    const [selectedHabit, setSelectedHabit] = useState(pactData.id_habit_type);
 
     const handleSelect = (id_selected) => {
         setSelectedHabit(id_selected);
         setPactData({ ...pactData, id_habit_type: id_selected });
     };
+
+    useEffect(() => {
+        if (selectedHabit) {
+            setFieldFilled(true);
+        } else {
+            setFieldFilled(false);
+        }
+    }, [selectedHabit]);
 
     return (
         <View style={styles.bentoContainer}>
