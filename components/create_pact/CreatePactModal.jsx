@@ -15,8 +15,8 @@ export default function CreatePactModal({ visible, onClose }) {
   const [activeTab, setActiveTab] = useState(0);
   const [fieldFilled, setFieldFilled] = useState(false);
 
-  const nextStep = () => setActiveTab(prev => prev + 1);
-  const prevStep = () => setActiveTab(prev => prev - 1);
+  const nextStep = () => { setActiveTab(prev => prev + 1); setFieldFilled(false) };
+  const prevStep = () => { setActiveTab(prev => prev - 1); setFieldFilled(false) };
 
   // Object to be sent to the database
   const [pactData, setPactData] = useState({
@@ -70,6 +70,7 @@ export default function CreatePactModal({ visible, onClose }) {
             setFieldFilled={setFieldFilled}
           />
         );
+
       default:
         return null;
     }

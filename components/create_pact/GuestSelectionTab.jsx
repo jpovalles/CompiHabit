@@ -41,6 +41,12 @@ export default function GuestSelectionTab({ pactData, setPactData, setFieldFille
         return () => clearTimeout(timer);
     }, [searchQuery]);
 
+    useEffect(() => {
+        if (selectedUser) {
+            setFieldFilled(true);
+        }
+    }, [selectedUser]);
+
     return (
         <View style={styles.container}>
             <Text style={styles.title}>Selecciona tu Compi</Text>

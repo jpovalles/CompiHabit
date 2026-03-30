@@ -25,11 +25,11 @@ export function AuthProvider({ children }) {
 
     const signUp = async (email, password, username) => {
         // Check if username is unique
-        const { data: existing } = await supabase
+        const { data } = await supabase
             .from('profiles')
             .select('username')
             .eq('username', username)
-        if (existing) {
+        if (data.length > 0) {
             throw new Error(error_msg.duplicateUsername)
         }
 
