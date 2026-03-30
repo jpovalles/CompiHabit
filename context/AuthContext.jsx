@@ -29,12 +29,11 @@ export function AuthProvider({ children }) {
             .from('profiles')
             .select('username')
             .eq('username', username)
-            .single()
         if (existing) {
             throw new Error(error_msg.duplicateUsername)
         }
 
-        const { data:dataSignUp, error } = await supabase.auth.signUp({ email, password })
+        const { data: dataSignUp, error } = await supabase.auth.signUp({ email, password })
         if (error) throw error
 
         const { error: profileError } = await supabase
@@ -44,7 +43,7 @@ export function AuthProvider({ children }) {
                 username: username,
             })
 
-        if (profileError){
+        if (profileError) {
             console.log(profileError)
             throw profileError
         }
