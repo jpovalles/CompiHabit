@@ -22,6 +22,7 @@ export default function CreatePactModal({ visible, onClose }) {
   const [pactData, setPactData] = useState({
     id_host: session.user.id,
     id_guest: '',
+    guest_name: '',
     id_status_pact: 1,
     id_habit_type: 0,
     pact_days: [],
@@ -33,6 +34,7 @@ export default function CreatePactModal({ visible, onClose }) {
     setPactData({
       id_host: session.user.id,
       id_guest: '',
+      guest_name: '',
       id_status_pact: 1,
       id_habit_type: 0,
       pact_days: [],
@@ -61,7 +63,13 @@ export default function CreatePactModal({ visible, onClose }) {
           />
         );
       case 2:
-        return <GuestSelectionTab />;
+        return (
+          <GuestSelectionTab
+            pactData={pactData}
+            setPactData={setPactData}
+            setFieldFilled={setFieldFilled}
+          />
+        );
       default:
         return null;
     }

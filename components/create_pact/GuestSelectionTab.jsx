@@ -2,15 +2,23 @@ import FancyInput from "@/components/FancyInput";
 import { theme } from "@/constants/theme";
 import { useAuth } from "@/context/AuthContext";
 import { searchUsers } from "@/services/profileService";
-import Entypo from '@expo/vector-icons/Entypo';
 import { useEffect, useState } from "react";
-import { Alert, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { Alert, StyleSheet, Text, View } from "react-native";
 import ProfileCard from "./ProfileCard";
 
-export default function GuestSelectionTab() {
+export default function GuestSelectionTab({ pactData, setPactData, setFieldFilled }) {
     const [searchQuery, setSearchQuery] = useState("");
     const [results, setResults] = useState([]);
-    const [selectedUser, setSelectedUser] = useState(null);
+
+    const [selectedUser, setSelectedUser] = useState(pactData.id_guest ? { id_profile: pactData.id_guest, username: pactData.guest_name } : null);
+
+    const handleSelectUser = (user) => {
+        setSelectedUser(user);
+        setPactData(prev => ({ ...prev, id_guest: user.id_profile, guest_name: user.username }));
+        setSearchQuery("");
+        setResults([]);
+        setFieldFilled(true);
+    };
 
     const { session } = useAuth();
 
@@ -46,36 +54,35 @@ export default function GuestSelectionTab() {
                     onChangeText={setSearchQuery}
                     style={{ flex: 1 }}
                 />
-                <TouchableOpacity
-                    style={styles.searchButton}
-                    onPress={() => console.log(searchQuery)}
-                >
-                    <Entypo name="magnifying-glass" size={20} color={theme.colors.textPrimary} />
-                </TouchableOpacity>
+
             </View>
             {selectedUser && (
                 <ProfileCard
                     key={selectedUser.id_profile}
                     user={selectedUser}
-                    selected={selectedUser === selectedUser.id_profile}
-                    onSelect={setSelectedUser}
+                    selected={selectedUser.id_profile === selectedUser.id_profile}
+                    onSelect={handleSelectUser}
                 />
             )}
-            {results.length > 0 ? (
+            {results.filter(user => user.id_profile !== selectedUser?.id_profile).length > 0 ? (
                 <View style={[styles.resultsContainer, { width: '100%' }]}>
-                    {results.map((user) => (
-                        <ProfileCard
-                            key={user.id_profile}
-                            user={user}
-                            selected={selectedUser === user.id_profile}
-                            onSelect={setSelectedUser}
-                        />
-                    ))}
+                    {results
+                        .filter(user => user.id_profile !== selectedUser?.id_profile)
+                        .map((user) => (
+                            <ProfileCard
+                                key={user.id_profile}
+                                user={user}
+                                selected={false}
+                                onSelect={handleSelectUser}
+                            />
+                        ))}
                 </View>
             ) : (
-                <View style={styles.resultsContainer}>
-                    <Text style={styles.resultText}>No se encontraron usuarios</Text>
-                </View>
+                searchQuery.length > 1 && (
+                    <View style={styles.resultsContainer}>
+                        <Text style={styles.resultText}>No se encontraron usuarios</Text>
+                    </View>
+                )
             )}
 
         </View>

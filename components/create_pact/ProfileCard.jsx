@@ -10,7 +10,7 @@ export default function ProfileCard({ user, selected, onSelect }) {
                 styles.container,
                 selected && styles.containerSelected
             ]}
-            onPress={() => onSelect(user?.id_profile)}
+            onPress={() => onSelect(user)}
             activeOpacity={0.8}
         >
             <View style={styles.avatarContainer}>
