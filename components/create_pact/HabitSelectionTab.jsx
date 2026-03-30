@@ -26,7 +26,7 @@ export default function HabitSelectionTab({ pactData, setPactData, setFieldFille
 
     const handleSelect = (id_selected, habit_name, habit_description) => {
         setSelectedHabit(id_selected);
-        setPactData({ ...pactData, id_habit_type: id_selected, habit_name: habit_name, habit_description: habit_description });
+        setPactData({ ...pactData, pact_hours: null, id_habit_type: id_selected, habit_name: habit_name, habit_description: habit_description });
     };
 
     useEffect(() => {

@@ -26,6 +26,8 @@ export default function CreatePactModal({ visible, onClose }) {
     guest_name: '',
     id_status_pact: 1,
     id_habit_type: 0,
+    habit_name: '',
+    habit_description: '',
     pact_days: [],
     pact_hours: null,
   });

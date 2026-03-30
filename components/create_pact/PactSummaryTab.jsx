@@ -7,9 +7,10 @@ import ProfileCard from "./ProfileCard";
 
 export default function PactSummaryTab({ pactData, setFieldFilled }) {
     useEffect(() => {
-        // En esta pestaña, el usuario solo revisa los datos,
-        // así que el botón de "Crear Pacto" siempre debería estar habilitado.
+        // User just checks the data so the create pact button must be active
         setFieldFilled(true);
+
+        console.log(pactData);
     }, []);
 
     const DAYS_OF_WEEK = ["Domingo", "Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado"];
@@ -37,19 +38,6 @@ export default function PactSummaryTab({ pactData, setFieldFilled }) {
             </View>
 
             <View style={styles.sectionContainer}>
-                <Text style={styles.sectionTitle}>Compañero</Text>
-                <View pointerEvents="none">
-                    <ProfileCard
-                        user={{
-                            username: pactData.guest_name || pactData.id_guest || "Sin compañero seleccionado",
-                        }}
-                        selected={false}
-                        onSelect={() => { }}
-                    />
-                </View>
-            </View>
-
-            <View style={styles.sectionContainer}>
                 <Text style={styles.sectionTitle}>Frecuencia</Text>
                 <View style={[styles.summaryCard, { marginTop: theme.spacing.xs }]}>
                     <View style={styles.summaryItem}>
@@ -67,6 +55,19 @@ export default function PactSummaryTab({ pactData, setFieldFilled }) {
                             <Text style={styles.itemValue}>{pactData.pact_hours ? `${pactData.pact_hours} h` : "No establecido"}</Text>
                         </View>
                     )}
+                </View>
+            </View>
+
+            <View style={styles.sectionContainer}>
+                <Text style={styles.sectionTitle}>Compañero</Text>
+                <View pointerEvents="none">
+                    <ProfileCard
+                        user={{
+                            username: pactData.guest_name || pactData.id_guest || "Sin compañero seleccionado",
+                        }}
+                        selected={false}
+                        onSelect={() => { }}
+                    />
                 </View>
             </View>
         </ScrollView>

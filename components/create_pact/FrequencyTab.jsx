@@ -38,7 +38,7 @@ export default function FrequencyTab({ pactData, setPactData, setFieldFilled }) 
         setFieldFilled(isValid);
     }, [days, hours, requiresHours]);
 
-    // Component initialization: checking if required field is filled at rendering
+    // checking if required field is filled at rendering
     useEffect(() => {
         let isValid = days.length > 0;
         if (requiresHours) {
