@@ -7,6 +7,7 @@ import { Modal, StyleSheet, View } from "react-native";
 import FrequencyTab from "./FrequencyTab";
 import GuestSelectionTab from "./GuestSelectionTab";
 import HabitSelectionTab from "./HabitSelectionTab";
+import PactSummaryTab from "./PactSummaryTab";
 
 export default function CreatePactModal({ visible, onClose }) {
   const { session } = useAuth();
@@ -29,6 +30,10 @@ export default function CreatePactModal({ visible, onClose }) {
     pact_hours: null,
   });
 
+  const handleCreatePact = () => {
+    console.log(pactData);
+  }
+
   const handleClose = () => {
     setActiveTab(0);
     setPactData({
@@ -37,6 +42,8 @@ export default function CreatePactModal({ visible, onClose }) {
       guest_name: '',
       id_status_pact: 1,
       id_habit_type: 0,
+      habit_name: '',
+      habit_description: '',
       pact_days: [],
       pact_hours: null,
     });
@@ -67,6 +74,13 @@ export default function CreatePactModal({ visible, onClose }) {
           <GuestSelectionTab
             pactData={pactData}
             setPactData={setPactData}
+            setFieldFilled={setFieldFilled}
+          />
+        );
+      case 3:
+        return (
+          <PactSummaryTab
+            pactData={pactData}
             setFieldFilled={setFieldFilled}
           />
         );
@@ -101,8 +115,8 @@ export default function CreatePactModal({ visible, onClose }) {
             />
           )}
           <FancyButton
-            label={activeTab === 2 ? "Crear Pacto" : "Continuar"}
-            onPress={nextStep}
+            label={activeTab === 3 ? "Crear Pacto" : "Continuar"}
+            onPress={activeTab === 3 ? handleCreatePact : nextStep}
             style={{ flex: 1 }}
             disabled={!fieldFilled}
           />

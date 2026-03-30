@@ -13,7 +13,6 @@ export default function HabitSelectionTab({ pactData, setPactData, setFieldFille
         try {
             const data = await getHabits();
             setHabits(data);
-            console.log(data);
         } catch (error) {
             Alert.alert("Error al obtener hábitos: ", error.message);
         }
@@ -25,9 +24,9 @@ export default function HabitSelectionTab({ pactData, setPactData, setFieldFille
 
     const [selectedHabit, setSelectedHabit] = useState(pactData.id_habit_type);
 
-    const handleSelect = (id_selected) => {
+    const handleSelect = (id_selected, habit_name, habit_description) => {
         setSelectedHabit(id_selected);
-        setPactData({ ...pactData, id_habit_type: id_selected });
+        setPactData({ ...pactData, id_habit_type: id_selected, habit_name: habit_name, habit_description: habit_description });
     };
 
     useEffect(() => {

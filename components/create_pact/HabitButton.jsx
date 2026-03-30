@@ -17,7 +17,7 @@ export default function HabitButton({ selected, onSelect, habit }) {
                 styles.bentoItemLarge,
                 selected === habit.id_habit_type && styles.bentoItemSelected,
             ]}
-            onPress={() => onSelect(habit.id_habit_type)}
+            onPress={() => onSelect(habit.id_habit_type, habit.habit_name, habit.habit_description)}
         >
             <View
                 style={[
