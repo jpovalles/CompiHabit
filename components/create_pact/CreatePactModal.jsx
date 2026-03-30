@@ -2,8 +2,9 @@ import FAB from "@/components/FAB";
 import FancyButton from "@/components/FancyButton";
 import { theme } from "@/constants/theme";
 import { useAuth } from "@/context/AuthContext";
+import { createPact } from "@/services/pactService";
 import { useState } from "react";
-import { Modal, StyleSheet, View } from "react-native";
+import { Alert, Modal, StyleSheet, View } from "react-native";
 import FrequencyTab from "./FrequencyTab";
 import GuestSelectionTab from "./GuestSelectionTab";
 import HabitSelectionTab from "./HabitSelectionTab";
@@ -32,8 +33,16 @@ export default function CreatePactModal({ visible, onClose }) {
     pact_hours: null,
   });
 
-  const handleCreatePact = () => {
-    console.log(pactData);
+  const handleCreatePact = async () => {
+    const { guest_name, habit_name, habit_description, ...rest } = pactData;
+    try {
+      const newPact = await createPact(rest);
+      console.log("Pact created successfully:", newPact);
+      Alert.alert("Pact created successfully");
+      handleClose();
+    } catch (error) {
+      Alert.alert("Error creating pact:", error.message);
+    }
   }
 
   const handleClose = () => {
