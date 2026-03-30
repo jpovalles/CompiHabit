@@ -25,7 +25,6 @@ export default function GuestSelectionTab({ pactData, setPactData, setFieldFille
     const loadUsers = async () => {
         try {
             const data = await searchUsers(searchQuery, session.user.id);
-            console.log(data);
             setResults(data);
         } catch (error) {
             Alert.alert("Error al obtener usuarios: ", error.message);

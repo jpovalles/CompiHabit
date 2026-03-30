@@ -44,7 +44,6 @@ export function AuthProvider({ children }) {
             })
 
         if (profileError) {
-            console.log(profileError)
             throw profileError
         }
     }
