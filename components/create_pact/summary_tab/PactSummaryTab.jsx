@@ -1,8 +1,8 @@
 import { theme } from "@/constants/theme";
 import { useEffect } from "react";
 import { ScrollView, StyleSheet, Text, View } from "react-native";
-import HabitButton from "./HabitButton";
-import ProfileCard from "./ProfileCard";
+import ProfileCard from "../guest_tab/ProfileCard";
+import HabitButton from "../habit_tab/HabitButton";
 
 
 export default function PactSummaryTab({ pactData, setFieldFilled }) {

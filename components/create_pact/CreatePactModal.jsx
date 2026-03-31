@@ -5,10 +5,10 @@ import { useAuth } from "@/context/AuthContext";
 import { createPact } from "@/services/pactService";
 import { useState } from "react";
 import { Alert, Modal, StyleSheet, View } from "react-native";
-import FrequencyTab from "./FrequencyTab";
-import GuestSelectionTab from "./GuestSelectionTab";
-import HabitSelectionTab from "./HabitSelectionTab";
-import PactSummaryTab from "./PactSummaryTab";
+import FrequencyTab from "./frequency_tab/FrequencyTab";
+import GuestSelectionTab from "./guest_tab/GuestSelectionTab";
+import HabitSelectionTab from "./habit_tab/HabitSelectionTab";
+import PactSummaryTab from "./summary_tab/PactSummaryTab";
 
 export default function CreatePactModal({ visible, onClose }) {
   const { session } = useAuth();
