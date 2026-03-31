@@ -5,10 +5,10 @@ import { useAuth } from "@/context/AuthContext";
 import { createPact } from "@/services/pactService";
 import { useState } from "react";
 import { Alert, Modal, StyleSheet, View } from "react-native";
-import FrequencyTab from "./frequency_tab/FrequencyTab";
-import GuestSelectionTab from "./guest_tab/GuestSelectionTab";
-import HabitSelectionTab from "./habit_tab/HabitSelectionTab";
-import PactSummaryTab from "./summary_tab/PactSummaryTab";
+import FrequencyTab from "./frequencyTab/FrequencyTab";
+import GuestSelectionTab from "./guestTab/GuestSelectionTab";
+import HabitSelectionTab from "./habitTab/HabitSelectionTab";
+import PactSummaryTab from "./summaryTab/PactSummaryTab";
 
 export default function CreatePactModal({ visible, onClose }) {
   const { session } = useAuth();
@@ -38,10 +38,10 @@ export default function CreatePactModal({ visible, onClose }) {
     try {
       const newPact = await createPact(rest);
       console.log("Pact created successfully:", newPact);
-      Alert.alert("Pact created successfully");
+      Alert.alert("Invitación creada correctamente!");
       handleClose();
     } catch (error) {
-      Alert.alert("Error creating pact:", error.message);
+      Alert.alert("Error al crear la invitación:", error.message);
     }
   }
 

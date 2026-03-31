@@ -7,3 +7,4 @@ export const getHabits = async () => {
     if (error) throw error;
     return data;
 };
+

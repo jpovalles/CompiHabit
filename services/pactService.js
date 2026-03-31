@@ -16,3 +16,26 @@ export const createPact = async (pact) => {
   if (error) throw error;
   return data;
 };
+
+export const getReceivedInvitations = async (id_user) => {
+  const { data, error } = await supabase
+    .from('pacts')
+    .select(`
+    id_pact,
+    id_host,
+    id_guest,
+    pact_days,
+    pact_hours,
+    id_status_pact,
+    habit_type (
+      habit_name
+    ),
+    host:profiles!pacts_id_host_fkey (
+      username
+    )
+  `)
+    .eq('id_guest', id_user)
+    .eq('id_status_pact', 1)
+  if (error) throw error;
+  return data;
+};
