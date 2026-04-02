@@ -17,7 +17,11 @@ export const createPact = async (pact) => {
   return data;
 };
 
-export const getReceivedInvitations = async (id_user) => {
+const getInvitations = async (id_user, type = "received") => {
+  const isReceived = type === "received";
+  const myRole = isReceived ? "guest" : "host";
+  const otherRole = isReceived ? "host" : "guest";
+
   const { data, error } = await supabase
     .from('pacts')
     .select(`
@@ -30,12 +34,17 @@ export const getReceivedInvitations = async (id_user) => {
     habit_type (
       habit_name
     ),
-    host:profiles!pacts_id_host_fkey (
+    ${otherRole}:profiles!pacts_id_${otherRole}_fkey (
       username
     )
   `)
-    .eq('id_guest', id_user)
-    .eq('id_status_pact', 1)
+    .eq(`id_${myRole}`, id_user)
+    .eq('id_status_pact', 1);
+
   if (error) throw error;
   return data;
 };
+
+export const getReceivedInvitations = (id_user) => getInvitations(id_user, "received");
+export const getSentInvitations = (id_user) => getInvitations(id_user, "sent");
+

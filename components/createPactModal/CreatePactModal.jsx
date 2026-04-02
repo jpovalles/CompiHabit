@@ -36,8 +36,7 @@ export default function CreatePactModal({ visible, onClose }) {
   const handleCreatePact = async () => {
     const { guest_name, habit_name, habit_description, ...rest } = pactData;
     try {
-      const newPact = await createPact(rest);
-      console.log("Pact created successfully:", newPact);
+      await createPact(rest);
       Alert.alert("Invitación creada correctamente!");
       handleClose();
     } catch (error) {
@@ -61,46 +60,6 @@ export default function CreatePactModal({ visible, onClose }) {
     onClose();
   };
 
-  // Rendering tabs
-  const renderContent = () => {
-    switch (activeTab) {
-      case 0:
-        return (
-          <HabitSelectionTab
-            pactData={pactData}
-            setPactData={setPactData}
-            setFieldFilled={setFieldFilled}
-          />
-        );
-      case 1:
-        return (
-          <FrequencyTab
-            pactData={pactData}
-            setPactData={setPactData}
-            setFieldFilled={setFieldFilled}
-          />
-        );
-      case 2:
-        return (
-          <GuestSelectionTab
-            pactData={pactData}
-            setPactData={setPactData}
-            setFieldFilled={setFieldFilled}
-          />
-        );
-      case 3:
-        return (
-          <PactSummaryTab
-            pactData={pactData}
-            setFieldFilled={setFieldFilled}
-          />
-        );
-
-      default:
-        return null;
-    }
-  };
-
   return (
     <Modal visible={visible} animationType="slide">
       <View style={styles.modalContent}>
@@ -115,7 +74,10 @@ export default function CreatePactModal({ visible, onClose }) {
           }}
         />
 
-        <View style={styles.body}>{renderContent()}</View>
+        {activeTab === 0 && <HabitSelectionTab pactData={pactData} setPactData={setPactData} setFieldFilled={setFieldFilled} />}
+        {activeTab === 1 && <FrequencyTab pactData={pactData} setPactData={setPactData} setFieldFilled={setFieldFilled} />}
+        {activeTab === 2 && <GuestSelectionTab pactData={pactData} setPactData={setPactData} setFieldFilled={setFieldFilled} />}
+        {activeTab === 3 && <PactSummaryTab pactData={pactData} setFieldFilled={setFieldFilled} />}
 
         <View style={styles.footer}>
           {activeTab !== 0 && (

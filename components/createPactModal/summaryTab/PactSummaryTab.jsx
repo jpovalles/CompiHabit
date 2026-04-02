@@ -9,8 +9,6 @@ export default function PactSummaryTab({ pactData, setFieldFilled }) {
     useEffect(() => {
         // User just checks the data so the create pact button must be active
         setFieldFilled(true);
-
-        console.log(pactData);
     }, []);
 
     const DAYS_OF_WEEK = ["Domingo", "Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado"];

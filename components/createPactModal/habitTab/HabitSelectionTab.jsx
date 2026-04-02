@@ -8,13 +8,17 @@ import HabitButton from "./HabitButton";
 
 export default function HabitSelectionTab({ pactData, setPactData, setFieldFilled }) {
     const [habits, setHabits] = useState([]);
+    const [loading, setLoading] = useState(false);
 
     const loadHabits = async () => {
         try {
+            setLoading(true);
             const data = await getHabits();
             setHabits(data);
         } catch (error) {
             Alert.alert("Error al obtener hábitos: ", error.message);
+        } finally {
+            setLoading(false);
         }
     };
 
@@ -45,7 +49,9 @@ export default function HabitSelectionTab({ pactData, setPactData, setFieldFille
             </Text>
 
             <View style={styles.bentoGrid}>
-                {habits?.length > 0 ? (
+                {loading ? (
+                    <Text style={styles.emptyText}>Cargando hábitos...</Text>
+                ) : habits?.length > 0 ? (
                     habits.map((habit) => (
                         <HabitButton
                             key={habit.id_habit_type}
@@ -82,4 +88,10 @@ const styles = StyleSheet.create({
     bentoGrid: {
         gap: theme.spacing.md,
     },
+    emptyText: {
+        color: theme.colors.textMuted,
+        textAlign: "center",
+        marginTop: 20,
+        fontSize: theme.textSizes.sm,
+    }
 });

@@ -32,7 +32,7 @@ export default function TabsLayout() {
       }}
     >
       <Tabs.Screen
-        name="pacts"
+        name="pacts/index"
         options={{
           title: "Pactos",
           tabBarIcon: ({ color, size }) => (
@@ -41,7 +41,7 @@ export default function TabsLayout() {
         }}
       />
       <Tabs.Screen
-        name="achievements"
+        name="achievements/index"
         options={{
           title: "Logros",
           tabBarIcon: ({ color, size }) => (
@@ -50,7 +50,7 @@ export default function TabsLayout() {
         }}
       />
       <Tabs.Screen
-        name="profile"
+        name="profile/index"
         options={{
           title: "Perfil",
           tabBarIcon: ({ color, size }) => (

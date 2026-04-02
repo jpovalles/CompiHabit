@@ -2,12 +2,19 @@ import { theme } from "@/constants/theme";
 import { FontAwesome5 } from "@expo/vector-icons";
 import { Pressable, StyleSheet, Text, View } from "react-native";
 
-export default function ReceivedInvitationCard({ invitation, onAccept, onReject }) {
-  const { host, habit_type, pact_days, pact_hours } = invitation;
+export default function InvitationCard({
+  invitation,
+  type = "received",
+  onReject = null,
+  onAccept = null,
+  onCancel = null,
+}) {
+  const { host, guest, habit_type, pact_days, pact_hours } = invitation;
 
-  const username = host?.username || "Usuario";
+  const isReceived = type === "received";
+  const person = isReceived ? host : guest;
+  const username = person?.username || "Usuario";
   const habitName = habit_type?.habit_name || "Hábito";
-
 
   const shortDays = {
     0: "Dom",
@@ -29,7 +36,15 @@ export default function ReceivedInvitationCard({ invitation, onAccept, onReject 
         </View>
         <View style={styles.headerTextContainer}>
           <Text style={styles.title}>
-            <Text style={styles.highlight}>{username}</Text> te ha invitado
+            {isReceived ? (
+              <>
+                <Text style={styles.highlight}>{username}</Text> te ha invitado
+              </>
+            ) : (
+              <>
+                Has invitado a <Text style={styles.highlight}>{username}</Text>
+              </>
+            )}
           </Text>
           <Text style={styles.subtitle}>Pacto: {habitName}</Text>
         </View>
@@ -44,9 +59,7 @@ export default function ReceivedInvitationCard({ invitation, onAccept, onReject 
             style={styles.icon}
           />
           <Text style={styles.detailText}>
-            {days && days.length > 0
-              ? days.join(", ")
-              : "Días no definidos"}
+            {days && days.length > 0 ? days.join(", ") : "Días no definidos"}
           </Text>
         </View>
 
@@ -64,33 +77,51 @@ export default function ReceivedInvitationCard({ invitation, onAccept, onReject 
       </View>
 
       <View style={styles.actionsContainer}>
-        <Pressable
-          style={({ pressed }) => [
-            styles.rejectButton,
-            pressed && styles.buttonPressed,
-          ]}
-          onPress={onReject}
-          accessibilityLabel="Rechazar invitación"
-          accessibilityRole="button"
-        >
-          <Text style={styles.rejectButtonText}>Rechazar</Text>
-        </Pressable>
+        {isReceived ? (
+          <>
+            <Pressable
+              style={({ pressed }) => [
+                styles.rejectButton,
+                pressed && styles.buttonPressed,
+              ]}
+              onPress={onReject}
+              accessibilityLabel="Rechazar invitación"
+              accessibilityRole="button"
+            >
+              <Text style={styles.rejectButtonText}>Rechazar</Text>
+            </Pressable>
 
-        <Pressable
-          style={({ pressed }) => [
-            styles.acceptButton,
-            pressed && styles.buttonPressed,
-          ]}
-          onPress={onAccept}
-          accessibilityLabel="Aceptar invitación"
-          accessibilityRole="button"
-        >
-          <Text style={styles.acceptButtonText}>Aceptar</Text>
-        </Pressable>
+            <Pressable
+              style={({ pressed }) => [
+                styles.acceptButton,
+                pressed && styles.buttonPressed,
+              ]}
+              onPress={onAccept}
+              accessibilityLabel="Aceptar invitación"
+              accessibilityRole="button"
+            >
+              <Text style={styles.acceptButtonText}>Aceptar</Text>
+            </Pressable>
+          </>
+        ) : (
+          <Pressable
+            style={({ pressed }) => [
+              styles.cancelButton,
+              pressed && styles.buttonPressed,
+            ]}
+            onPress={onCancel}
+            accessibilityLabel="Cancelar invitación"
+            accessibilityRole="button"
+          >
+            <Text style={styles.cancelButtonText}>Cancelar invitación</Text>
+          </Pressable>
+        )}
       </View>
     </View>
   );
 }
+
+
 
 const styles = StyleSheet.create({
   container: {
@@ -191,7 +222,23 @@ const styles = StyleSheet.create({
     fontSize: theme.textSizes.sm,
     fontWeight: "600",
   },
+  cancelButton: {
+    flex: 1,
+    backgroundColor: "transparent",
+    borderRadius: theme.radius.md || 10,
+    borderWidth: 1.5,
+    borderColor: theme.colors.error || "#ff4444",
+    paddingVertical: 12,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  cancelButtonText: {
+    color: theme.colors.error || "#ff4444",
+    fontSize: theme.textSizes.sm,
+    fontWeight: "600",
+  },
   buttonPressed: {
     opacity: 0.75,
   },
 });
+

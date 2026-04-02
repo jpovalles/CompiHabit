@@ -2,7 +2,7 @@ import FancyButton from "@/components/FancyButton";
 import { theme } from "@/constants/theme";
 import { StyleSheet, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { useAuth } from "../../context/AuthContext";
+import { useAuth } from "../../../context/AuthContext";
 
 export default function Profile() {
   const { signOut } = useAuth();
