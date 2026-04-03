@@ -3,7 +3,9 @@
   "compilerOptions": {
     "strict": true,
     "paths": {
-      "@/*": ["./*"]
+      "@/*": [
+        "./*"
+      ]
     }
   },
   "include": [
@@ -11,13 +13,14 @@
     "**/*.tsx",
     ".expo/types/**/*.ts",
     "expo-env.d.ts",
-    "app/(auth)/login.jsx",
-    "app/(auth)/register.jsx",
-    "app/_layout.jsx",
-    "app/index.jsx",
-    "app/test.jsx",
-    "components/FancyButton.jsx",
-    "components/FancyInput.jsx",
-    "components/button.jsx"
+    "src/app/(auth)/login.jsx",
+    "src/app/(auth)/register.jsx",
+    "src/app/_layout.jsx",
+    "src/app/index.jsx",
+    "src/app/test.jsx",
+    "src/components/FancyButton.jsx",
+    "src/components/FancyInput.jsx",
+    "src/components/button.jsx",
+    "src/screens/pacts/active/index.jsx"
   ]
 }
