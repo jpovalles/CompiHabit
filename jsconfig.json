@@ -8,7 +8,7 @@
     "strict": false,
     "allowJs": true,
     "checkJs": false,
-    "moduleResolution": "bundler",
+    //"moduleResolution": "bundler",
     "allowSyntheticDefaultImports": true,
     "noEmit": true
   },

@@ -1,8 +1,8 @@
-import FancyButton from "@/src/components/FancyButton";
+import PrimaryButton from "@/src/components/PrimaryButton";
 import { theme } from "@/src/constants/theme";
+import { useAuth } from "@/src/context/AuthContext";
 import { Alert, StyleSheet, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { useAuth } from "@/src/context/AuthContext";
 
 export default function Profile() {
   const { signOut } = useAuth();
@@ -18,7 +18,7 @@ export default function Profile() {
     <SafeAreaView style={styles.container}>
       <View>
         <Text>This is profile</Text>
-        <FancyButton label="Cerrar sesión" onPress={handleLogout} />
+        <PrimaryButton label="Cerrar sesión" onPress={handleLogout} />
       </View>
     </SafeAreaView>
   );

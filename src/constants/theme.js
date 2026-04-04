@@ -6,6 +6,9 @@ export const theme = {
     textPrimary: "#e8e8ff",
     textMuted: "#5a5a8a",
     border: "#24245a",
+    error: "#ff4444",
+    success: "#44ff44",
+    warning: "#ffff44",
   },
   spacing: {
     xs: 4,

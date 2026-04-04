@@ -1,6 +1,8 @@
+import BorderButton from "@/src/components/BorderButton";
+import PrimaryButton from "@/src/components/PrimaryButton";
 import { theme } from "@/src/constants/theme";
 import { FontAwesome5 } from "@expo/vector-icons";
-import { Pressable, StyleSheet, Text, View } from "react-native";
+import { StyleSheet, Text, View } from "react-native";
 
 export default function InvitationCard({
   invitation,
@@ -79,49 +81,22 @@ export default function InvitationCard({
       <View style={styles.actionsContainer}>
         {isReceived ? (
           <>
-            <Pressable
-              style={({ pressed }) => [
-                styles.rejectButton,
-                pressed && styles.buttonPressed,
-              ]}
-              onPress={onReject}
-              accessibilityLabel="Rechazar invitación"
-              accessibilityRole="button"
-            >
-              <Text style={styles.rejectButtonText}>Rechazar</Text>
-            </Pressable>
-
-            <Pressable
-              style={({ pressed }) => [
-                styles.acceptButton,
-                pressed && styles.buttonPressed,
-              ]}
-              onPress={onAccept}
-              accessibilityLabel="Aceptar invitación"
-              accessibilityRole="button"
-            >
-              <Text style={styles.acceptButtonText}>Aceptar</Text>
-            </Pressable>
+            <BorderButton style={{ flex: 1 }} onPress={onReject} label="Rechazar" />
+            <PrimaryButton style={{ flex: 1 }} onPress={onAccept} label="Aceptar" />
           </>
         ) : (
-          <Pressable
-            style={({ pressed }) => [
-              styles.cancelButton,
-              pressed && styles.buttonPressed,
-            ]}
+          <BorderButton
+            style={{ flex: 1 }}
             onPress={onCancel}
-            accessibilityLabel="Cancelar invitación"
-            accessibilityRole="button"
-          >
-            <Text style={styles.cancelButtonText}>Cancelar invitación</Text>
-          </Pressable>
+            label="Cancelar invitación"
+            borderColor={theme.colors.error}
+            textColor={theme.colors.error}
+          />
         )}
       </View>
     </View>
   );
 }
-
-
 
 const styles = StyleSheet.create({
   container: {
@@ -194,34 +169,6 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     gap: theme.spacing.md,
   },
-  acceptButton: {
-    flex: 1,
-    backgroundColor: theme.colors.primary,
-    borderRadius: theme.radius.md || 10,
-    paddingVertical: 12,
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  acceptButtonText: {
-    color: theme.colors.background,
-    fontSize: theme.textSizes.sm,
-    fontWeight: "600",
-  },
-  rejectButton: {
-    flex: 1,
-    backgroundColor: "transparent",
-    borderRadius: theme.radius.md || 10,
-    borderWidth: 1.5,
-    borderColor: theme.colors.border,
-    paddingVertical: 12,
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  rejectButtonText: {
-    color: theme.colors.textPrimary,
-    fontSize: theme.textSizes.sm,
-    fontWeight: "600",
-  },
   cancelButton: {
     flex: 1,
     backgroundColor: "transparent",
@@ -241,4 +188,3 @@ const styles = StyleSheet.create({
     opacity: 0.75,
   },
 });
-

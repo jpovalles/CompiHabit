@@ -1,5 +1,5 @@
-import FancyButton from "@/src/components/FancyButton";
 import FancyInput from "@/src/components/FancyInput";
+import PrimaryButton from "@/src/components/PrimaryButton";
 import { error_msg_login } from "@/src/constants/auth/error_msg";
 import { theme } from "@/src/constants/theme";
 import { useAuth } from "@/src/context/AuthContext";
@@ -69,11 +69,7 @@ export default function LoginScreen() {
             onSubmitEditing={handleLogin}
           />
 
-          <FancyButton
-            label="Iniciar sesión"
-            onPress={handleLogin}
-            disabled={loading}
-          />
+          <PrimaryButton onPress={handleLogin} label="Iniciar sesión" />
 
           <View style={styles.footer}>
             <Text style={styles.footerText}>¿No tienes una cuenta? </Text>
