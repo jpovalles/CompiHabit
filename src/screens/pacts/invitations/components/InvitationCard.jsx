@@ -7,9 +7,7 @@ import { StyleSheet, Text, View } from "react-native";
 export default function InvitationCard({
   invitation,
   type = "received",
-  onReject = null,
-  onAccept = null,
-  onCancel = null,
+  handleShowModal,
 }) {
   const { host, guest, habit_type, pact_days, pact_hours } = invitation;
 
@@ -26,6 +24,10 @@ export default function InvitationCard({
     4: "Jue",
     5: "Vie",
     6: "Sáb",
+  };
+
+  const onAccept = () => {
+    console.log("Accepting invitation");
   };
 
   const days = pact_days.map((day) => shortDays[day]);
@@ -81,13 +83,33 @@ export default function InvitationCard({
       <View style={styles.actionsContainer}>
         {isReceived ? (
           <>
-            <BorderButton style={{ flex: 1 }} onPress={onReject} label="Rechazar" />
-            <PrimaryButton style={{ flex: 1 }} onPress={onAccept} label="Aceptar" />
+            <BorderButton
+              style={{ flex: 1 }}
+              onPress={() =>
+                handleShowModal(invitation.id_pact, {
+                  title: "Rechazar invitación",
+                  subtitle:
+                    "¿Estás seguro de que quieres rechazar esta invitación?",
+                })
+              }
+              label="Rechazar"
+            />
+            <PrimaryButton
+              style={{ flex: 1 }}
+              onPress={() => onAccept()}
+              label="Aceptar"
+            />
           </>
         ) : (
           <BorderButton
             style={{ flex: 1 }}
-            onPress={onCancel}
+            onPress={() =>
+              handleShowModal(invitation.id_pact, {
+                title: "Cancelar invitación",
+                subtitle:
+                  "¿Estás seguro de que quieres cancelar esta invitación?",
+              })
+            }
             label="Cancelar invitación"
             borderColor={theme.colors.error}
             textColor={theme.colors.error}
