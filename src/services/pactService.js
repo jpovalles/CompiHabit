@@ -1,30 +1,38 @@
 import { supabase } from "@/lib/supabase";
 
+// Creates pact invitation
 export const createPact = async (pact) => {
-  // First we check if the partners are already enrolled in a pact of the same type
+  // First we check if the partners are already enrolled in a pact with this habit type
   const { id_host, id_guest, id_habit_type } = pact;
   const { data: existingPact, error: existingPactError } = await supabase
-    .from('pacts')
-    .select('id_pact')
-    .eq('id_habit_type', id_habit_type)
-    .or(`and(id_guest.eq.${id_host},id_host.eq.${id_guest}),and(id_guest.eq.${id_guest},id_host.eq.${id_host})`);
+    .from("pacts")
+    .select("id_pact")
+    .eq("id_habit_type", id_habit_type)
+    .or(
+      `and(id_guest.eq.${id_host},id_host.eq.${id_guest}),and(id_guest.eq.${id_guest},id_host.eq.${id_host})`,
+    );
 
   if (existingPactError) throw existingPactError;
-  if (existingPact.length > 0) throw new Error("Los participantes ya tienen un pacto de este tipo. Por favor, cree un pacto de otro tipo.");
+  if (existingPact.length > 0)
+    throw new Error(
+      "Los participantes ya tienen un pacto de este tipo. Por favor, cree un pacto de otro tipo.",
+    );
 
   const { data, error } = await supabase.from("pacts").insert(pact);
   if (error) throw error;
   return data;
 };
 
+// Retrieves pact invitations
 const getInvitations = async (id_user, type = "received") => {
   const isReceived = type === "received";
   const myRole = isReceived ? "guest" : "host";
   const otherRole = isReceived ? "host" : "guest";
 
   const { data, error } = await supabase
-    .from('pacts')
-    .select(`
+    .from("pacts")
+    .select(
+      `
     id_pact,
     id_host,
     id_guest,
@@ -37,14 +45,25 @@ const getInvitations = async (id_user, type = "received") => {
     ${otherRole}:profiles!pacts_id_${otherRole}_fkey (
       username
     )
-  `)
+  `,
+    )
     .eq(`id_${myRole}`, id_user)
-    .eq('id_status_pact', 1);
+    .eq("id_status_pact", 1);
 
   if (error) throw error;
   return data;
 };
 
-export const getReceivedInvitations = (id_user) => getInvitations(id_user, "received");
+export const getReceivedInvitations = (id_user) =>
+  getInvitations(id_user, "received");
 export const getSentInvitations = (id_user) => getInvitations(id_user, "sent");
 
+// Deletes pact invitation given its id_pact
+export const deletePact = async (id_pact) => {
+  const { data, error } = await supabase
+    .from("pacts")
+    .delete()
+    .eq("id_pact", id_pact);
+  if (error) throw error;
+  return data;
+};

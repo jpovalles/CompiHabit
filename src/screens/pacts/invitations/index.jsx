@@ -3,6 +3,7 @@ import { useAuth } from "@/src/context/AuthContext";
 import InvitationNav from "@/src/screens/pacts/invitations/components/InvitationsNav";
 import RenderInvitations from "@/src/screens/pacts/invitations/components/RenderInvitations";
 import {
+  deletePact,
   getReceivedInvitations,
   getSentInvitations,
 } from "@/src/services/pactService";
@@ -19,6 +20,7 @@ export default function InvitationsPacts() {
 
   const { session } = useAuth();
 
+  // Fetches invitations depending on the type of active invitation tab (received or sent)
   const handleInvitationsFetching = async () => {
     if (!session?.user?.id) return;
 
@@ -35,29 +37,35 @@ export default function InvitationsPacts() {
     }
   };
 
+  // Runs when the active invitations tab changes
+  useEffect(() => {
+    handleInvitationsFetching();
+  }, [activeTab]);
+
+  // Shows the confirmation modal with the warning message
   const handleShowModal = (id, msg) => {
     setSelectedInvitation(id);
     setShowModal({ title: msg.title, subtitle: msg.subtitle });
     console.log("Selected invitation:", id);
   };
 
-  const handleConfirmCancel = async () => {
+  // Invitation rejection logic
+  const handleConfirmReject = async () => {
     if (!selectedInvitation) return;
 
-    // TODO: Call your delete API function here using selectedInvitation
-    console.log("Canceling invitation with id:", selectedInvitation);
-
-    setShowModal({ title: "", subtitle: "" });
-    setSelectedInvitation(null);
-    setInvitations(
-      invitations.filter((inv) => inv.id_pact !== selectedInvitation),
-    );
-    //handleInvitationsFetching(); // Refresh the list
+    try {
+      await deletePact(selectedInvitation);
+      setShowModal({ title: "", subtitle: "" });
+      setSelectedInvitation(null);
+      setInvitations(
+        invitations.filter((inv) => inv.id_pact !== selectedInvitation),
+      );
+      Alert.alert("Invitación eliminada");
+    } catch (e) {
+      Alert.alert("Error", e.message);
+    }
   };
 
-  useEffect(() => {
-    handleInvitationsFetching();
-  }, [activeTab]);
   return (
     <View>
       <InvitationNav activeTab={activeTab} setActiveTab={setActiveTab} />
@@ -90,7 +98,7 @@ export default function InvitationsPacts() {
           setShowModal({ title: "", subtitle: "" });
           setSelectedInvitation(null);
         }}
-        onConfirm={handleConfirmCancel}
+        onConfirm={handleConfirmReject}
         color={theme.colors.error}
       />
     </View>
