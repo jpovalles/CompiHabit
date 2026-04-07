@@ -7,7 +7,7 @@ import GuestSelectionTab from "@/src/screens/pacts/components/createPactModal/gu
 import HabitSelectionTab from "@/src/screens/pacts/components/createPactModal/habitTab/HabitSelectionTab";
 import PactSummaryTab from "@/src/screens/pacts/components/createPactModal/summaryTab/PactSummaryTab";
 import { createPact } from "@/src/services/pactService";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Alert, Modal, StyleSheet, View } from "react-native";
 
 export default function CreatePactModal({ visible, onClose }) {
@@ -65,6 +65,10 @@ export default function CreatePactModal({ visible, onClose }) {
     });
     onClose();
   };
+
+  useEffect(() => {
+    console.log("Field filled:", fieldFilled);
+  }, [activeTab]);
 
   return (
     <Modal visible={visible} animationType="slide">

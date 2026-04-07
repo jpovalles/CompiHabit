@@ -6,6 +6,7 @@ export default function PrimaryButton({
   label,
   backgroundColor = theme.colors.primary,
   textColor = theme.colors.textPrimary,
+  disabled = false,
   style,
 }) {
   return (
@@ -15,8 +16,10 @@ export default function PrimaryButton({
         style,
         { backgroundColor },
         pressed && styles.buttonPressed,
+        disabled && styles.buttonDisabled,
       ]}
       onPress={onPress}
+      disabled={disabled}
       accessibilityLabel={label}
       accessibilityRole="button"
     >
@@ -40,5 +43,8 @@ const styles = StyleSheet.create({
   },
   buttonPressed: {
     opacity: 0.75,
+  },
+  buttonDisabled: {
+    opacity: 0.5,
   },
 });

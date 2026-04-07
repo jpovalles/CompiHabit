@@ -1,10 +1,10 @@
 import FancyInput from "@/src/components/FancyInput";
 import { theme } from "@/src/constants/theme";
 import { useAuth } from "@/src/context/AuthContext";
+import ProfileCard from "@/src/screens/pacts/components/createPactModal/guestTab/ProfileCard";
 import { searchUsers } from "@/src/services/profileService";
 import { useEffect, useState } from "react";
 import { Alert, StyleSheet, Text, View } from "react-native";
-import ProfileCard from "@/src/screens/pacts/components/createPactModal/guestTab/ProfileCard";
 
 export default function GuestSelectionTab({ pactData, setPactData, setFieldFilled }) {
     const [searchQuery, setSearchQuery] = useState("");
@@ -65,7 +65,7 @@ export default function GuestSelectionTab({ pactData, setPactData, setFieldFille
                 <ProfileCard
                     key={selectedUser.id_profile}
                     user={selectedUser}
-                    selected={selectedUser.id_profile === selectedUser.id_profile}
+                    selected={true}
                     onSelect={handleSelectUser}
                 />
             )}
