@@ -12,6 +12,7 @@ export default function GuestSelectionTab({ pactData, setPactData, setFieldFille
 
     const [selectedUser, setSelectedUser] = useState(pactData.id_guest ? { id_profile: pactData.id_guest, username: pactData.guest_name } : null);
 
+    // Cleans the search bar and results when a user is selected
     const handleSelectUser = (user) => {
         setSelectedUser(user);
         setPactData(prev => ({ ...prev, id_guest: user.id_profile, guest_name: user.username }));
@@ -22,6 +23,7 @@ export default function GuestSelectionTab({ pactData, setPactData, setFieldFille
 
     const { session } = useAuth();
 
+    // Loads users based on the search query
     const loadUsers = async () => {
         try {
             const data = await searchUsers(searchQuery, session.user.id);
@@ -31,6 +33,7 @@ export default function GuestSelectionTab({ pactData, setPactData, setFieldFille
         }
     };
 
+    // Loads users based on the search query with a delay of 400ms
     useEffect(() => {
         if (searchQuery.length < 2) return;
         const timer = setTimeout(async () => {
@@ -40,6 +43,7 @@ export default function GuestSelectionTab({ pactData, setPactData, setFieldFille
         return () => clearTimeout(timer);
     }, [searchQuery]);
 
+    // Enables the next button if a user is selected
     useEffect(() => {
         if (selectedUser) {
             setFieldFilled(true);

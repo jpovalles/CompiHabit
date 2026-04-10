@@ -1,5 +1,5 @@
 import { theme } from "@/src/constants/theme";
-import { getHabits } from "@/src/services/habitsService";
+import { loadHabits } from "@/src/logic/habitsLogic";
 import { useEffect, useState } from "react";
 import { Alert, StyleSheet, Text, View } from "react-native";
 import HabitButton from "@/src/screens/pacts/components/createPactModal/habitTab/HabitButton";
@@ -10,10 +10,10 @@ export default function HabitSelectionTab({ pactData, setPactData, setFieldFille
     const [habits, setHabits] = useState([]);
     const [loading, setLoading] = useState(false);
 
-    const loadHabits = async () => {
+    const handleLoadHabits = async () => {
         try {
             setLoading(true);
-            const data = await getHabits();
+            const data = await loadHabits();
             setHabits(data);
         } catch (error) {
             Alert.alert("Error al obtener hábitos: ", error.message);
@@ -23,7 +23,7 @@ export default function HabitSelectionTab({ pactData, setPactData, setFieldFille
     };
 
     useEffect(() => {
-        loadHabits();
+        handleLoadHabits();
     }, []);
 
     const [selectedHabit, setSelectedHabit] = useState(pactData.id_habit_type);

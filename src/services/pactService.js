@@ -1,69 +1,42 @@
 import { supabase } from "@/lib/supabase";
 
-// Creates pact invitation
-export const createPact = async (pact) => {
-  // First we check if the partners are already enrolled in a pact with this habit type
-  const { id_host, id_guest, id_habit_type } = pact;
-  const { data: existingPact, error: existingPactError } = await supabase
-    .from("pacts")
-    .select("id_pact")
-    .eq("id_habit_type", id_habit_type)
-    .or(
-      `and(id_guest.eq.${id_host},id_host.eq.${id_guest}),and(id_guest.eq.${id_guest},id_host.eq.${id_host})`,
-    );
-
-  if (existingPactError) throw existingPactError;
-  if (existingPact.length > 0)
-    throw new Error(
-      "Los participantes ya tienen un pacto de este tipo. Por favor, cree un pacto de otro tipo.",
-    );
-
+// Inserts a new pact record
+export const insertPact = async (pact) => {
   const { data, error } = await supabase.from("pacts").insert(pact);
   if (error) throw error;
   return data;
 };
 
-// Retrieves pact invitations
-const getInvitations = async (id_user, type = "received") => {
-  const isReceived = type === "received";
-  const myRole = isReceived ? "guest" : "host";
-  const otherRole = isReceived ? "host" : "guest";
-
+// Queries pacts matching both partners for a given habit type
+export const getPactsByPartners = async (idHost, idGuest, idHabitType) => {
   const { data, error } = await supabase
     .from("pacts")
-    .select(
-      `
-    id_pact,
-    id_host,
-    id_guest,
-    pact_days,
-    pact_hours,
-    id_status_pact,
-    habit_type (
-      habit_name
-    ),
-    ${otherRole}:profiles!pacts_id_${otherRole}_fkey (
-      username
-    )
-  `,
-    )
-    .eq(`id_${myRole}`, id_user)
-    .eq("id_status_pact", 1);
-
+    .select("id_pact")
+    .eq("id_habit_type", idHabitType)
+    .or(
+      `and(id_guest.eq.${idHost},id_host.eq.${idGuest}),and(id_guest.eq.${idGuest},id_host.eq.${idHost})`,
+    );
   if (error) throw error;
   return data;
 };
 
-export const getReceivedInvitations = (id_user) =>
-  getInvitations(id_user, "received");
-export const getSentInvitations = (id_user) => getInvitations(id_user, "sent");
+// Queries pacts by a specific role (host/guest) with a given status and select query
+export const getPactsByRole = async (role, userId, statusId, selectQuery) => {
+  const { data, error } = await supabase
+    .from("pacts")
+    .select(selectQuery)
+    .eq(`id_${role}`, userId)
+    .eq("id_status_pact", statusId);
+  if (error) throw error;
+  return data;
+};
 
-// Deletes pact invitation given its id_pact
-export const deletePact = async (id_pact) => {
+// Deletes a pact record by its id
+export const deletePactById = async (idPact) => {
   const { data, error } = await supabase
     .from("pacts")
     .delete()
-    .eq("id_pact", id_pact);
+    .eq("id_pact", idPact);
   if (error) throw error;
   return data;
 };

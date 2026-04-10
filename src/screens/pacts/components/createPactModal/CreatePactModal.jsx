@@ -6,7 +6,7 @@ import FrequencyTab from "@/src/screens/pacts/components/createPactModal/frequen
 import GuestSelectionTab from "@/src/screens/pacts/components/createPactModal/guestTab/GuestSelectionTab";
 import HabitSelectionTab from "@/src/screens/pacts/components/createPactModal/habitTab/HabitSelectionTab";
 import PactSummaryTab from "@/src/screens/pacts/components/createPactModal/summaryTab/PactSummaryTab";
-import { createPact } from "@/src/services/pactService";
+import { createPact } from "@/src/logic/pactLogic";
 import { useEffect, useState } from "react";
 import { Alert, Modal, StyleSheet, View } from "react-native";
 

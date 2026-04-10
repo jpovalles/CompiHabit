@@ -1,8 +1,8 @@
 import FancyInput from "@/src/components/FancyInput";
 import PrimaryButton from "@/src/components/PrimaryButton";
-import { error_msg_register } from "@/src/constants/auth/error_msg";
 import { theme } from "@/src/constants/theme";
 import { useAuth } from "@/src/context/AuthContext";
+import { validateRegisterFields } from "@/src/logic/authLogic";
 import { Link, useRouter } from "expo-router";
 import React, { useState } from "react";
 import {
@@ -25,23 +25,8 @@ export default function RegisterScreen() {
   const router = useRouter();
 
   const handleRegister = async () => {
-    // Field validations
-    if (!email || !password || !username) {
-      Alert.alert("Error", error_msg_register.required_fields);
-      return;
-    }
-
-    if (password !== confirmPassword) {
-      Alert.alert("Error", error_msg_register.password_mismatch);
-      return;
-    }
-
-    if (password.length < 6) {
-      Alert.alert("Error", error_msg_register.weak_password);
-      return;
-    }
-
     try {
+      validateRegisterFields({ email, username, password, confirmPassword });
       await signUp(email, password, username);
     } catch (error) {
       Alert.alert("Error", error.message);

@@ -3,10 +3,10 @@ import { useAuth } from "@/src/context/AuthContext";
 import InvitationNav from "@/src/screens/pacts/invitations/components/InvitationsNav";
 import RenderInvitations from "@/src/screens/pacts/invitations/components/RenderInvitations";
 import {
-  deletePact,
+  rejectInvitation,
   getReceivedInvitations,
   getSentInvitations,
-} from "@/src/services/pactService";
+} from "@/src/logic/pactLogic";
 import { useEffect, useState } from "react";
 import { Alert, StyleSheet, Text, View } from "react-native";
 import ConfirmModal from "./components/ConfirmModal";
@@ -54,7 +54,7 @@ export default function InvitationsPacts() {
     if (!selectedInvitation) return;
 
     try {
-      await deletePact(selectedInvitation);
+      await rejectInvitation(selectedInvitation);
       setShowModal({ title: "", subtitle: "" });
       setSelectedInvitation(null);
       setInvitations(
