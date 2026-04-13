@@ -8,9 +8,9 @@ export default function ActivesPacts() {
             <PactCard
                 habit="Hacer ejercicio"
                 streakDays={5}
-                badgeLevel={2}
+                badgeLevel={5}
                 daysRemaining={25}
-                progressPercent={20}
+                progressPercent={50}
                 todayStatus="pending"
                 onRegister={() => console.log("Registrado!")} />
         </View>

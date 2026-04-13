@@ -1,6 +1,6 @@
-import { supabase } from '@/lib/supabase'
-import { createContext, useContext, useEffect, useState } from 'react'
+import { supabase } from '@/lib/supabase';
 import { error_msg } from "@/src/context/error_msg";
+import { createContext, useContext, useEffect, useState } from 'react';
 
 const AuthContext = createContext(undefined)
 
@@ -58,8 +58,10 @@ export function AuthProvider({ children }) {
         if (error) throw error
     }
 
+    const user = session?.user;
+
     return (
-        <AuthContext.Provider value={{ session, loading, signUp, signIn, signOut }}>
+        <AuthContext.Provider value={{ user, session, loading, signUp, signIn, signOut }}>
             {children}
         </AuthContext.Provider>
     )

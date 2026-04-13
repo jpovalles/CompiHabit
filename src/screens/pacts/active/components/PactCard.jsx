@@ -1,7 +1,7 @@
-import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
-
 import { theme } from "@/src/constants/theme";
 import FlameBadge from "@/src/screens/pacts/active/components/FlameBadge";
+import { FontAwesome5 } from "@expo/vector-icons";
+import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 
 export default function PactCard({
   habit,
@@ -48,16 +48,12 @@ export default function PactCard({
           </View>
 
           <View style={styles.streakBlock}>
-            <FlameBadge level={5} />
+            <FlameBadge level={badgeLevel} size={40} />
             <Text style={styles.streakCount}>{streakDays} DÍAS</Text>
           </View>
         </View>
 
         {/* Badge + progress */}
-        <View style={styles.badgeRow}>
-          <Text style={styles.badgeLabel}>INSIGNIA NIVEL {badgeLevel}</Text>
-          <Text style={styles.daysLeft}>Faltan {daysRemaining} días</Text>
-        </View>
         <View style={styles.progressTrack}>
           <View
             style={[
@@ -66,8 +62,12 @@ export default function PactCard({
             ]}
           />
         </View>
+        {
+
+        }
 
         {/* Status + button */}
+        {/* 
         <View style={styles.bottomRow}>
           <View style={styles.statusBlock}>
             <Text style={styles.statusLabel}>ESTADO HOY</Text>
@@ -89,6 +89,16 @@ export default function PactCard({
             </TouchableOpacity>
           )}
         </View>
+        */}
+
+        <TouchableOpacity
+          style={styles.bottomRow}
+          onPress={() => console.log("Chevron pressed")}
+          activeOpacity={0.7}
+        >
+          <FontAwesome5 name="chevron-down" size={16} color={theme.colors.primary} />
+        </TouchableOpacity>
+
       </View>
     </View>
   );
@@ -191,8 +201,8 @@ const styles = StyleSheet.create({
     letterSpacing: 0.8,
   },
   daysLeft: {
-    fontSize: 12,
-    color: theme.colors.textMuted,
+    fontSize: 14,
+    color: theme.colors.primary,
   },
   progressTrack: {
     height: 7,
@@ -202,14 +212,14 @@ const styles = StyleSheet.create({
   },
   progressFill: {
     height: "100%",
-    backgroundColor: "#4CAF82",
+    backgroundColor: theme.colors.primary,
     borderRadius: 99,
   },
 
   // Bottom row
   bottomRow: {
     flexDirection: "row",
-    justifyContent: "space-between",
+    justifyContent: "center",
     alignItems: "center",
     marginTop: 2,
   },

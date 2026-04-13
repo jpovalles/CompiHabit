@@ -1,7 +1,7 @@
 import { StyleSheet, View } from "react-native";
 import { Defs, G, LinearGradient, Path, Stop, Svg } from "react-native-svg";
 
-export default function FlameBadge({ level }) {
+export default function FlameBadge({ level, size = 30 }) {
   const fireColors = {
     0: {
       gradient: ["#ffffff", "#a29a9a"],
@@ -39,7 +39,7 @@ export default function FlameBadge({ level }) {
 
   return (
     <View style={styles.badge}>
-      <Svg width="50" height="50" viewBox="-33 0 255 255">
+      <Svg width={size} height={size} viewBox="-33 0 255 255">
         <Defs>
           <LinearGradient
             id="gradient"
@@ -80,8 +80,6 @@ export default function FlameBadge({ level }) {
 
 const styles = StyleSheet.create({
   badge: {
-    width: 50,
-    height: 50,
     alignItems: "center",
     justifyContent: "center",
   },

@@ -38,7 +38,7 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     color: theme.colors.textPrimary,
-    fontSize: theme.textSizes.sm,
+    fontSize: theme.textSizes.md,
     fontWeight: "600",
   },
   buttonPressed: {
