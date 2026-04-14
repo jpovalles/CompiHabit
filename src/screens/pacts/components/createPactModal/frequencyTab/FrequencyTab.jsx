@@ -18,7 +18,7 @@ export default function FrequencyTab({ pactData, setPactData, setFieldFilled }) 
         { id: 6, label: "S" },
     ];
 
-    const HOURS_RANGE = [1, 2, 3, 4, 5, 6];
+    const HOURS_RANGE = [1, 2, 3, 4, 5];
 
     const toggleDay = (dayId) => {
         setDays(prev => {
@@ -30,7 +30,7 @@ export default function FrequencyTab({ pactData, setPactData, setFieldFilled }) 
     useEffect(() => {
         setPactData(prev => ({ ...prev, pact_days: days, pact_hours: hours }));
 
-        let isValid = days.length > 0;
+        let isValid = days.length >= 4;
         if (requiresHours) {
             isValid = isValid && hours !== null;
         }
@@ -39,13 +39,13 @@ export default function FrequencyTab({ pactData, setPactData, setFieldFilled }) 
     }, [days, hours, requiresHours]);
 
     // checking if required field is filled at rendering
-    useEffect(() => {
-        let isValid = days.length > 0;
-        if (requiresHours) {
-            isValid = isValid && hours !== null;
-        }
-        setFieldFilled(isValid);
-    }, []);
+    // useEffect(() => {
+    //     let isValid = days.length > 0;
+    //     if (requiresHours) {
+    //         isValid = isValid && hours !== null;
+    //     }
+    //     setFieldFilled(isValid);
+    // }, []);
 
     return (
         <View style={styles.container}>

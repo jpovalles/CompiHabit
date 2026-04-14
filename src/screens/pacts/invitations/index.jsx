@@ -1,12 +1,12 @@
 import { theme } from "@/src/constants/theme";
 import { useAuth } from "@/src/context/AuthContext";
-import InvitationNav from "@/src/screens/pacts/invitations/components/InvitationsNav";
-import RenderInvitations from "@/src/screens/pacts/invitations/components/RenderInvitations";
 import {
-  rejectInvitation,
   getReceivedInvitations,
   getSentInvitations,
+  rejectInvitation,
 } from "@/src/logic/pactLogic";
+import InvitationNav from "@/src/screens/pacts/invitations/components/InvitationsNav";
+import RenderInvitations from "@/src/screens/pacts/invitations/components/RenderInvitations";
 import { useEffect, useState } from "react";
 import { Alert, StyleSheet, Text, View } from "react-native";
 import ConfirmModal from "./components/ConfirmModal";
@@ -46,7 +46,14 @@ export default function InvitationsPacts() {
   const handleShowModal = (id, msg) => {
     setSelectedInvitation(id);
     setShowModal({ title: msg.title, subtitle: msg.subtitle });
-    console.log("Selected invitation:", id);
+  };
+
+  const cleanModal = (idSelectedInvitation) => {
+    setShowModal({ title: "", subtitle: "" });
+    setSelectedInvitation(null);
+    setInvitations(
+      invitations.filter((inv) => inv.id_pact !== idSelectedInvitation),
+    );
   };
 
   // Invitation rejection logic
@@ -55,11 +62,7 @@ export default function InvitationsPacts() {
 
     try {
       await rejectInvitation(selectedInvitation);
-      setShowModal({ title: "", subtitle: "" });
-      setSelectedInvitation(null);
-      setInvitations(
-        invitations.filter((inv) => inv.id_pact !== selectedInvitation),
-      );
+      cleanModal(selectedInvitation);
       Alert.alert("Invitación eliminada");
     } catch (e) {
       Alert.alert("Error", e.message);
@@ -78,6 +81,7 @@ export default function InvitationsPacts() {
               invitations={invitations}
               type="received"
               handleShowModal={handleShowModal}
+              onAccept={handleInvitationsFetching}
             />
           )}
           {activeTab === 1 && (

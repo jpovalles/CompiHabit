@@ -1,13 +1,15 @@
 import BorderButton from "@/src/components/BorderButton";
 import PrimaryButton from "@/src/components/PrimaryButton";
 import { theme } from "@/src/constants/theme";
+import { acceptInvitation } from "@/src/logic/pactLogic";
 import { FontAwesome5 } from "@expo/vector-icons";
-import { StyleSheet, Text, View } from "react-native";
+import { Alert, StyleSheet, Text, View } from "react-native";
 
 export default function InvitationCard({
   invitation,
   type = "received",
   handleShowModal,
+  onAccept,
 }) {
   const { host, guest, habit_type, pact_days, pact_hours } = invitation;
 
@@ -26,8 +28,15 @@ export default function InvitationCard({
     6: "Sáb",
   };
 
-  const onAccept = () => {
-    console.log("Accepting invitation");
+  const handleAccept = async () => {
+    try {
+      await acceptInvitation(invitation.id_pact);
+      Alert.alert("Invitación aceptada");
+      onAccept();
+    } catch (error) {
+      console.log(error);
+      Alert.alert("Error al aceptar la invitación ", error.message);
+    }
   };
 
   const days = pact_days.map((day) => shortDays[day]);
@@ -96,7 +105,7 @@ export default function InvitationCard({
             />
             <PrimaryButton
               style={{ flex: 1 }}
-              onPress={() => onAccept()}
+              onPress={handleAccept}
               label="Aceptar"
             />
           </>

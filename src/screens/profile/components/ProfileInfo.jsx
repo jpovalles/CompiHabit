@@ -11,12 +11,6 @@ export default function ProfileInfo({ profile, onEditPhoto, onEditUsername }) {
     const [showInput, setShowInput] = useState(false);
     const [newUsername, setNewUsername] = useState(profile?.username);
 
-    if (!profile) return (
-        <View style={styles.container}>
-            <Text style={styles.title}>Cargando...</Text>
-        </View>
-    );
-
     const handleEditUsername = () => {
         onEditUsername(newUsername?.trim());
         setShowInput(false);
@@ -125,10 +119,6 @@ const styles = StyleSheet.create({
         color: theme.colors.textPrimary,
         marginTop: theme.spacing.lg,
     },
-
-
-
-    // Avatar
     avatarOuter: {
         width: AVATAR_SIZE,
         height: AVATAR_SIZE,

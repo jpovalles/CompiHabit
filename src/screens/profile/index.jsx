@@ -3,7 +3,7 @@ import { useAuth } from "@/src/context/AuthContext";
 import { handleEditUsername } from "@/src/logic/profileLogic";
 import { searchUserById } from "@/src/services/profileService";
 import { useEffect, useState } from "react";
-import { Alert, StyleSheet } from "react-native";
+import { Alert, StyleSheet, Text } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Logout from "./components/Logout";
 import ProfileInfo from "./components/ProfileInfo";
@@ -38,8 +38,14 @@ export default function Profile() {
 
     return (
         <SafeAreaView style={styles.container}>
-            <ProfileInfo profile={profile} onEditUsername={onEditUsername} />
-            <Logout />
+            {!profile ? (
+                <Text style={styles.title}>Cargando...</Text>
+            ) : (
+                <>
+                    <ProfileInfo profile={profile} onEditUsername={onEditUsername} />
+                    <Logout />
+                </>
+            )}
         </SafeAreaView>
     )
 }
@@ -47,8 +53,14 @@ export default function Profile() {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-
         backgroundColor: theme.colors.border,
         paddingHorizontal: theme.spacing.lg,
+        alignItems: "center",
+    },
+    title: {
+        fontSize: theme.textSizes.xl,
+        fontWeight: theme.font.bold.toString(),
+        color: theme.colors.textPrimary,
+        marginTop: theme.spacing.lg,
     },
 });

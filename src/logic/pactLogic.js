@@ -1,8 +1,9 @@
+import { supabase } from "@/lib/supabase";
 import {
-  insertPact,
+  deletePactById,
   getPactsByPartners,
   getPactsByRole,
-  deletePactById,
+  insertPact,
 } from "@/src/services/pactService";
 
 // Creates a pact after validating that no duplicate exists between the partners
@@ -23,6 +24,7 @@ export const createPact = async (pact) => {
 
   return await insertPact(pact);
 };
+
 
 // Builds the select query for invitations and fetches by role
 const getInvitations = async (userId, type = "received") => {
@@ -54,7 +56,16 @@ export const getReceivedInvitations = (userId) =>
 export const getSentInvitations = (userId) =>
   getInvitations(userId, "sent");
 
-// Rejects (deletes) a pact invitation
+
 export const rejectInvitation = async (idPact) => {
   return await deletePactById(idPact);
 };
+
+export const acceptInvitation = async (idPact) => {
+  // Transaction to update the pact status to accepted and create a new streak for the pact
+  const { error } = await supabase.rpc("accept_invitation", {
+    p_id_pact: idPact,
+  });
+  if (error) throw error;
+}
+
