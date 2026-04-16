@@ -6,6 +6,7 @@ export default function PrimaryButton({
   label,
   backgroundColor = theme.colors.primary,
   textColor = theme.colors.textPrimary,
+  fontSize = theme.textSizes.md,
   disabled = false,
   style,
 }) {
@@ -23,7 +24,7 @@ export default function PrimaryButton({
       accessibilityLabel={label}
       accessibilityRole="button"
     >
-      <Text style={[styles.buttonText, { color: textColor }]}>{label}</Text>
+      <Text style={[styles.buttonText, { color: textColor, fontSize: fontSize }]}>{label}</Text>
     </Pressable>
   );
 }
@@ -38,7 +39,6 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     color: theme.colors.textPrimary,
-    fontSize: theme.textSizes.md,
     fontWeight: "600",
   },
   buttonPressed: {

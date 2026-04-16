@@ -1,3 +1,4 @@
+import { theme } from "@/src/constants/theme";
 import { useAuth } from "@/src/context/AuthContext";
 import PactCard from "@/src/screens/pacts/active/components/PactCard";
 import { getBadgeColors } from "@/src/services/badgeColors";
@@ -5,25 +6,31 @@ import { getCurrentDayPact } from "@/src/services/pactService";
 import { getDateDay } from "@/src/utils/extractDate";
 import { parsePact } from "@/src/utils/parsePact";
 import { useEffect, useState } from "react";
-import { Alert, View } from "react-native";
+import { Alert, StyleSheet, Text, View } from "react-native";
 
 export default function ActivesPacts() {
   const [activePacts, setActivePacts] = useState([]);
   const [badgeColors, setBadgeColors] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   const { user } = useAuth();
 
   const getActivePacts = async () => {
+    if (!user?.id) return;
     try {
       const response = await getCurrentDayPact(user.id, getDateDay());
       const parsedPacts = response.map((pact) => parsePact(pact));
+      console.log(parsedPacts[0])
       setActivePacts(parsedPacts);
     } catch (error) {
       Alert.alert("Error al obtener pactos activos: ", error.message);
+    } finally {
+      setLoading(false);
     }
   };
 
   const getBadgeLevels = async () => {
+    if (!user?.id) return;
     try {
       const response = await getBadgeColors();
       setBadgeColors(response);
@@ -37,28 +44,55 @@ export default function ActivesPacts() {
     getBadgeLevels();
   }, []);
 
+  //For testing
   useEffect(() => {
-    console.log("activePacts ", activePacts);
+    console.log("activePacts")
+    console.log(activePacts);
+    console.log("badgeColors")
     badgeColors.forEach((badgeColor) => {
       console.log("badgeColor ", badgeColor);
     });
   }, [activePacts, badgeColors]);
 
+  if (loading) {
+    return (
+      <View style={styles.centered}>
+        <Text style={styles.loadingText}>Cargando pactos...</Text>
+      </View>
+    );
+  }
+
+  if (activePacts.length === 0) {
+    return (
+      <View style={styles.centered}>
+        <Text style={styles.loadingText}>No hay pactos activos</Text>
+      </View>
+    );
+  }
+
   return (
     <View>
       {activePacts.map((pact) => (
         <PactCard
-          key={pact.id_pact}
-          habit={pact.habit_name}
-          streakDays={pact.streak.streak_days}
-          badgeLevel={pact.streak.badge_level}
-          daysRemaining={pact.streak.days_remaining}
-          progressPercent={pact.streak.progress_percent}
-          todayStatus={pact.streak.today_status}
-          onRegister={() => console.log("Registrado!")}
-          onCheck={() => console.log("Verificado!")}
+          pact={pact.pact}
+          streak={pact.streak}
+          badgeColors={badgeColors}
         />
       ))}
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+  centered: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  loadingText: {
+    fontSize: theme.textSizes.md,
+    color: theme.colors.textPrimary,
+  },
+
+
+})

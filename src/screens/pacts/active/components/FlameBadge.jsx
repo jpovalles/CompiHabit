@@ -1,35 +1,12 @@
 import { StyleSheet, View } from "react-native";
 import { Defs, G, LinearGradient, Path, Stop, Svg } from "react-native-svg";
 
-export default function FlameBadge({ level, size = 30 }) {
-  const fireColors = {
-    0: {
-      gradient: ["#ffffff", "#a29a9a"],
-      fills: ["#a29a9a"],
-    },
-    1: {
-      gradient: ["#ffeb0f", "#ffb638"],
-      fills: ["#ffb638"],
-    },
-    2: {
-      gradient: ["#ffeb0f", "#ff3838"],
-      fills: ["#ff3838"],
-    },
-    3: {
-      gradient: ["#ff0fbf", "#ff3838"],
-      fills: ["#ff3838"],
-    },
-    4: {
-      gradient: ["#0f1fff", "#ff38f8"],
-      fills: ["#ff38f8"],
-    },
-    5: {
-      gradient: ["#0fd7ff", "#9a0995"],
-      fills: ["#9a0995"],
-    },
-  };
+export default function FlameBadge({ primary, secondary, size = 30, active = true }) {
 
-  const colors = fireColors[level] || fireColors[0];
+  const colors = active
+    ? { gradient: [primary, secondary], fills: [secondary] }
+    : { gradient: ["#ffffff", "#a29a9a"], fills: ["#a29a9a"] };
+
   const gradientStops = colors.gradient.map((c, i) => (
     <Stop key={i} offset={i === 0 ? "0" : "1"} stopColor={c} />
   ));

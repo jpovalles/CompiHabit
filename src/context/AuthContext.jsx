@@ -1,5 +1,6 @@
 import { supabase } from '@/lib/supabase';
 import { error_msg } from "@/src/context/error_msg";
+import { router } from 'expo-router';
 import { createContext, useContext, useEffect, useState } from 'react';
 
 const AuthContext = createContext(undefined)
@@ -15,9 +16,20 @@ export function AuthProvider({ children }) {
         })
 
         const { data: { subscription } } = supabase.auth.onAuthStateChange(
-            (_event, session) => {
-                setSession(session)
+            async (event, session) => {
+                if (event === "SIGNED_OUT" || event === "TOKEN_REFRESHED") {
+                    if (!session) {
+                        // when invalid token cleans the session and user then redirect to login
+                        setSession(null);
+                        router.replace("/login");
+                    }
+                }
+
+                if (session) {
+                    setSession(session);
+                }
             }
+
         )
 
         return () => subscription.unsubscribe()

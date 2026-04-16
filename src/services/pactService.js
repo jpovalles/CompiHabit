@@ -48,11 +48,13 @@ export const getCurrentDayPact = async (idUser, day) => {
       `
     id_pact,
     id_host,
-    profiles(
-      username, 
-      avatar_url
-    ),
     id_guest,
+    host_name:profiles!pacts_id_host_fkey (
+      username
+    ),
+    guest_name:profiles!pacts_id_guest_fkey (
+      username
+    ),
     habit_type (
       habit_name
     ),

@@ -1,19 +1,34 @@
+import PrimaryButton from "@/src/components/PrimaryButton";
 import { theme } from "@/src/constants/theme";
 import FlameBadge from "@/src/screens/pacts/active/components/FlameBadge";
+import { usePactCard } from "@/src/screens/pacts/active/hooks/usePactCard";
 import { FontAwesome5 } from "@expo/vector-icons";
+import { useState } from "react";
 import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 
-export default function PactCard({ pact, streak }) {
+export default function PactCard({ pact, streak, badgeColors }) {
+  const { participant, badge, ui } = usePactCard(pact, streak, badgeColors);
+
+  const { partnerName, isDayCompleted } = participant;
+  const { currentBadge, nextBadge, nextLevelTarget, progressPercent } = badge;
+
+  const { current_days } = streak;
+  const { habit_name } = pact;
+
+  const [showButtons, setShowButtons] = useState(false);
+
+  const toggleButtons = () => setShowButtons((prev) => !prev);
+
   return (
     <View style={styles.card}>
       <View style={styles.content}>
         {/* Top row */}
         <View style={styles.topRow}>
           <View style={styles.titleBlock}>
-            <Text style={styles.title}>{pact.habit_name}</Text>
+            <Text style={styles.title}>{habit_name}</Text>
             <View style={styles.partnerRow}>
-              {partnerAvatar ? (
-                <Image source={{ uri: partnerAvatar }} style={styles.avatar} />
+              {pact.partnerAvatar ? (
+                <Image source={{ uri: pact.partnerAvatar }} style={styles.avatar} />
               ) : (
                 <View style={styles.avatarFallback}>
                   <Text style={styles.avatarFallbackText}>
@@ -26,58 +41,83 @@ export default function PactCard({ pact, streak }) {
           </View>
 
           <View style={styles.streakBlock}>
-            <FlameBadge level={badgeLevel} size={40} />
-            <Text style={styles.streakCount}>{streakDays} DÍAS</Text>
+            <FlameBadge
+              primary={currentBadge?.primary_color}
+              secondary={currentBadge?.secondary_color}
+              size={40}
+              active={isDayCompleted}
+            />
+            <Text
+              style={[
+                styles.streakCount,
+                { color: isDayCompleted ? theme.colors.primary : theme.colors.textMuted },
+              ]}
+            >
+              {current_days} DÍAS
+            </Text>
           </View>
         </View>
 
-        {/* Badge + progress */}
-        <View style={styles.progressTrack}>
-          <View
-            style={[
-              styles.progressFill,
-              { width: `${Math.min(progressPercent, 100)}%` },
-            ]}
-          />
-        </View>
-        {}
-
-        {/* Status + button */}
-        {/* 
-        <View style={styles.bottomRow}>
-          <View style={styles.statusBlock}>
-            <Text style={styles.statusLabel}>ESTADO HOY</Text>
-            <View style={styles.statusValueRow}>
-              <Text style={styles.statusIcon}>{isDone ? "✅" : "🙂"}</Text>
-              <Text style={[styles.statusText, isDone && styles.statusDone]}>
-                {isDone ? "Completado" : "Pendiente"}
+        {/* Progress bar*/}
+        {nextBadge && (
+          <>
+            <View style={styles.progressTrack}>
+              <View
+                style={[
+                  styles.progressFill,
+                  { width: `${Math.min(progressPercent, 100)}%` },
+                ]}
+              />
+            </View>
+            <View style={styles.progressLabelRow}>
+              <Text style={styles.progressText}>
+                {current_days} / {nextLevelTarget} días
               </Text>
+              <FlameBadge
+                primary={nextBadge?.primary_color}
+                secondary={nextBadge?.secondary_color}
+                size={15}
+              />
+            </View>
+          </>
+        )}
+
+        {!showButtons && habit_name != "Tiempo en pantalla" && (
+          <TouchableOpacity
+            style={styles.bottomRow}
+            onPress={toggleButtons}
+            activeOpacity={0.7}
+          >
+            <FontAwesome5
+              name={showButtons ? "chevron-up" : "chevron-down"}
+              size={16}
+              color={theme.colors.primary}
+            />
+          </TouchableOpacity>
+        )}
+
+        {showButtons && (
+          <View style={styles.expandedContent}>
+            <View style={styles.buttonRow}>
+
+              <PrimaryButton style={{ flex: 1, height: 30, paddingVertical: 0 }} fontSize={16} onPress={() => console.log("Subir")} label="Subir" disabled={isDayCompleted} />
+              <PrimaryButton style={{ flex: 1, height: 30, paddingVertical: 0 }} fontSize={16} onPress={() => console.log("Validar")} label="Validar" disabled={!isDayCompleted} />
+            </View>
+            <View style={{ marginTop: 6 }}>
+              <TouchableOpacity
+                style={styles.bottomRow}
+                onPress={toggleButtons}
+                activeOpacity={0.7}
+              >
+                <FontAwesome5
+                  name={showButtons ? "chevron-up" : "chevron-down"}
+                  size={16}
+                  color={theme.colors.primary}
+                />
+              </TouchableOpacity>
             </View>
           </View>
-
-          {!isDone && (
-            <TouchableOpacity
-              style={styles.registerBtn}
-              onPress={onRegister}
-              activeOpacity={0.75}
-            >
-              <Text style={styles.registerBtnText}>Registrar</Text>
-            </TouchableOpacity>
-          )}
-        </View>
-        */}
-
-        <TouchableOpacity
-          style={styles.bottomRow}
-          onPress={() => console.log("Chevron pressed")}
-          activeOpacity={0.7}
-        >
-          <FontAwesome5
-            name="chevron-down"
-            size={16}
-            color={theme.colors.primary}
-          />
-        </TouchableOpacity>
+        )}
       </View>
     </View>
   );
@@ -97,19 +137,13 @@ const styles = StyleSheet.create({
     elevation: 3,
     overflow: "hidden",
   },
-  accentBar: {
-    width: 5,
-    borderTopLeftRadius: theme.radius.md,
-    borderBottomLeftRadius: theme.radius.md,
-  },
   content: {
     flex: 1,
     paddingHorizontal: 14,
     paddingVertical: 14,
-    gap: 10,
+    gap: 4,
   },
 
-  // Top row
   topRow: {
     flexDirection: "row",
     justifyContent: "space-between",
@@ -163,7 +197,6 @@ const styles = StyleSheet.create({
   streakCount: {
     fontSize: 11,
     fontWeight: theme.font.bold.toString(),
-    color: theme.colors.textMuted,
     letterSpacing: 0.5,
   },
 
@@ -184,7 +217,7 @@ const styles = StyleSheet.create({
     color: theme.colors.primary,
   },
   progressTrack: {
-    height: 7,
+    height: 4,
     backgroundColor: theme.colors.border,
     borderRadius: 99,
     overflow: "hidden",
@@ -195,49 +228,35 @@ const styles = StyleSheet.create({
     borderRadius: 99,
   },
 
+  progressLabelRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    marginTop: 4,
+  },
+  progressText: {
+    color: theme.colors.primary,
+    fontSize: 13,
+    fontWeight: theme.font.semibold.toString(),
+  },
+
   // Bottom row
   bottomRow: {
     flexDirection: "row",
     justifyContent: "center",
     alignItems: "center",
-    marginTop: 2,
   },
-  statusBlock: {
-    gap: 3,
+  expandedContent: {
+    marginTop: 10,
+    paddingTop: 10,
+    borderTopWidth: 1,
+    borderTopColor: theme.colors.border,
   },
-  statusLabel: {
-    fontSize: 10,
-    fontWeight: theme.font.bold.toString(),
-    color: theme.colors.textMuted,
-    letterSpacing: 0.8,
-  },
-  statusValueRow: {
+  buttonRow: {
     flexDirection: "row",
+    justifyContent: "space-between",
     alignItems: "center",
-    gap: 5,
-  },
-  statusIcon: {
-    fontSize: 15,
-  },
-  statusText: {
-    fontSize: theme.textSizes.sm,
-    fontWeight: theme.font.semibold.toString(),
-    color: theme.colors.textPrimary,
-  },
-  statusDone: {
-    color: "#4CAF82",
-  },
-
-  // Register button
-  registerBtn: {
-    backgroundColor: theme.colors.border,
-    paddingHorizontal: 18,
-    paddingVertical: 9,
-    borderRadius: 10,
-  },
-  registerBtnText: {
-    fontSize: theme.textSizes.sm,
-    fontWeight: theme.font.semibold.toString(),
-    color: theme.colors.textPrimary,
+    gap: 12,
+    paddingTop: 5,
   },
 });

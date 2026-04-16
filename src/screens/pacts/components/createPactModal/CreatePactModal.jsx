@@ -2,12 +2,12 @@ import FAB from "@/src/components/FAB";
 import PrimaryButton from "@/src/components/PrimaryButton";
 import { theme } from "@/src/constants/theme";
 import { useAuth } from "@/src/context/AuthContext";
+import { createPact } from "@/src/logic/pactLogic";
 import FrequencyTab from "@/src/screens/pacts/components/createPactModal/frequencyTab/FrequencyTab";
 import GuestSelectionTab from "@/src/screens/pacts/components/createPactModal/guestTab/GuestSelectionTab";
 import HabitSelectionTab from "@/src/screens/pacts/components/createPactModal/habitTab/HabitSelectionTab";
 import PactSummaryTab from "@/src/screens/pacts/components/createPactModal/summaryTab/PactSummaryTab";
-import { createPact } from "@/src/logic/pactLogic";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Alert, Modal, StyleSheet, View } from "react-native";
 
 export default function CreatePactModal({ visible, onClose }) {
@@ -65,10 +65,6 @@ export default function CreatePactModal({ visible, onClose }) {
     });
     onClose();
   };
-
-  useEffect(() => {
-    console.log("Field filled:", fieldFilled);
-  }, [activeTab]);
 
   return (
     <Modal visible={visible} animationType="slide">
