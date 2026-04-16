@@ -25,7 +25,6 @@ export const createPact = async (pact) => {
   return await insertPact(pact);
 };
 
-
 // Builds the select query for invitations and fetches by role
 const getInvitations = async (userId, type = "received") => {
   const isReceived = type === "received";
@@ -53,9 +52,7 @@ const getInvitations = async (userId, type = "received") => {
 export const getReceivedInvitations = (userId) =>
   getInvitations(userId, "received");
 
-export const getSentInvitations = (userId) =>
-  getInvitations(userId, "sent");
-
+export const getSentInvitations = (userId) => getInvitations(userId, "sent");
 
 export const rejectInvitation = async (idPact) => {
   return await deletePactById(idPact);
@@ -67,5 +64,4 @@ export const acceptInvitation = async (idPact) => {
     p_id_pact: idPact,
   });
   if (error) throw error;
-}
-
+};

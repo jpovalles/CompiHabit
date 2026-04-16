@@ -3,36 +3,14 @@ import FlameBadge from "@/src/screens/pacts/active/components/FlameBadge";
 import { FontAwesome5 } from "@expo/vector-icons";
 import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 
-export default function PactCard({
-  habit,
-  partnerName,
-  partnerAvatar,
-  streakDays,
-  badgeLevel,
-  daysRemaining,
-  progressPercent,
-  todayStatus = "done",
-  onRegister,
-}) {
-  const isDone = todayStatus === "done";
-  const pendingColor = "#F97316";
-  const doneColor = "#4CAF82";
-
+export default function PactCard({ pact, streak }) {
   return (
     <View style={styles.card}>
-      {/* Left accent bar */}
-      <View
-        style={[
-          styles.accentBar,
-          { backgroundColor: isDone ? doneColor : pendingColor },
-        ]}
-      />
-
       <View style={styles.content}>
         {/* Top row */}
         <View style={styles.topRow}>
           <View style={styles.titleBlock}>
-            <Text style={styles.title}>{habit}</Text>
+            <Text style={styles.title}>{pact.habit_name}</Text>
             <View style={styles.partnerRow}>
               {partnerAvatar ? (
                 <Image source={{ uri: partnerAvatar }} style={styles.avatar} />
@@ -62,9 +40,7 @@ export default function PactCard({
             ]}
           />
         </View>
-        {
-
-        }
+        {}
 
         {/* Status + button */}
         {/* 
@@ -96,9 +72,12 @@ export default function PactCard({
           onPress={() => console.log("Chevron pressed")}
           activeOpacity={0.7}
         >
-          <FontAwesome5 name="chevron-down" size={16} color={theme.colors.primary} />
+          <FontAwesome5
+            name="chevron-down"
+            size={16}
+            color={theme.colors.primary}
+          />
         </TouchableOpacity>
-
       </View>
     </View>
   );

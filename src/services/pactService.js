@@ -40,3 +40,36 @@ export const deletePactById = async (idPact) => {
   if (error) throw error;
   return data;
 };
+
+export const getCurrentDayPact = async (idUser, day) => {
+  const { data, error } = await supabase
+    .from("pacts")
+    .select(
+      `
+    id_pact,
+    id_host,
+    profiles(
+      username, 
+      avatar_url
+    ),
+    id_guest,
+    habit_type (
+      habit_name
+    ),
+    streaks (
+    *,
+      host_state:streak_user_state!streaks_id_host_state_fkey (
+        user_state
+      ),
+      guest_state:streak_user_state!streaks_id_guest_state_fkey (
+        user_state
+      )
+    )
+    `,
+    )
+    .eq("id_status_pact", 2)
+    .or(`id_host.eq.${idUser},id_guest.eq.${idUser}`)
+    .contains("pact_days", [day]);
+  if (error) throw error;
+  return data;
+};
