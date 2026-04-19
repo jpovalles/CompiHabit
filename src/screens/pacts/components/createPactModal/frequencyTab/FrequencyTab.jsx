@@ -4,9 +4,6 @@ import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 
 export default function FrequencyTab({ pactData, setPactData, setFieldFilled }) {
     const [days, setDays] = useState(pactData.pact_days || []);
-    const [hours, setHours] = useState(pactData.pact_hours || null);
-
-    const requiresHours = pactData.id_habit_type === 3;
 
     const DAYS_OF_WEEK = [
         { id: 0, label: "D" },
@@ -31,21 +28,9 @@ export default function FrequencyTab({ pactData, setPactData, setFieldFilled }) 
         setPactData(prev => ({ ...prev, pact_days: days, pact_hours: hours }));
 
         let isValid = days.length >= 4;
-        if (requiresHours) {
-            isValid = isValid && hours !== null;
-        }
 
         setFieldFilled(isValid);
-    }, [days, hours, requiresHours]);
-
-    // checking if required field is filled at rendering
-    // useEffect(() => {
-    //     let isValid = days.length > 0;
-    //     if (requiresHours) {
-    //         isValid = isValid && hours !== null;
-    //     }
-    //     setFieldFilled(isValid);
-    // }, []);
+    }, [days]);
 
     return (
         <View style={styles.container}>
@@ -89,7 +74,7 @@ export default function FrequencyTab({ pactData, setPactData, setFieldFilled }) 
                 </TouchableOpacity>
             </View>
 
-            {requiresHours && (
+            {/* {requiresHours && (
                 <>
                     <Text style={[styles.description, { marginTop: theme.spacing.xl }]}>
                         Selecciona tus horas permitidas de uso diario del celular.
@@ -112,7 +97,7 @@ export default function FrequencyTab({ pactData, setPactData, setFieldFilled }) 
                         })}
                     </View>
                 </>
-            )}
+            )} */}
         </View>
     );
 }

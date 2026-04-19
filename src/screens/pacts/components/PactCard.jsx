@@ -6,7 +6,7 @@ import { FontAwesome5 } from "@expo/vector-icons";
 import { useState } from "react";
 import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 
-export default function PactCard({ pact, streak, badgeColors, isActive = true }) {
+export default function PactCard({ pact, streak, badgeColors, onPress, isActive = true }) {
   const { participant, badge, ui } = usePactCard(pact, streak, badgeColors);
 
   const { partnerName, isDayCompleted, myState, partnerState } = participant;
@@ -18,8 +18,6 @@ export default function PactCard({ pact, streak, badgeColors, isActive = true })
   const [showButtons, setShowButtons] = useState(false);
 
   const toggleButtons = () => setShowButtons((prev) => !prev);
-
-
 
   return (
     <View style={styles.card}>
@@ -111,7 +109,7 @@ export default function PactCard({ pact, streak, badgeColors, isActive = true })
                   </View>
                   <Text style={styles.userState}>{myState}</Text>
                 </View>
-                <PrimaryButton style={{ height: 30, paddingVertical: 0 }} fontSize={16} onPress={() => console.log("Subir")} label="Subir" disabled={isDayCompleted} />
+                <PrimaryButton style={{ height: 30, paddingVertical: 0 }} fontSize={16} onPress={onPress} label="Subir" disabled={isDayCompleted} />
               </View>
               <View style={styles.userActionContainer}>
                 {/* User avatar and state*/}
@@ -126,6 +124,7 @@ export default function PactCard({ pact, streak, badgeColors, isActive = true })
                 <PrimaryButton style={{ height: 30, paddingVertical: 0 }} fontSize={16} onPress={() => console.log("Validar")} label="Validar" disabled={!isDayCompleted} />
               </View>
             </View>
+            {/* Toggle buttons */}
             <View style={{ marginTop: 6 }}>
               <TouchableOpacity
                 style={styles.bottomRow}

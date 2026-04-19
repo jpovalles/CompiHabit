@@ -5,13 +5,17 @@ import { fetchCurrentDayPact } from "@/src/logic/pactLogic";
 import PactCard from "@/src/screens/pacts/components/PactCard";
 import { getDateDay } from "@/src/utils/extractDate";
 import { parsePact } from "@/src/utils/parsePact";
-import { useEffect, useState } from "react";
+import { useFocusEffect } from "expo-router";
+import { useCallback, useEffect, useState } from "react";
 import { Alert, StyleSheet, Text, View } from "react-native";
+import ProofModal from "../components/ProofModal";
 
 export default function ActivesPacts() {
   const [activePacts, setActivePacts] = useState([]);
   const [badgeColors, setBadgeColors] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [showProofModal, setShowProofModal] = useState(false);
+  const [selectedPact, setSelectedPact] = useState(null);
 
   const { user } = useAuth();
 
@@ -39,10 +43,12 @@ export default function ActivesPacts() {
     }
   };
 
-  useEffect(() => {
-    getActivePacts();
-    getBadgeLevels();
-  }, []);
+  useFocusEffect(
+    useCallback(() => {
+      getActivePacts();
+      getBadgeLevels();
+    }, [])
+  );
 
   //For testing
   useEffect(() => {
@@ -82,9 +88,25 @@ export default function ActivesPacts() {
           pact={pact.pact}
           streak={pact.streak}
           badgeColors={badgeColors}
+          onPress={() => {
+            setShowProofModal(true);
+            setSelectedPact(pact);
+            console.log("selectedPact")
+            console.log(selectedPact);
+          }}
         />
       ))}
+      {selectedPact && (
+        <ProofModal
+          isOpen={showProofModal}
+          onClose={() => setShowProofModal(false)}
+          onSubmit={() => console.log("submit")}
+          pact={selectedPact.pact}
+          streak={selectedPact.streak}
+        />
+      )}
     </View>
+
   );
 }
 
