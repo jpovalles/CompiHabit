@@ -12,6 +12,7 @@ export default function RenderInvitations({
     <FlatList
       data={invitations}
       keyExtractor={(item) => item.id_pact.toString()}
+      contentContainerStyle={{ paddingBottom: 100 }}
       renderItem={({ item }) => (
         <InvitationCard
           invitation={item}

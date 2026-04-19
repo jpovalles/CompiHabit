@@ -1,8 +1,8 @@
 import { theme } from "@/src/constants/theme";
 import { useAuth } from "@/src/context/AuthContext";
-import PactCard from "@/src/screens/pacts/components/PactCard";
 import { fetchBadgeColors } from "@/src/logic/badgeLogic";
 import { fetchCurrentDayPact } from "@/src/logic/pactLogic";
+import PactCard from "@/src/screens/pacts/components/PactCard";
 import { getDateDay } from "@/src/utils/extractDate";
 import { parsePact } from "@/src/utils/parsePact";
 import { useEffect, useState } from "react";
@@ -78,7 +78,7 @@ export default function ActivesPacts() {
       </View>
       {activePacts.map((pact) => (
         <PactCard
-          key={pact.id_pact}
+          key={pact.pact.id_pact}
           pact={pact.pact}
           streak={pact.streak}
           badgeColors={badgeColors}
