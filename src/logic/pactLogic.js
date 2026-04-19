@@ -1,6 +1,9 @@
-import { supabase } from "@/lib/supabase";
+import { PACT_STATUS } from "@/src/constants/pacts";
 import {
+  acceptInvitationDB,
   deletePactById,
+  getCurrentDayPact,
+  getNoCurrentDayPacts,
   getPactsByPartners,
   getPactsByRole,
   insertPact,
@@ -46,7 +49,7 @@ const getInvitations = async (userId, type = "received") => {
     )
   `;
 
-  return await getPactsByRole(myRole, userId, 1, selectQuery);
+  return await getPactsByRole(myRole, userId, PACT_STATUS.PENDING, selectQuery);
 };
 
 export const getReceivedInvitations = (userId) =>
@@ -59,9 +62,13 @@ export const rejectInvitation = async (idPact) => {
 };
 
 export const acceptInvitation = async (idPact) => {
-  // Transaction to update the pact status to accepted and create a new streak for the pact
-  const { error } = await supabase.rpc("accept_invitation", {
-    p_id_pact: idPact,
-  });
-  if (error) throw error;
+  return await acceptInvitationDB(idPact);
+};
+
+export const fetchCurrentDayPact = async (idUser, day) => {
+  return await getCurrentDayPact(idUser, day);
+};
+
+export const fetchNoCurrentDayPacts = async (idUser, day) => {
+  return await getNoCurrentDayPacts(idUser, day);
 };

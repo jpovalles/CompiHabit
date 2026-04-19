@@ -1,4 +1,4 @@
-import { updateUsername } from "@/src/services/profileService";
+import { updateUsername, searchUserById, searchUsers } from "@/src/services/profileService";
 
 export const handleEditUsername = async (id_user, newUsername) => {
     if (!newUsername) {
@@ -15,3 +15,11 @@ export const handleEditUsername = async (id_user, newUsername) => {
         throw error;
     }
 }
+
+export const fetchUserById = async (id) => {
+    return await searchUserById(id);
+};
+
+export const fetchUsers = async (username, currentUserId) => {
+    return await searchUsers(username, currentUserId);
+};

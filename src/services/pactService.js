@@ -1,4 +1,5 @@
 import { supabase } from "@/lib/supabase";
+import { PACT_STATUS } from "@/src/constants/pacts";
 
 // Inserts a new pact record
 export const insertPact = async (pact) => {
@@ -69,9 +70,52 @@ export const getCurrentDayPact = async (idUser, day) => {
     )
     `,
     )
-    .eq("id_status_pact", 2)
+    .eq("id_status_pact", PACT_STATUS.ACCEPTED)
     .or(`id_host.eq.${idUser},id_guest.eq.${idUser}`)
     .contains("pact_days", [day]);
   if (error) throw error;
   return data;
+};
+
+export const getNoCurrentDayPacts = async (idUser, day) => {
+  const { data, error } = await supabase
+    .from("pacts")
+    .select(
+      `
+    id_pact,
+    id_host,
+    id_guest,
+    host_name:profiles!pacts_id_host_fkey (
+      username
+    ),
+    guest_name:profiles!pacts_id_guest_fkey (
+      username
+    ),
+    habit_type (
+      habit_name
+    ),
+    streaks (
+    *,
+      host_state:streak_user_state!streaks_id_host_state_fkey (
+        user_state
+      ),
+      guest_state:streak_user_state!streaks_id_guest_state_fkey (
+        user_state
+      )
+    )
+    `,
+    )
+    .eq("id_status_pact", PACT_STATUS.ACCEPTED)
+    .or(`id_host.eq.${idUser},id_guest.eq.${idUser}`)
+    .not("pact_days", "cs", `{${day}}`)
+  if (error) throw error;
+  return data;
+};
+
+// Accpets an invitation (updates status to accepted and creates streak)
+export const acceptInvitationDB = async (idPact) => {
+  const { error } = await supabase.rpc("accept_invitation", {
+    p_id_pact: idPact,
+  });
+  if (error) throw error;
 };

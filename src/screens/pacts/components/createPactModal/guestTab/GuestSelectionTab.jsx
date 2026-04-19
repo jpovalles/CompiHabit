@@ -1,14 +1,16 @@
 import FancyInput from "@/src/components/FancyInput";
 import { theme } from "@/src/constants/theme";
 import { useAuth } from "@/src/context/AuthContext";
+import { fetchUsers } from "@/src/logic/profileLogic";
 import ProfileCard from "@/src/screens/pacts/components/createPactModal/guestTab/ProfileCard";
-import { searchUsers } from "@/src/services/profileService";
 import { useEffect, useState } from "react";
 import { Alert, StyleSheet, Text, View } from "react-native";
 
 export default function GuestSelectionTab({ pactData, setPactData, setFieldFilled }) {
     const [searchQuery, setSearchQuery] = useState("");
     const [results, setResults] = useState([]);
+
+    const { session } = useAuth();
 
     const [selectedUser, setSelectedUser] = useState(pactData.id_guest ? { id_profile: pactData.id_guest, username: pactData.guest_name } : null);
 
@@ -21,12 +23,12 @@ export default function GuestSelectionTab({ pactData, setPactData, setFieldFille
         setFieldFilled(true);
     };
 
-    const { session } = useAuth();
+
 
     // Loads users based on the search query
     const loadUsers = async () => {
         try {
-            const data = await searchUsers(searchQuery, session.user.id);
+            const data = await fetchUsers(searchQuery, session.user.id);
             setResults(data);
         } catch (error) {
             Alert.alert("Error al obtener usuarios: ", error.message);

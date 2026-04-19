@@ -1,8 +1,8 @@
 import { theme } from "@/src/constants/theme";
 import { useAuth } from "@/src/context/AuthContext";
-import PactCard from "@/src/screens/pacts/active/components/PactCard";
-import { getBadgeColors } from "@/src/services/badgeColors";
-import { getCurrentDayPact } from "@/src/services/pactService";
+import PactCard from "@/src/screens/pacts/components/PactCard";
+import { fetchBadgeColors } from "@/src/logic/badgeLogic";
+import { fetchCurrentDayPact } from "@/src/logic/pactLogic";
 import { getDateDay } from "@/src/utils/extractDate";
 import { parsePact } from "@/src/utils/parsePact";
 import { useEffect, useState } from "react";
@@ -18,7 +18,7 @@ export default function ActivesPacts() {
   const getActivePacts = async () => {
     if (!user?.id) return;
     try {
-      const response = await getCurrentDayPact(user.id, getDateDay());
+      const response = await fetchCurrentDayPact(user.id, getDateDay());
       const parsedPacts = response.map((pact) => parsePact(pact));
       console.log(parsedPacts[0])
       setActivePacts(parsedPacts);
@@ -32,7 +32,7 @@ export default function ActivesPacts() {
   const getBadgeLevels = async () => {
     if (!user?.id) return;
     try {
-      const response = await getBadgeColors();
+      const response = await fetchBadgeColors();
       setBadgeColors(response);
     } catch (error) {
       Alert.alert("Error al obtener colores de insignias: ", error.message);
@@ -72,8 +72,13 @@ export default function ActivesPacts() {
 
   return (
     <View>
+      <View style={{ marginBottom: 10, marginHorizontal: theme.spacing.md }}>
+        <Text style={styles.title}>Pactos del día</Text>
+        <Text style={styles.subtitle}>¡Completen sus hábitos y mantengan la racha como equipo!</Text>
+      </View>
       {activePacts.map((pact) => (
         <PactCard
+          key={pact.id_pact}
           pact={pact.pact}
           streak={pact.streak}
           badgeColors={badgeColors}
@@ -93,6 +98,15 @@ const styles = StyleSheet.create({
     fontSize: theme.textSizes.md,
     color: theme.colors.textPrimary,
   },
-
-
+  title: {
+    fontSize: theme.textSizes.lg,
+    fontWeight: theme.font.bold.toString(),
+    color: theme.colors.textPrimary,
+    letterSpacing: -0.3,
+  },
+  subtitle: {
+    fontSize: theme.textSizes.sm,
+    color: theme.colors.textPrimary,
+    letterSpacing: -0.3,
+  },
 })

@@ -69,7 +69,7 @@ export default function LoginScreen() {
             onSubmitEditing={handleLogin}
           />
 
-          <PrimaryButton onPress={handleLogin} label="Iniciar sesión" />
+          <PrimaryButton onPress={handleLogin} label={loading ? "Iniciando sesión..." : "Iniciar sesión"} />
 
           <View style={styles.footer}>
             <Text style={styles.footerText}>¿No tienes una cuenta? </Text>

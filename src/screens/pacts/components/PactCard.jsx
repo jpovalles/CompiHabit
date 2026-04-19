@@ -1,12 +1,12 @@
 import PrimaryButton from "@/src/components/PrimaryButton";
 import { theme } from "@/src/constants/theme";
-import FlameBadge from "@/src/screens/pacts/active/components/FlameBadge";
-import { usePactCard } from "@/src/screens/pacts/active/hooks/usePactCard";
+import FlameBadge from "@/src/screens/pacts/components/FlameBadge";
+import { usePactCard } from "@/src/screens/pacts/hooks/usePactCard";
 import { FontAwesome5 } from "@expo/vector-icons";
 import { useState } from "react";
 import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 
-export default function PactCard({ pact, streak, badgeColors }) {
+export default function PactCard({ pact, streak, badgeColors, isActive = true }) {
   const { participant, badge, ui } = usePactCard(pact, streak, badgeColors);
 
   const { partnerName, isDayCompleted } = participant;
@@ -18,6 +18,8 @@ export default function PactCard({ pact, streak, badgeColors }) {
   const [showButtons, setShowButtons] = useState(false);
 
   const toggleButtons = () => setShowButtons((prev) => !prev);
+
+
 
   return (
     <View style={styles.card}>
@@ -82,7 +84,7 @@ export default function PactCard({ pact, streak, badgeColors }) {
           </>
         )}
 
-        {!showButtons && habit_name != "Tiempo en pantalla" && (
+        {!showButtons && isActive && (
           <TouchableOpacity
             style={styles.bottomRow}
             onPress={toggleButtons}

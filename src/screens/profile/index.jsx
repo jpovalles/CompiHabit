@@ -1,7 +1,6 @@
 import { theme } from "@/src/constants/theme";
 import { useAuth } from "@/src/context/AuthContext";
-import { handleEditUsername } from "@/src/logic/profileLogic";
-import { searchUserById } from "@/src/services/profileService";
+import { handleEditUsername, fetchUserById } from "@/src/logic/profileLogic";
 import { useEffect, useState } from "react";
 import { Alert, StyleSheet, Text } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -16,7 +15,7 @@ export default function Profile() {
 
     const getProfile = async () => {
         try {
-            const data = await searchUserById(user.id);
+            const data = await fetchUserById(user.id);
             setProfile({ ...data, email });
         } catch (error) {
             Alert.alert("Error al obtener perfil: ", error.message);

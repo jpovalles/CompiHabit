@@ -6,15 +6,15 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import ActivesPacts from "./active";
 import CreatePactModal from "./components/createPactModal/CreatePactModal";
 import NavigationPill from "./components/NavigationPill";
-import ConcludedPacts from "./concluded";
+import InactivePacts from "./inactive";
 import InvitationsPacts from "./invitations";
 
 
 export default function Pacts() {
     const tabs = [
         { id: 0, label: "Activos" },
-        { id: 1, label: "Invitaciones" },
-        { id: 2, label: "Concluidos" },
+        { id: 1, label: "Inactivos" },
+        { id: 2, label: "Invitaciones" },
     ];
     const [activeTab, setActiveTab] = useState(0);
 
@@ -31,8 +31,8 @@ export default function Pacts() {
             </View>
 
             {activeTab === 0 && (<ActivesPacts />)}
-            {activeTab === 1 && (<InvitationsPacts />)}
-            {activeTab === 2 && (<ConcludedPacts />)}
+            {activeTab === 1 && (<InactivePacts />)}
+            {activeTab === 2 && (<InvitationsPacts />)}
 
             <FAB onPress={() => setShowCreate(true)} />
             <CreatePactModal
