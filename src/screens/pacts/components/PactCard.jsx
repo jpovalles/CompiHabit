@@ -9,7 +9,7 @@ import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 export default function PactCard({ pact, streak, badgeColors, isActive = true }) {
   const { participant, badge, ui } = usePactCard(pact, streak, badgeColors);
 
-  const { partnerName, isDayCompleted } = participant;
+  const { partnerName, isDayCompleted, myState, partnerState } = participant;
   const { currentBadge, nextBadge, nextLevelTarget, progressPercent } = badge;
 
   const { current_days } = streak;
@@ -101,9 +101,30 @@ export default function PactCard({ pact, streak, badgeColors, isActive = true })
         {showButtons && (
           <View style={styles.expandedContent}>
             <View style={styles.buttonRow}>
-
-              <PrimaryButton style={{ flex: 1, height: 30, paddingVertical: 0 }} fontSize={16} onPress={() => console.log("Subir")} label="Subir" disabled={isDayCompleted} />
-              <PrimaryButton style={{ flex: 1, height: 30, paddingVertical: 0 }} fontSize={16} onPress={() => console.log("Validar")} label="Validar" disabled={!isDayCompleted} />
+              <View style={styles.userActionContainer}>
+                {/* User avatar and state*/}
+                <View style={{ flexDirection: "row", alignItems: "center", gap: 6, marginBottom: 6 }}>
+                  <View style={styles.avatarFallback}>
+                    <Text style={styles.avatarFallbackText}>
+                      Tú
+                    </Text>
+                  </View>
+                  <Text style={styles.userState}>{myState}</Text>
+                </View>
+                <PrimaryButton style={{ height: 30, paddingVertical: 0 }} fontSize={16} onPress={() => console.log("Subir")} label="Subir" disabled={isDayCompleted} />
+              </View>
+              <View style={styles.userActionContainer}>
+                {/* User avatar and state*/}
+                <View style={{ flexDirection: "row", alignItems: "center", gap: 6, marginBottom: 6, justifyContent: "flex-end" }}>
+                  <Text style={styles.userState}>{partnerState}</Text>
+                  <View style={styles.avatarFallback}>
+                    <Text style={styles.avatarFallbackText}>
+                      {partnerName?.[0]?.toUpperCase()}
+                    </Text>
+                  </View>
+                </View>
+                <PrimaryButton style={{ height: 30, paddingVertical: 0 }} fontSize={16} onPress={() => console.log("Validar")} label="Validar" disabled={!isDayCompleted} />
+              </View>
             </View>
             <View style={{ marginTop: 6 }}>
               <TouchableOpacity
@@ -261,4 +282,12 @@ const styles = StyleSheet.create({
     gap: 12,
     paddingTop: 5,
   },
+  userState: {
+    color: theme.colors.textPrimary,
+    marginBottom: theme.spacing.xs
+  },
+  userActionContainer: {
+    flex: 1,
+    maxWidth: "50%"
+  }
 });
