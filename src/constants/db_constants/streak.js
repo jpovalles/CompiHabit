@@ -1,0 +1,5 @@
+export const STREAK_USER_STATE = {
+    NOT_SUBMITTED: 1,
+    SUBMITTED: 2,
+    VALIDATED: 3,
+};

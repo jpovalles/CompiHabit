@@ -24,7 +24,6 @@ export default function ActivesPacts() {
     try {
       const response = await fetchCurrentDayPact(user.id, getDateDay());
       const parsedPacts = response.map((pact) => parsePact(pact));
-      console.log(parsedPacts[0])
       setActivePacts(parsedPacts);
     } catch (error) {
       Alert.alert("Error al obtener pactos activos: ", error.message);
@@ -50,15 +49,9 @@ export default function ActivesPacts() {
     }, [])
   );
 
-  //For testing
   useEffect(() => {
-    console.log("activePacts")
-    console.log(activePacts);
-    console.log("badgeColors")
-    badgeColors.forEach((badgeColor) => {
-      console.log("badgeColor ", badgeColor);
-    });
-  }, [activePacts, badgeColors]);
+    console.log(activePacts[1]?.streak);
+  }, [activePacts]);
 
   if (loading) {
     return (
@@ -91,9 +84,8 @@ export default function ActivesPacts() {
           onPress={() => {
             setShowProofModal(true);
             setSelectedPact(pact);
-            console.log("selectedPact")
-            console.log(selectedPact);
           }}
+          onRefresh={getActivePacts}
         />
       ))}
       {selectedPact && (

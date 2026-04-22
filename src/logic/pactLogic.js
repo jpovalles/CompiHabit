@@ -1,4 +1,4 @@
-import { PACT_STATUS } from "@/src/constants/pacts";
+import { PACT_STATUS } from "@/src/constants/db_constants/pacts";
 import {
   acceptInvitationDB,
   deletePactById,

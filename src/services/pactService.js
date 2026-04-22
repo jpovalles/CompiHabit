@@ -1,5 +1,5 @@
 import { supabase } from "@/lib/supabase";
-import { PACT_STATUS } from "@/src/constants/pacts";
+import { PACT_STATUS } from "@/src/constants/db_constants/pacts";
 
 // Inserts a new pact record
 export const insertPact = async (pact) => {

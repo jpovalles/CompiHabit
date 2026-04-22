@@ -1,10 +1,12 @@
+import { STREAK_USER_STATE } from "@/src/constants/db_constants/streak";
 import { useAuth } from "@/src/context/AuthContext";
+import { completedToday } from "@/src/logic/streaksLogic";
 
 export const usePactCard = (pact, streak, badgeColors) => {
   const { user } = useAuth();
 
   const { id_host, guest_name, host_name } = pact;
-  const { current_days, guest_state, host_state } = streak;
+  const { current_days, guest_state, host_state, id_guest_state, id_host_state, last_day } = streak;
 
   // Participant derivation
   const isHost = user?.id === id_host;
@@ -15,7 +17,9 @@ export const usePactCard = (pact, streak, badgeColors) => {
 
 
   // Completion status for the current day
-  const isDayCompleted = myState?.user_state === "Validado" && partnerState?.user_state === "Validado";
+  const isDayCompleted = completedToday(last_day);
+
+  const partnerSubmittedProof = isHost ? id_guest_state === STREAK_USER_STATE.SUBMITTED : id_host_state === STREAK_USER_STATE.SUBMITTED;
 
   // Badge and Level Calculations
   const currentBadgeIndex = badgeColors
@@ -32,13 +36,14 @@ export const usePactCard = (pact, streak, badgeColors) => {
   const progressPercent = nextBadge ? (current_days / nextLevelTarget) * 100 : 100;
 
   return {
-    participant: {
+    participants: {
       isHost,
       partnerName,
       partnerState,
       myName,
       myState,
       isDayCompleted,
+      partnerSubmittedProof
     },
     badge: {
       currentBadge,

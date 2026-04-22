@@ -1,23 +1,47 @@
 import PrimaryButton from "@/src/components/PrimaryButton";
+import { STREAK_USER_STATE } from "@/src/constants/db_constants/streak";
 import { theme } from "@/src/constants/theme";
+import { updateUserStateStreak } from "@/src/logic/streaksLogic";
 import FlameBadge from "@/src/screens/pacts/components/FlameBadge";
 import { usePactCard } from "@/src/screens/pacts/hooks/usePactCard";
 import { FontAwesome5 } from "@expo/vector-icons";
 import { useState } from "react";
 import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 
-export default function PactCard({ pact, streak, badgeColors, onPress, isActive = true }) {
-  const { participant, badge, ui } = usePactCard(pact, streak, badgeColors);
+export default function PactCard({ pact, streak, badgeColors, onPress, isActive = true, onRefresh }) {
+  const { participants, badge, ui } = usePactCard(pact, streak, badgeColors);
 
-  const { partnerName, isDayCompleted, myState, partnerState } = participant;
+  const { partnerName, isDayCompleted, myState, partnerState, isHost, partnerSubmittedProof } = participants;
   const { currentBadge, nextBadge, nextLevelTarget, progressPercent } = badge;
 
-  const { current_days } = streak;
+  const { current_days, id_streak } = streak;
   const { habit_name } = pact;
 
   const [showButtons, setShowButtons] = useState(false);
 
   const toggleButtons = () => setShowButtons((prev) => !prev);
+
+  const handleValidateProof = async () => {
+    const userToUpdate = isHost ? "guest" : "host";
+    const idUserState = STREAK_USER_STATE.VALIDATED;
+    try {
+      await updateUserStateStreak(id_streak, userToUpdate, idUserState);
+      await onRefresh?.();
+    } catch (error) {
+      console.error("Error updating streak:", error);
+    }
+  };
+
+  const handleUploadProof = async () => {
+    const userToUpdate = isHost ? "host" : "guest";
+    const idUserState = STREAK_USER_STATE.SUBMITTED;
+    try {
+      await updateUserStateStreak(id_streak, userToUpdate, idUserState);
+      await onRefresh?.();
+    } catch (error) {
+      console.error("Error updating streak:", error);
+    }
+  };
 
   return (
     <View style={styles.card}>
@@ -82,7 +106,7 @@ export default function PactCard({ pact, streak, badgeColors, onPress, isActive 
           </>
         )}
 
-        {!showButtons && isActive && (
+        {!showButtons && isActive && !isDayCompleted && (
           <TouchableOpacity
             style={styles.bottomRow}
             onPress={toggleButtons}
@@ -96,7 +120,7 @@ export default function PactCard({ pact, streak, badgeColors, onPress, isActive 
           </TouchableOpacity>
         )}
 
-        {showButtons && (
+        {showButtons && !isDayCompleted && (
           <View style={styles.expandedContent}>
             <View style={styles.buttonRow}>
               <View style={styles.userActionContainer}>
@@ -109,7 +133,7 @@ export default function PactCard({ pact, streak, badgeColors, onPress, isActive 
                   </View>
                   <Text style={styles.userState}>{myState}</Text>
                 </View>
-                <PrimaryButton style={{ height: 30, paddingVertical: 0 }} fontSize={16} onPress={onPress} label="Subir" disabled={isDayCompleted} />
+                <PrimaryButton style={{ height: 30, paddingVertical: 0 }} fontSize={16} onPress={handleUploadProof} label="Subir" disabled={isDayCompleted} />
               </View>
               <View style={styles.userActionContainer}>
                 {/* User avatar and state*/}
@@ -121,7 +145,7 @@ export default function PactCard({ pact, streak, badgeColors, onPress, isActive 
                     </Text>
                   </View>
                 </View>
-                <PrimaryButton style={{ height: 30, paddingVertical: 0 }} fontSize={16} onPress={() => console.log("Validar")} label="Validar" disabled={!isDayCompleted} />
+                <PrimaryButton style={{ height: 30, paddingVertical: 0 }} fontSize={16} onPress={handleValidateProof} label="Validar" disabled={!partnerSubmittedProof} />
               </View>
             </View>
             {/* Toggle buttons */}
