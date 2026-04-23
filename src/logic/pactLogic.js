@@ -7,7 +7,7 @@ import {
   getPactsByPartners,
   getPactsByRole,
   insertPact,
-} from "@/src/services/pactService";
+} from "@/src/services/database/pactService";
 
 // Creates a pact after validating that no duplicate exists between the partners
 export const createPact = async (pact) => {

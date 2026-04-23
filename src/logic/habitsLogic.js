@@ -1,4 +1,4 @@
-import { getHabits } from "@/src/services/habitsService";
+import { getHabits } from "@/src/services/database/habitsService";
 
 // Loads all available habit types
 export const loadHabits = async () => {

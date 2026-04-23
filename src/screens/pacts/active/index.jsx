@@ -46,7 +46,7 @@ export default function ActivesPacts() {
     useCallback(() => {
       getActivePacts();
       getBadgeLevels();
-    }, [])
+    }, []),
   );
 
   useEffect(() => {
@@ -73,7 +73,9 @@ export default function ActivesPacts() {
     <View>
       <View style={{ marginBottom: 10, marginHorizontal: theme.spacing.md }}>
         <Text style={styles.title}>Pactos del día</Text>
-        <Text style={styles.subtitle}>¡Completen sus hábitos y mantengan la racha como equipo!</Text>
+        <Text style={styles.subtitle}>
+          ¡Completen sus hábitos y mantengan la racha como equipo!
+        </Text>
       </View>
       {activePacts.map((pact) => (
         <PactCard
@@ -84,6 +86,7 @@ export default function ActivesPacts() {
           onPress={() => {
             setShowProofModal(true);
             setSelectedPact(pact);
+            console.log("pact", pact);
           }}
           onRefresh={getActivePacts}
         />
@@ -98,7 +101,6 @@ export default function ActivesPacts() {
         />
       )}
     </View>
-
   );
 }
 
@@ -123,4 +125,4 @@ const styles = StyleSheet.create({
     color: theme.colors.textPrimary,
     letterSpacing: -0.3,
   },
-})
+});

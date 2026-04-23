@@ -10,19 +10,13 @@ import ProofModalFooter from "./proofModalComponents/ProofModalFooter";
 import ProofModalHeader from "./proofModalComponents/ProofModalHeader";
 import ReadingProof from "./proofModalComponents/ReadingProof";
 
-export default function ProofModal({
-  isOpen,
-  onClose,
-  onSubmit,
-  pact,
-  streak,
-}) {
+export default function ProofModal({ isOpen, onClose, pact, streak }) {
   const [loading, setLoading] = useState(false);
   const [textProof, setTextProof] = useState("");
   const [imageProof, setImageProof] = useState(null);
 
-  const { participant } = usePactCard(pact, streak);
-  const partnerName = participant.partnerName;
+  const { participants } = usePactCard(pact, streak);
+  const partnerName = participants?.partnerName;
   const habitType = pact.habit_name;
 
   const handleClose = () => {
@@ -35,24 +29,31 @@ export default function ProofModal({
   const loadGallery = async () => {
     const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
     if (status !== "granted") {
-      Alert.alert("Permiso denegado", "Se necesita acceso a la galería para esta acción.");
+      Alert.alert(
+        "Permiso denegado",
+        "Se necesita acceso a la galería para esta acción.",
+      );
       return;
     }
 
     const result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ['images'],
+      mediaTypes: ["images"],
       allowsEditing: true,
       quality: 0.7,
+      base64: true,
     });
 
+    console.log(result);
+
     if (!result.canceled) {
-      setImageProof(result.assets[0].uri);
+      setImageProof(result.assets[0]);
     }
   };
 
   const validateSubmit = () => {
     if (habitType === "Lectura") return textProof.length >= 150;
-    if (habitType === "Actividad física" || habitType === "Tiempo en pantalla") return imageProof !== null;
+    if (habitType === "Actividad física" || habitType === "Tiempo en pantalla")
+      return imageProof !== null;
     return false;
   };
 
@@ -60,14 +61,10 @@ export default function ProofModal({
     if (!validateSubmit()) return;
     setLoading(true);
 
-    const data = {
-      habitType,
-      type: habitType === "Lectura" ? "text" : "image",
-      value: habitType === "Lectura" ? textProof : imageProof,
-    };
+    // UploadPhoto(id_streak, id_user, image.base64)
 
     try {
-      await onSubmit(data);
+      await uploadProof(streak.id_streak, participants.idUser, imageProof);
       handleClose();
     } catch (error) {
       Alert.alert("Error", "No se pudo enviar la demostración.");
@@ -108,16 +105,31 @@ export default function ProofModal({
   };
 
   return (
-    <Modal visible={isOpen} transparent={true} animationType="fade" onRequestClose={handleClose}>
+    <Modal
+      visible={isOpen}
+      transparent={true}
+      animationType="fade"
+      onRequestClose={handleClose}
+    >
       <View style={styles.overlay}>
         <View style={styles.modalCard}>
-          <ProofModalHeader habitType={habitType} partnerName={partnerName} onClose={handleClose} />
+          <ProofModalHeader
+            habitType={habitType}
+            partnerName={partnerName}
+            onClose={handleClose}
+          />
 
           {renderContent()}
 
           <View style={styles.warningContainer}>
-            <FontAwesome5 name="info-circle" size={14} color={theme.colors.textMuted} />
-            <Text style={styles.warningText}>Tu compañero revisará esta evidencia para validar el hábito de hoy</Text>
+            <FontAwesome5
+              name="info-circle"
+              size={14}
+              color={theme.colors.textMuted}
+            />
+            <Text style={styles.warningText}>
+              Tu compañero revisará esta evidencia para validar el hábito de hoy
+            </Text>
           </View>
 
           <ProofModalFooter

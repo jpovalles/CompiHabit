@@ -1,11 +1,15 @@
+import PrimaryButton from "@/src/components/PrimaryButton";
 import { theme } from "@/src/constants/theme";
 import { FontAwesome5 } from "@expo/vector-icons";
 import { CameraView, useCameraPermissions } from "expo-camera";
 import { useRef } from "react";
 import { Image, Pressable, StyleSheet, Text, View } from "react-native";
-import PrimaryButton from "@/src/components/PrimaryButton";
 
-export default function CameraUIProof({ imageProof, setImageProof, inputLabel }) {
+export default function CameraUIProof({
+  imageProof,
+  setImageProof,
+  inputLabel,
+}) {
   const [permission, requestPermission] = useCameraPermissions();
   const cameraRef = useRef(null);
 
@@ -13,8 +17,10 @@ export default function CameraUIProof({ imageProof, setImageProof, inputLabel })
     if (cameraRef.current) {
       const photo = await cameraRef.current.takePictureAsync({
         quality: 0.7,
+        base64: true,
       });
-      setImageProof(photo.uri);
+      setImageProof(photo);
+      console.log(photo);
     }
   };
 
@@ -24,8 +30,15 @@ export default function CameraUIProof({ imageProof, setImageProof, inputLabel })
 
       {imageProof ? (
         <View style={styles.imagePreviewContainer}>
-          <Image source={{ uri: imageProof }} style={styles.previewImage} resizeMode="cover" />
-          <Pressable style={styles.discardButton} onPress={() => setImageProof(null)}>
+          <Image
+            source={{ uri: imageProof.uri }}
+            style={styles.previewImage}
+            resizeMode="cover"
+          />
+          <Pressable
+            style={styles.discardButton}
+            onPress={() => setImageProof(null)}
+          >
             <FontAwesome5 name="trash" size={14} color="#ffffff" />
           </Pressable>
         </View>
@@ -35,19 +48,17 @@ export default function CameraUIProof({ imageProof, setImageProof, inputLabel })
             <View style={styles.permissionContainer} />
           ) : !permission.granted ? (
             <View style={styles.permissionContainer}>
-              <Text style={styles.permissionText}>Se requiere acceso a la cámara</Text>
-              <PrimaryButton 
-                label="Otorgar permisos" 
-                onPress={requestPermission} 
+              <Text style={styles.permissionText}>
+                Se requiere acceso a la cámara
+              </Text>
+              <PrimaryButton
+                label="Otorgar permisos"
+                onPress={requestPermission}
                 style={{ marginTop: 10 }}
               />
             </View>
           ) : (
-            <CameraView 
-              style={styles.camera} 
-              facing="back" 
-              ref={cameraRef}
-            >
+            <CameraView style={styles.camera} facing="back" ref={cameraRef}>
               <View style={styles.cameraOverlay}>
                 <Pressable style={styles.captureButton} onPress={takePicture}>
                   <View style={styles.captureButtonInner} />

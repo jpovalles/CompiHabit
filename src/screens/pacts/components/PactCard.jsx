@@ -8,10 +8,24 @@ import { FontAwesome5 } from "@expo/vector-icons";
 import { useState } from "react";
 import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 
-export default function PactCard({ pact, streak, badgeColors, onPress, isActive = true, onRefresh }) {
+export default function PactCard({
+  pact,
+  streak,
+  badgeColors,
+  onPress,
+  isActive = true,
+  onRefresh,
+}) {
   const { participants, badge, ui } = usePactCard(pact, streak, badgeColors);
 
-  const { partnerName, isDayCompleted, myState, partnerState, isHost, partnerSubmittedProof } = participants;
+  const {
+    partnerName,
+    isDayCompleted,
+    myState,
+    partnerState,
+    isHost,
+    partnerSubmittedProof,
+  } = participants;
   const { currentBadge, nextBadge, nextLevelTarget, progressPercent } = badge;
 
   const { current_days, id_streak } = streak;
@@ -52,7 +66,10 @@ export default function PactCard({ pact, streak, badgeColors, onPress, isActive 
             <Text style={styles.title}>{habit_name}</Text>
             <View style={styles.partnerRow}>
               {pact.partnerAvatar ? (
-                <Image source={{ uri: pact.partnerAvatar }} style={styles.avatar} />
+                <Image
+                  source={{ uri: pact.partnerAvatar }}
+                  style={styles.avatar}
+                />
               ) : (
                 <View style={styles.avatarFallback}>
                   <Text style={styles.avatarFallbackText}>
@@ -74,7 +91,11 @@ export default function PactCard({ pact, streak, badgeColors, onPress, isActive 
             <Text
               style={[
                 styles.streakCount,
-                { color: isDayCompleted ? theme.colors.primary : theme.colors.textMuted },
+                {
+                  color: isDayCompleted
+                    ? theme.colors.primary
+                    : theme.colors.textMuted,
+                },
               ]}
             >
               {current_days} DÍAS
@@ -125,19 +146,38 @@ export default function PactCard({ pact, streak, badgeColors, onPress, isActive 
             <View style={styles.buttonRow}>
               <View style={styles.userActionContainer}>
                 {/* User avatar and state*/}
-                <View style={{ flexDirection: "row", alignItems: "center", gap: 6, marginBottom: 6 }}>
+                <View
+                  style={{
+                    flexDirection: "row",
+                    alignItems: "center",
+                    gap: 6,
+                    marginBottom: 6,
+                  }}
+                >
                   <View style={styles.avatarFallback}>
-                    <Text style={styles.avatarFallbackText}>
-                      Tú
-                    </Text>
+                    <Text style={styles.avatarFallbackText}>Tú</Text>
                   </View>
                   <Text style={styles.userState}>{myState}</Text>
                 </View>
-                <PrimaryButton style={{ height: 30, paddingVertical: 0 }} fontSize={16} onPress={handleUploadProof} label="Subir" disabled={isDayCompleted} />
+                <PrimaryButton
+                  style={{ height: 30, paddingVertical: 0 }}
+                  fontSize={16}
+                  onPress={onPress}
+                  label="Subir"
+                  disabled={isDayCompleted}
+                />
               </View>
               <View style={styles.userActionContainer}>
                 {/* User avatar and state*/}
-                <View style={{ flexDirection: "row", alignItems: "center", gap: 6, marginBottom: 6, justifyContent: "flex-end" }}>
+                <View
+                  style={{
+                    flexDirection: "row",
+                    alignItems: "center",
+                    gap: 6,
+                    marginBottom: 6,
+                    justifyContent: "flex-end",
+                  }}
+                >
                   <Text style={styles.userState}>{partnerState}</Text>
                   <View style={styles.avatarFallback}>
                     <Text style={styles.avatarFallbackText}>
@@ -145,7 +185,13 @@ export default function PactCard({ pact, streak, badgeColors, onPress, isActive 
                     </Text>
                   </View>
                 </View>
-                <PrimaryButton style={{ height: 30, paddingVertical: 0 }} fontSize={16} onPress={handleValidateProof} label="Validar" disabled={!partnerSubmittedProof} />
+                <PrimaryButton
+                  style={{ height: 30, paddingVertical: 0 }}
+                  fontSize={16}
+                  onPress={handleValidateProof}
+                  label="Validar"
+                  disabled={!partnerSubmittedProof}
+                />
               </View>
             </View>
             {/* Toggle buttons */}
@@ -307,10 +353,10 @@ const styles = StyleSheet.create({
   },
   userState: {
     color: theme.colors.textPrimary,
-    marginBottom: theme.spacing.xs
+    marginBottom: theme.spacing.xs,
   },
   userActionContainer: {
     flex: 1,
-    maxWidth: "50%"
-  }
+    maxWidth: "50%",
+  },
 });

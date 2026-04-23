@@ -16,15 +16,26 @@ export default function ImageProof({
       <Text style={styles.inputLabel}>{inputLabel}</Text>
       {imageProof ? (
         <View style={styles.imagePreviewContainer}>
-          <Image source={{ uri: imageProof }} style={styles.previewImage} resizeMode="cover" />
-          <Pressable style={styles.discardButton} onPress={() => setImageProof(null)}>
+          <Image
+            source={{ uri: imageProof.uri }}
+            style={styles.previewImage}
+            resizeMode="cover"
+          />
+          <Pressable
+            style={styles.discardButton}
+            onPress={() => setImageProof(null)}
+          >
             <FontAwesome5 name="trash" size={14} color="#ffffff" />
           </Pressable>
         </View>
       ) : (
         <Pressable style={styles.uploadPlaceholder} onPress={onLoadPress}>
           <View style={styles.placeholderIconContainer}>
-            <FontAwesome5 name={iconName} size={32} color={theme.colors.primary} />
+            <FontAwesome5
+              name={iconName}
+              size={32}
+              color={theme.colors.primary}
+            />
           </View>
           <Text style={styles.placeholderTitle}>{title}</Text>
           <Text style={styles.placeholderSubtitle}>{subtitle}</Text>
