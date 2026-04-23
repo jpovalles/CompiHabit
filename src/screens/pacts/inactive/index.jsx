@@ -2,6 +2,7 @@ import { theme } from "@/src/constants/theme";
 import { useAuth } from "@/src/context/AuthContext";
 import { fetchBadgeColors } from "@/src/logic/badgeLogic";
 import { fetchNoCurrentDayPacts } from "@/src/logic/pactLogic";
+import CurrentDayPills from "@/src/screens/pacts/components/CurrentDayPills";
 import PactCard from "@/src/screens/pacts/components/PactCard";
 import { getDateDay } from "@/src/utils/extractDate";
 import { parsePact } from "@/src/utils/parsePact";
@@ -64,13 +65,15 @@ export default function InactivePacts() {
     if (inactivePacts.length === 0) {
         return (
             <View style={styles.centered}>
-                <Text style={styles.loadingText}>No hay pactos inactivos</Text>
+                <CurrentDayPills />
+                <Text style={styles.loadingText}>No tienes pactos inactivos</Text>
             </View>
         );
     }
 
     return (
         <View>
+            <CurrentDayPills />
             <View style={{ marginBottom: 10, marginHorizontal: theme.spacing.md }}>
                 <Text style={styles.title}>Pactos Inactivos</Text>
                 <Text style={styles.subtitle}>Hoy no toca… pero sigue contando.</Text>
@@ -91,7 +94,7 @@ export default function InactivePacts() {
 const styles = StyleSheet.create({
     centered: {
         flex: 1,
-        justifyContent: "center",
+        justifyContent: "flex-start",
         alignItems: "center",
     },
     loadingText: {

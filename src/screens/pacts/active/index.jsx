@@ -2,6 +2,7 @@ import { theme } from "@/src/constants/theme";
 import { useAuth } from "@/src/context/AuthContext";
 import { fetchBadgeColors } from "@/src/logic/badgeLogic";
 import { fetchCurrentDayPact } from "@/src/logic/pactLogic";
+import CurrentDayPills from "@/src/screens/pacts/components/CurrentDayPills";
 import PactCard from "@/src/screens/pacts/components/PactCard";
 import { getDateDay } from "@/src/utils/extractDate";
 import { parsePact } from "@/src/utils/parsePact";
@@ -64,6 +65,7 @@ export default function ActivesPacts() {
   if (activePacts.length === 0) {
     return (
       <View style={styles.centered}>
+        <CurrentDayPills />
         <Text style={styles.loadingText}>No hay pactos activos</Text>
       </View>
     );
@@ -71,6 +73,7 @@ export default function ActivesPacts() {
 
   return (
     <View>
+      <CurrentDayPills />
       <View style={{ marginBottom: 10, marginHorizontal: theme.spacing.md }}>
         <Text style={styles.title}>Pactos del día</Text>
         <Text style={styles.subtitle}>¡Completen sus hábitos y mantengan la racha como equipo!</Text>
@@ -105,7 +108,7 @@ export default function ActivesPacts() {
 const styles = StyleSheet.create({
   centered: {
     flex: 1,
-    justifyContent: "center",
+    justifyContent: "flex-start",
     alignItems: "center",
   },
   loadingText: {
