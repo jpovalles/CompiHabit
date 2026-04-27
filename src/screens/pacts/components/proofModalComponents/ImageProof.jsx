@@ -1,16 +1,37 @@
 import { theme } from "@/src/constants/theme";
 import { FontAwesome5 } from "@expo/vector-icons";
-import { Image, Pressable, StyleSheet, Text, View } from "react-native";
+import * as ImagePicker from "expo-image-picker";
+import { Alert, Image, Pressable, StyleSheet, Text, View } from "react-native";
 
 export default function ImageProof({
   imageProof,
   setImageProof,
-  onLoadPress,
   title,
   subtitle,
   iconName,
   inputLabel,
 }) {
+  const loadGallery = async () => {
+    const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
+    if (status !== "granted") {
+      Alert.alert(
+        "Permiso denegado",
+        "Se necesita acceso a la galería para esta acción.",
+      );
+      return;
+    }
+
+    const result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ["images"],
+      allowsEditing: true,
+      quality: 0.7,
+      base64: true,
+    });
+
+    if (!result.canceled) {
+      setImageProof(result.assets[0]);
+    }
+  };
   return (
     <View style={styles.contentSection}>
       <Text style={styles.inputLabel}>{inputLabel}</Text>
@@ -29,7 +50,7 @@ export default function ImageProof({
           </Pressable>
         </View>
       ) : (
-        <Pressable style={styles.uploadPlaceholder} onPress={onLoadPress}>
+        <Pressable style={styles.uploadPlaceholder} onPress={loadGallery}>
           <View style={styles.placeholderIconContainer}>
             <FontAwesome5
               name={iconName}

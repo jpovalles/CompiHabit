@@ -13,10 +13,6 @@ export const completedToday = (lastDay) => {
 
   const last = new Date(lastDay);
   const now = new Date();
-  console.log(
-    last.getFullYear() + " " + last.getMonth() + " " + last.getDate(),
-  );
-  console.log(now.getFullYear() + " " + now.getMonth() + " " + now.getDate());
 
   return (
     last.getFullYear() === now.getFullYear() &&

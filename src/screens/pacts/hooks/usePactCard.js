@@ -1,75 +1,58 @@
-import { STREAK_USER_STATE } from "@/src/constants/db_constants/streak";
 import { useAuth } from "@/src/context/AuthContext";
 import { completedToday } from "@/src/logic/streaksLogic";
 
-export const usePactCard = (pact, streak, badgeColors) => {
-  const { user } = useAuth();
-
-  const { id_host, guest_name, host_name, id_guest } = pact;
-  const {
-    current_days,
-    guest_state,
-    host_state,
-    id_guest_state,
-    id_host_state,
-    last_day,
-  } = streak;
-
-  // Participant derivation
-  const isHost = user?.id === id_host;
-  const partnerName = isHost ? guest_name : host_name;
-  const partnerState = isHost ? guest_state : host_state;
-  const myName = isHost ? host_name : guest_name;
-  const myState = isHost ? host_state : guest_state;
-  const idUser = isHost ? id_host : id_guest;
-  const idPartner = isHost ? id_guest : id_host;
-
-  // Completion status for the current day
-  const isDayCompleted = completedToday(last_day);
-
-  const partnerSubmittedProof = isHost
-    ? id_guest_state === STREAK_USER_STATE.SUBMITTED
-    : id_host_state === STREAK_USER_STATE.SUBMITTED;
-
-  // Badge and Level Calculations
-  const currentBadgeIndex = badgeColors
-    ? badgeColors.reduce(
-        (acc, curr, index) =>
-          curr.days_required <= current_days ? index : acc,
-        0,
-      )
-    : 0;
-
-  const currentBadge = badgeColors?.[currentBadgeIndex];
-  const nextBadge = badgeColors?.[currentBadgeIndex + 1];
-
-  const currentLevelTarget = currentBadge?.days_required || 0;
-  const nextLevelTarget = nextBadge
-    ? nextBadge.days_required
-    : currentLevelTarget;
-
-  // Progress calculation
-  const progressPercent = nextBadge
-    ? (current_days / nextLevelTarget) * 100
-    : 100;
+const getParticipantData = (currentUser, pact, streak) => {
+  const isHost = currentUser?.id === pact?.id_host;
 
   return {
-    participants: {
+    user: {
+      id: isHost ? pact?.id_host : pact?.id_guest,
+      name: isHost ? pact?.host_name : pact?.guest_name,
+      state: isHost ? streak?.host_state : streak?.guest_state,
+      state_id: isHost ? streak?.id_host_state : streak?.id_guest_state,
       isHost,
-      partnerName,
-      partnerState,
-      myName,
-      myState,
-      isDayCompleted,
-      partnerSubmittedProof,
-      idUser,
-      idPartner,
     },
-    badge: {
-      currentBadge,
-      nextBadge,
-      nextLevelTarget,
-      progressPercent,
+    partner: {
+      id: isHost ? pact?.id_guest : pact?.id_host,
+      name: isHost ? pact?.guest_name : pact?.host_name,
+      state: isHost ? streak?.guest_state : streak?.host_state,
+      state_id: isHost ? streak?.id_guest_state : streak?.id_host_state,
     },
   };
 };
+
+const getBadgeData = (currentDays = 0, badgeColors) => {
+  // Badge level calculation: gets the current level badge colors depending on 
+  // the current days. It goes until the current days is greater than or equal than the next badge required days.
+  const currentIndex = badgeColors?.reduce(
+    (acc, curr, index) => (curr.days_required <= currentDays ? index : acc),
+    0
+  ) ?? 0;
+
+  const currentBadge = badgeColors?.[currentIndex];
+  const nextBadge = badgeColors?.[currentIndex + 1];
+
+  const currentLevelTarget = currentBadge?.days_required || 0;  // if no next badge, the currentLevelTarget will be 0
+  const nextLevelTarget = nextBadge?.days_required ?? currentLevelTarget; // if no next badge, the nextLevelTarget will be 0
+  const progressPercent = nextBadge ? (currentDays / nextLevelTarget) * 100 : 100;  // if no next badge, the progressPercent will be 100%
+
+  return {
+    currentBadge,
+    nextBadge,
+    nextLevelTarget,
+    progressPercent,
+  };
+};
+
+export const usePactCard = (pact, streak, badgeColors) => {
+  const { user: currentUser } = useAuth();
+
+  return {
+    ...getParticipantData(currentUser, pact, streak),
+    status: {
+      isDayCompleted: completedToday(streak?.last_day),
+    },
+    badge: getBadgeData(streak?.current_days, badgeColors),
+  };
+};
+

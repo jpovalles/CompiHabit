@@ -81,7 +81,7 @@ export default function InvitationsPacts() {
               invitations={invitations}
               type="received"
               handleShowModal={handleShowModal}
-              onAccept={handleInvitationsFetching}
+              refreshInvitations={handleInvitationsFetching}
             />
           )}
           {activeTab === 1 && (

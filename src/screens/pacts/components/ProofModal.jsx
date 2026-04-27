@@ -1,6 +1,9 @@
+import { STREAK_USER_STATE } from "@/src/constants/db_constants/streak";
 import { theme } from "@/src/constants/theme";
+import { submitImageProof, submitTextProof } from "@/src/logic/proofLogic";
+import { updateUserStateStreak } from "@/src/logic/streaksLogic";
+import { uploadPhoto } from "@/src/services/storage/uploadPhoto";
 import { FontAwesome5 } from "@expo/vector-icons";
-import * as ImagePicker from "expo-image-picker";
 import { useState } from "react";
 import { Alert, Modal, StyleSheet, Text, View } from "react-native";
 import { usePactCard } from "../hooks/usePactCard";
@@ -10,44 +13,22 @@ import ProofModalFooter from "./proofModalComponents/ProofModalFooter";
 import ProofModalHeader from "./proofModalComponents/ProofModalHeader";
 import ReadingProof from "./proofModalComponents/ReadingProof";
 
-export default function ProofModal({ isOpen, onClose, pact, streak }) {
+
+export default function ProofModal({ isOpen, onClose, pact, streak, onRefresh }) {
   const [loading, setLoading] = useState(false);
   const [textProof, setTextProof] = useState("");
   const [imageProof, setImageProof] = useState(null);
 
-  const { participants } = usePactCard(pact, streak);
-  const partnerName = participants?.partnerName;
+  const { partner, user } = usePactCard(pact, streak);
+  const partnerName = partner?.name;
   const habitType = pact.habit_name;
 
   const handleClose = () => {
     setTextProof("");
     setImageProof(null);
     setLoading(false);
+    onRefresh();
     onClose();
-  };
-
-  const loadGallery = async () => {
-    const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
-    if (status !== "granted") {
-      Alert.alert(
-        "Permiso denegado",
-        "Se necesita acceso a la galería para esta acción.",
-      );
-      return;
-    }
-
-    const result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ["images"],
-      allowsEditing: true,
-      quality: 0.7,
-      base64: true,
-    });
-
-    console.log(result);
-
-    if (!result.canceled) {
-      setImageProof(result.assets[0]);
-    }
   };
 
   const validateSubmit = () => {
@@ -61,13 +42,24 @@ export default function ProofModal({ isOpen, onClose, pact, streak }) {
     if (!validateSubmit()) return;
     setLoading(true);
 
-    // UploadPhoto(id_streak, id_user, image.base64)
+    const newState = STREAK_USER_STATE.SUBMITTED;
+    const userToUpdate = user.isHost ? "host" : "guest";  // determines which user to update based on whether the current user is the host or guest
 
     try {
-      await uploadProof(streak.id_streak, participants.idUser, imageProof);
+      if (habitType === "Lectura") {
+        const response = await submitTextProof(streak.id_streak, user.id, textProof);  // uploads the text proof to the database
+        console.log(response)
+      } else {
+        const url = await uploadPhoto(streak.id_streak, user.id, imageProof);  // uploads the image to the storage service
+        const response = await submitImageProof(streak.id_streak, user.id, url);  // uploads the public url of the image to the database
+        console.log(response)
+      }
+      await updateUserStateStreak(streak.id_streak, userToUpdate, newState);  // updates the state of the user who submitted the proof
+
       handleClose();
     } catch (error) {
       Alert.alert("Error", "No se pudo enviar la demostración.");
+      console.log(error);
       setLoading(false);
     }
   };
@@ -92,7 +84,6 @@ export default function ProofModal({ isOpen, onClose, pact, streak }) {
         <ImageProof
           imageProof={imageProof}
           setImageProof={setImageProof}
-          onLoadPress={loadGallery}
           title="Subir captura local"
           subtitle="Selecciona la evidencia desde tu galería."
           iconName="image"

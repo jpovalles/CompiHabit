@@ -6,7 +6,7 @@ export default function RenderInvitations({
   invitations,
   type = "received",
   handleShowModal,
-  onAccept,
+  refreshInvitations,
 }) {
   return (
     <FlatList
@@ -18,7 +18,7 @@ export default function RenderInvitations({
           invitation={item}
           type={type}
           handleShowModal={handleShowModal}
-          onAccept={onAccept}
+          refreshInvitations={refreshInvitations}
         />
       )}
       ListEmptyComponent={

@@ -8,7 +8,7 @@ import { getDateDay } from "@/src/utils/extractDate";
 import { parsePact } from "@/src/utils/parsePact";
 import { useFocusEffect } from "expo-router";
 import { useCallback, useEffect, useState } from "react";
-import { Alert, StyleSheet, Text, View } from "react-native";
+import { Alert, FlatList, StyleSheet, Text, View } from "react-native";
 import ProofModal from "../components/ProofModal";
 
 export default function ActivesPacts() {
@@ -72,7 +72,7 @@ export default function ActivesPacts() {
   }
 
   return (
-    <View>
+    <View style={{ flex: 1 }}>
       <CurrentDayPills />
       <View style={{ marginBottom: 10, marginHorizontal: theme.spacing.md }}>
         <Text style={styles.title}>Pactos del día</Text>
@@ -80,27 +80,33 @@ export default function ActivesPacts() {
           ¡Completen sus hábitos y mantengan la racha como equipo!
         </Text>
       </View>
-      {activePacts.map((pact) => (
-        <PactCard
-          key={pact.pact.id_pact}
-          pact={pact.pact}
-          streak={pact.streak}
-          badgeColors={badgeColors}
-          onPress={() => {
-            setShowProofModal(true);
-            setSelectedPact(pact);
-            console.log("pact", pact);
-          }}
-          onRefresh={getActivePacts}
-        />
-      ))}
+      <FlatList
+        data={activePacts}
+        keyExtractor={(item) => item.pact.id_pact.toString()}
+        renderItem={({ item }) => (
+          <PactCard
+            pact={item.pact}
+            streak={item.streak}
+            badgeColors={badgeColors}
+            onPress={() => {
+              setShowProofModal(true);
+              setSelectedPact(item);
+            }}
+            onRefresh={getActivePacts}
+          />
+        )}
+        ListEmptyComponent={
+          <Text style={styles.loadingText}>No hay pactos activos</Text>
+        }
+        contentContainerStyle={{ paddingBottom: 100 }}
+      />
       {selectedPact && (
         <ProofModal
           isOpen={showProofModal}
           onClose={() => setShowProofModal(false)}
-          onSubmit={() => console.log("submit")}
           pact={selectedPact.pact}
           streak={selectedPact.streak}
+          onRefresh={getActivePacts}
         />
       )}
     </View>

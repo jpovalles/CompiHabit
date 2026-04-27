@@ -20,7 +20,6 @@ export default function CameraUIProof({
         base64: true,
       });
       setImageProof(photo);
-      console.log(photo);
     }
   };
 

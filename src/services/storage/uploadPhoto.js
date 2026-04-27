@@ -1,7 +1,7 @@
 import { supabase } from "@/lib/supabase";
 import { decode } from "base64-arraybuffer";
 
-export async function uploadProof(idStreak, idUser, image) {
+export async function uploadPhoto(idStreak, idUser, image) {
   //const image = result.assets[0];
 
   const filePath = `${idStreak}/${idUser}.jpg`;
@@ -19,5 +19,5 @@ export async function uploadProof(idStreak, idUser, image) {
     .from("proofs")
     .getPublicUrl(filePath);
 
-  return urlData.publicUrl;
+  return `${urlData.publicUrl}?t=${new Date().getTime()}`;
 }

@@ -9,7 +9,7 @@ export default function InvitationCard({
   invitation,
   type = "received",
   handleShowModal,
-  onAccept,
+  refreshInvitations,
 }) {
   const { host, guest, habit_type, pact_days, pact_hours } = invitation;
 
@@ -32,7 +32,7 @@ export default function InvitationCard({
     try {
       await acceptInvitation(invitation.id_pact);
       Alert.alert("Invitación aceptada");
-      onAccept();
+      refreshInvitations();
     } catch (error) {
       console.log(error);
       Alert.alert("Error al aceptar la invitación ", error.message);
