@@ -1,12 +1,12 @@
 import { theme } from "@/src/constants/theme";
 import { StyleSheet, Text, TextInput, View } from "react-native";
 
-export default function ReadingProof({ textProof, setTextProof }) {
+export default function ReadingProof({ textProof, setTextProof, readOnly = false }) {
   const isValid = textProof.length >= 150;
-  
+
   return (
     <View style={styles.contentSection}>
-      <Text style={styles.inputLabel}>¿Qué aprendiste hoy?</Text>
+      {!readOnly && <Text style={styles.inputLabel}>¿Qué aprendiste hoy?</Text>}
       <View style={[styles.inputWrapper, isValid && styles.inputWrapperValid]}>
         <TextInput
           style={styles.textArea}
@@ -16,6 +16,8 @@ export default function ReadingProof({ textProof, setTextProof }) {
           numberOfLines={6}
           textAlignVertical="top"
           value={textProof}
+          editable={!readOnly}
+          scrollEnabled={true}
           onChangeText={setTextProof}
         />
       </View>
@@ -51,6 +53,7 @@ const styles = StyleSheet.create({
     flex: 1,
     color: theme.colors.textPrimary,
     fontSize: theme.textSizes.md,
+
   },
   validationText: {
     color: theme.colors.textMuted,

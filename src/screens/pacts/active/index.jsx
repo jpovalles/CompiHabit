@@ -9,13 +9,15 @@ import { parsePact } from "@/src/utils/parsePact";
 import { useFocusEffect } from "expo-router";
 import { useCallback, useEffect, useState } from "react";
 import { Alert, FlatList, StyleSheet, Text, View } from "react-native";
-import ProofModal from "../components/ProofModal";
+import CheckProofModal from "../components/CheckProofModal";
+import UploadProofModal from "../components/UploadProofModal";
 
 export default function ActivesPacts() {
   const [activePacts, setActivePacts] = useState([]);
   const [badgeColors, setBadgeColors] = useState([]);
   const [loading, setLoading] = useState(true);
   const [showProofModal, setShowProofModal] = useState(false);
+  const [showCheckProofModal, setShowCheckProofModal] = useState(false);
   const [selectedPact, setSelectedPact] = useState(null);
 
   const { user } = useAuth();
@@ -88,8 +90,12 @@ export default function ActivesPacts() {
             pact={item.pact}
             streak={item.streak}
             badgeColors={badgeColors}
-            onPress={() => {
+            onPressSubmit={() => {
               setShowProofModal(true);
+              setSelectedPact(item);
+            }}
+            onPressValidate={() => {
+              setShowCheckProofModal(true);
               setSelectedPact(item);
             }}
             onRefresh={getActivePacts}
@@ -100,10 +106,19 @@ export default function ActivesPacts() {
         }
         contentContainerStyle={{ paddingBottom: 100 }}
       />
-      {selectedPact && (
-        <ProofModal
+      {selectedPact && showProofModal && (
+        <UploadProofModal
           isOpen={showProofModal}
           onClose={() => setShowProofModal(false)}
+          pact={selectedPact.pact}
+          streak={selectedPact.streak}
+          onRefresh={getActivePacts}
+        />
+      )}
+      {selectedPact && showCheckProofModal && (
+        <CheckProofModal
+          isOpen={showCheckProofModal}
+          onClose={() => setShowCheckProofModal(false)}
           pact={selectedPact.pact}
           streak={selectedPact.streak}
           onRefresh={getActivePacts}

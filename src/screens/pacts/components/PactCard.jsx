@@ -14,7 +14,8 @@ export default function PactCard({
   pact,
   streak,
   badgeColors,
-  onPress,
+  onPressSubmit,
+  onPressValidate,
   isActive = true,
   onRefresh,
 }) {
@@ -101,8 +102,8 @@ export default function PactCard({
             isDayCompleted={isDayCompleted}
             myStateId={myStateId}
             partnerStateId={partnerStateId}
-            onPressSubmit={onPress}
-            onPressValidate={handleValidateProof}
+            onPressSubmit={onPressSubmit}
+            onPressValidate={onPressValidate}
             toggleButtons={toggleButtons}
           />
         )}

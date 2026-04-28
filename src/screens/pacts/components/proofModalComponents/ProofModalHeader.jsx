@@ -11,7 +11,7 @@ export default function ProofModalHeader({
     <View style={styles.header}>
       <View style={styles.titleContainer}>
         <Text style={styles.modalTitle}>{habitType || "Nuevo Hábito"}</Text>
-        <Text style={styles.modalSubtitle}>Con {partnerName || "tu colega"}</Text>
+        <Text style={styles.modalSubtitle}>Con {partnerName || "tu compi"}</Text>
       </View>
       <Pressable onPress={onClose} style={({ pressed }) => [styles.closeIcon, pressed && styles.pressedState]}>
         <FontAwesome5 name="times" size={20} color={theme.colors.textMuted} />

@@ -10,6 +10,8 @@ export default function ImageProof({
   subtitle,
   iconName,
   inputLabel,
+  readOnly = false,
+
 }) {
   const loadGallery = async () => {
     const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
@@ -32,24 +34,27 @@ export default function ImageProof({
       setImageProof(result.assets[0]);
     }
   };
+
   return (
     <View style={styles.contentSection}>
       <Text style={styles.inputLabel}>{inputLabel}</Text>
       {imageProof ? (
         <View style={styles.imagePreviewContainer}>
           <Image
-            source={{ uri: imageProof.uri }}
+            source={{ uri: readOnly ? imageProof : imageProof.uri }}
             style={styles.previewImage}
             resizeMode="cover"
           />
-          <Pressable
-            style={styles.discardButton}
-            onPress={() => setImageProof(null)}
-          >
-            <FontAwesome5 name="trash" size={14} color="#ffffff" />
-          </Pressable>
+          {!readOnly && (
+            <Pressable
+              style={styles.discardButton}
+              onPress={() => setImageProof(null)}
+            >
+              <FontAwesome5 name="trash" size={14} color="#ffffff" />
+            </Pressable>
+          )}
         </View>
-      ) : (
+      ) : !readOnly ? (
         <Pressable style={styles.uploadPlaceholder} onPress={loadGallery}>
           <View style={styles.placeholderIconContainer}>
             <FontAwesome5
@@ -61,6 +66,18 @@ export default function ImageProof({
           <Text style={styles.placeholderTitle}>{title}</Text>
           <Text style={styles.placeholderSubtitle}>{subtitle}</Text>
         </Pressable>
+      ) : (
+        <View style={styles.noImagePlaceholder}>
+          <FontAwesome5
+            name={iconName}
+            size={32}
+            color={theme.colors.textMuted}
+            style={{ opacity: 0.5 }}
+          />
+          <Text style={styles.noImageText}>
+            Sin evidencia
+          </Text>
+        </View>
       )}
     </View>
   );

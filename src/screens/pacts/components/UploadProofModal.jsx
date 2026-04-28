@@ -14,7 +14,7 @@ import ProofModalHeader from "./proofModalComponents/ProofModalHeader";
 import ReadingProof from "./proofModalComponents/ReadingProof";
 
 
-export default function ProofModal({ isOpen, onClose, pact, streak, onRefresh }) {
+export default function UploadProofModal({ isOpen, onClose, pact, streak, onRefresh }) {
   const [loading, setLoading] = useState(false);
   const [textProof, setTextProof] = useState("");
   const [imageProof, setImageProof] = useState(null);
@@ -48,18 +48,15 @@ export default function ProofModal({ isOpen, onClose, pact, streak, onRefresh })
     try {
       if (habitType === "Lectura") {
         const response = await submitTextProof(streak.id_streak, user.id, textProof);  // uploads the text proof to the database
-        console.log(response)
       } else {
         const url = await uploadPhoto(streak.id_streak, user.id, imageProof);  // uploads the image to the storage service
         const response = await submitImageProof(streak.id_streak, user.id, url);  // uploads the public url of the image to the database
-        console.log(response)
       }
       await updateUserStateStreak(streak.id_streak, userToUpdate, newState);  // updates the state of the user who submitted the proof
 
       handleClose();
     } catch (error) {
       Alert.alert("Error", "No se pudo enviar la demostración.");
-      console.log(error);
       setLoading(false);
     }
   };

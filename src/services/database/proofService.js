@@ -13,3 +13,13 @@ export const submitProof = async (id_streak, id_user, media_url = null, summary 
     if (error) throw error;
     return data;
 };
+
+export const getProofData = async (id_streak, id_submitted_by) => {
+    const { data, error } = await supabase
+        .from("proofs")
+        .select("*")
+        .eq("id_streak", id_streak)
+        .eq("id_submitted_by", id_submitted_by);
+    if (error) throw error;
+    return data[0];
+};
