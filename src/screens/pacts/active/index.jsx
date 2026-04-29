@@ -7,10 +7,11 @@ import PactCard from "@/src/screens/pacts/components/PactCard";
 import { getDateDay } from "@/src/utils/extractDate";
 import { parsePact } from "@/src/utils/parsePact";
 import { useFocusEffect } from "expo-router";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useState } from "react";
 import { Alert, FlatList, StyleSheet, Text, View } from "react-native";
 import CheckProofModal from "../components/CheckProofModal";
 import UploadProofModal from "../components/UploadProofModal";
+import { useStreakListener } from "../hooks/useStreakListener";
 
 export default function ActivesPacts() {
   const [activePacts, setActivePacts] = useState([]);
@@ -52,9 +53,24 @@ export default function ActivesPacts() {
     }, []),
   );
 
-  useEffect(() => {
-    console.log(activePacts[1]?.streak);
-  }, [activePacts]);
+  useStreakListener(() => {
+    getActivePacts();
+  });
+
+  // useEffect(() => {
+  //     const channel = supabase
+  //         .channel("test-streak-hardcoded") // static name
+  //         .on(
+  //             "postgres_changes",
+  //             { event: "UPDATE", schema: "public", table: "streaks" },
+  //             (payload) => {
+  //                 console.log("🔥 EVENT RECEIVED:", payload);
+  //             }
+  //         )
+  //         .subscribe((status) => console.log("Status:", status));
+
+  //     return () => supabase.removeChannel(channel);
+  // }, []);
 
   if (loading) {
     return (

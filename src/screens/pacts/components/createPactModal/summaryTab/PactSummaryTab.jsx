@@ -1,8 +1,8 @@
 import { theme } from "@/src/constants/theme";
-import { useEffect } from "react";
-import { ScrollView, StyleSheet, Text, View } from "react-native";
 import ProfileCard from "@/src/screens/pacts/components/createPactModal/guestTab/ProfileCard";
 import HabitButton from "@/src/screens/pacts/components/createPactModal/habitTab/HabitButton";
+import { useEffect } from "react";
+import { ScrollView, StyleSheet, Text, View } from "react-native";
 
 
 export default function PactSummaryTab({ pactData, setFieldFilled }) {
@@ -46,13 +46,6 @@ export default function PactSummaryTab({ pactData, setFieldFilled }) {
                                 : "Ninguno"}
                         </Text>
                     </View>
-
-                    {pactData.pact_hours && (
-                        <View style={styles.summaryItem}>
-                            <Text style={styles.itemLabel}>Horas permitidas:</Text>
-                            <Text style={styles.itemValue}>{pactData.pact_hours ? `${pactData.pact_hours} h` : "No establecido"}</Text>
-                        </View>
-                    )}
                 </View>
             </View>
 

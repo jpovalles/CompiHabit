@@ -11,7 +11,7 @@ export default function InvitationCard({
   handleShowModal,
   refreshInvitations,
 }) {
-  const { host, guest, habit_type, pact_days, pact_hours } = invitation;
+  const { host, guest, habit_type, pact_days } = invitation;
 
   const isReceived = type === "received";
   const person = isReceived ? host : guest;
@@ -76,17 +76,6 @@ export default function InvitationCard({
           </Text>
         </View>
 
-        {pact_hours > 0 && (
-          <View style={styles.detailItem}>
-            <FontAwesome5
-              name="clock"
-              size={14}
-              color={theme.colors.textMuted}
-              style={styles.icon}
-            />
-            <Text style={styles.detailText}>{pact_hours} horas</Text>
-          </View>
-        )}
       </View>
 
       <View style={styles.actionsContainer}>

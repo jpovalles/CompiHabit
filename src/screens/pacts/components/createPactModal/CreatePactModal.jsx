@@ -36,7 +36,6 @@ export default function CreatePactModal({ visible, onClose }) {
     habit_name: "",
     habit_description: "",
     pact_days: [],
-    pact_hours: null,
   });
 
   const handleCreatePact = async () => {
@@ -61,7 +60,6 @@ export default function CreatePactModal({ visible, onClose }) {
       habit_name: "",
       habit_description: "",
       pact_days: [],
-      pact_hours: null,
     });
     onClose();
   };

@@ -1,8 +1,8 @@
 import { theme } from "@/src/constants/theme";
 import { loadHabits } from "@/src/logic/habitsLogic";
+import HabitButton from "@/src/screens/pacts/components/createPactModal/habitTab/HabitButton";
 import { useEffect, useState } from "react";
 import { Alert, StyleSheet, Text, View } from "react-native";
-import HabitButton from "@/src/screens/pacts/components/createPactModal/habitTab/HabitButton";
 
 
 
@@ -30,7 +30,7 @@ export default function HabitSelectionTab({ pactData, setPactData, setFieldFille
 
     const handleSelect = (id_selected, habit_name, habit_description) => {
         setSelectedHabit(id_selected);
-        setPactData({ ...pactData, pact_hours: null, id_habit_type: id_selected, habit_name: habit_name, habit_description: habit_description });
+        setPactData({ ...pactData, id_habit_type: id_selected, habit_name: habit_name, habit_description: habit_description });
     };
 
     useEffect(() => {

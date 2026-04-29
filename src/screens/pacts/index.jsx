@@ -20,8 +20,6 @@ export default function Pacts() {
 
     const [showCreate, setShowCreate] = useState(false);
 
-
-
     return (
         <SafeAreaView style={styles.container}>
             <View style={styles.header}>
