@@ -12,8 +12,8 @@ import InvitationsPacts from "./invitations";
 
 export default function Pacts() {
     const tabs = [
-        { id: 0, label: "Activos" },
-        { id: 1, label: "Inactivos" },
+        { id: 0, label: "Hoy" },
+        { id: 1, label: "No hoy" },
         { id: 2, label: "Invitaciones" },
     ];
     const [activeTab, setActiveTab] = useState(0);

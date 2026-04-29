@@ -93,9 +93,9 @@ export default function ActivesPacts() {
     <View style={{ flex: 1 }}>
       <CurrentDayPills />
       <View style={{ marginBottom: 10, marginHorizontal: theme.spacing.md }}>
-        <Text style={styles.title}>Pactos del día</Text>
+        <Text style={styles.title}>Pactos de hoy</Text>
         <Text style={styles.subtitle}>
-          ¡Completen sus hábitos y mantengan la racha como equipo!
+          ¡Hagan sus hábitos y mantengan la racha como equipo!
         </Text>
       </View>
       <FlatList
