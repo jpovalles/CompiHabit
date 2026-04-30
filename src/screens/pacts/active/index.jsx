@@ -15,6 +15,24 @@ import UploadProofModal from "../components/UploadProofModal";
 import { useStreakListener } from "../hooks/useStreakListener";
 import { useStreakNotifications } from "../hooks/useStreakNotifications";
 
+const LoadingMessage = () => {
+  return (
+    <View style={styles.centered}>
+      <Text style={styles.loadingText}>Cargando pactos...</Text>
+    </View>
+  );
+};
+
+const NoActivePactsMessage = () => {
+  return (
+    <View style={styles.centered}>
+      <Text style={styles.loadingText}>
+        No hay pactos para hoy. ¡Anímate a crear uno!
+      </Text>
+    </View>
+  );
+};
+
 export default function ActivesPacts() {
   const [activePacts, setActivePacts] = useState([]);
   const [badgeColors, setBadgeColors] = useState([]);
@@ -67,79 +85,72 @@ export default function ActivesPacts() {
     getActivePacts();
   });
 
-  if (loading) {
-    return (
-      <View style={styles.centered}>
-        <Text style={styles.loadingText}>Cargando pactos...</Text>
-      </View>
-    );
-  }
-
-  if (activePacts.length === 0) {
-    return (
-      <View style={styles.centered}>
-        <CurrentDayPills />
-        <Text style={styles.loadingText}>No hay pactos activos</Text>
-      </View>
-    );
-  }
-
   return (
     <View style={{ flex: 1 }}>
       <CurrentDayPills />
-      <View style={{ marginBottom: 10, marginHorizontal: theme.spacing.md }}>
-        <Text style={styles.title}>Pactos de hoy</Text>
-        <Text style={styles.subtitle}>
-          ¡Hagan sus hábitos y mantengan la racha como equipo!
-        </Text>
-      </View>
-      <FlatList
-        data={activePacts}
-        keyExtractor={(item) => item.pact.id_pact.toString()}
-        renderItem={({ item }) => (
-          <PactCard
-            pact={item.pact}
-            streak={item.streak}
-            badgeColors={badgeColors}
-            onPressSubmit={() => {
-              setShowProofModal(true);
-              setSelectedPact(item);
-            }}
-            onPressValidate={() => {
-              setShowCheckProofModal(true);
-              setSelectedPact(item);
-            }}
-            onRefresh={getActivePacts}
+      {loading ? (
+        <LoadingMessage />
+      ) : activePacts.length === 0 ? (
+        <NoActivePactsMessage />
+      ) : (
+        <>
+          <View
+            style={{ marginBottom: 10, marginHorizontal: theme.spacing.md }}
+          >
+            <Text style={styles.title}>Pactos de hoy</Text>
+            <Text style={styles.subtitle}>
+              ¡Hagan sus hábitos y mantengan la racha como equipo!
+            </Text>
+          </View>
+          <FlatList
+            data={activePacts}
+            keyExtractor={(item) => item.pact.id_pact.toString()}
+            renderItem={({ item }) => (
+              <PactCard
+                pact={item.pact}
+                streak={item.streak}
+                badgeColors={badgeColors}
+                onPressSubmit={() => {
+                  setShowProofModal(true);
+                  setSelectedPact(item);
+                }}
+                onPressValidate={() => {
+                  setShowCheckProofModal(true);
+                  setSelectedPact(item);
+                }}
+                onRefresh={getActivePacts}
+              />
+            )}
+            ListEmptyComponent={
+              <Text style={styles.loadingText}>No hay pactos activos</Text>
+            }
+            contentContainerStyle={{ paddingBottom: 100 }}
           />
-        )}
-        ListEmptyComponent={
-          <Text style={styles.loadingText}>No hay pactos activos</Text>
-        }
-        contentContainerStyle={{ paddingBottom: 100 }}
-      />
-      {selectedPact && showProofModal && (
-        <UploadProofModal
-          isOpen={showProofModal}
-          onClose={() => setShowProofModal(false)}
-          pact={selectedPact.pact}
-          streak={selectedPact.streak}
-          onRefresh={getActivePacts}
-        />
+          {selectedPact && showProofModal && (
+            <UploadProofModal
+              isOpen={showProofModal}
+              onClose={() => setShowProofModal(false)}
+              pact={selectedPact.pact}
+              streak={selectedPact.streak}
+              onRefresh={getActivePacts}
+            />
+          )}
+          {selectedPact && showCheckProofModal && (
+            <CheckProofModal
+              isOpen={showCheckProofModal}
+              onClose={() => setShowCheckProofModal(false)}
+              pact={selectedPact.pact}
+              streak={selectedPact.streak}
+              onRefresh={getActivePacts}
+            />
+          )}
+          <ResetNotifications
+            notifications={notifications}
+            onMarkAsSeen={markAsSeen}
+            onMarkAllAsSeen={markAllAsSeen}
+          />
+        </>
       )}
-      {selectedPact && showCheckProofModal && (
-        <CheckProofModal
-          isOpen={showCheckProofModal}
-          onClose={() => setShowCheckProofModal(false)}
-          pact={selectedPact.pact}
-          streak={selectedPact.streak}
-          onRefresh={getActivePacts}
-        />
-      )}
-      <ResetNotifications
-        notifications={notifications}
-        onMarkAsSeen={markAsSeen}
-        onMarkAllAsSeen={markAllAsSeen}
-      />
     </View>
   );
 }
