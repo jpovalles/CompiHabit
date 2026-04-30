@@ -10,8 +10,10 @@ import { useFocusEffect } from "expo-router";
 import { useCallback, useState } from "react";
 import { Alert, FlatList, StyleSheet, Text, View } from "react-native";
 import CheckProofModal from "../components/CheckProofModal";
+import ResetNotifications from "../components/ResetNotifications";
 import UploadProofModal from "../components/UploadProofModal";
 import { useStreakListener } from "../hooks/useStreakListener";
+import { useStreakNotifications } from "../hooks/useStreakNotifications";
 
 export default function ActivesPacts() {
   const [activePacts, setActivePacts] = useState([]);
@@ -20,6 +22,13 @@ export default function ActivesPacts() {
   const [showProofModal, setShowProofModal] = useState(false);
   const [showCheckProofModal, setShowCheckProofModal] = useState(false);
   const [selectedPact, setSelectedPact] = useState(null);
+
+  const {
+    notifications,
+    markAsSeen,
+    markAllAsSeen,
+    fetchPendingNotifications,
+  } = useStreakNotifications();
 
   const { user } = useAuth();
 
@@ -50,27 +59,13 @@ export default function ActivesPacts() {
     useCallback(() => {
       getActivePacts();
       getBadgeLevels();
+      fetchPendingNotifications();
     }, []),
   );
 
   useStreakListener(() => {
     getActivePacts();
   });
-
-  // useEffect(() => {
-  //     const channel = supabase
-  //         .channel("test-streak-hardcoded") // static name
-  //         .on(
-  //             "postgres_changes",
-  //             { event: "UPDATE", schema: "public", table: "streaks" },
-  //             (payload) => {
-  //                 console.log("🔥 EVENT RECEIVED:", payload);
-  //             }
-  //         )
-  //         .subscribe((status) => console.log("Status:", status));
-
-  //     return () => supabase.removeChannel(channel);
-  // }, []);
 
   if (loading) {
     return (
@@ -140,6 +135,11 @@ export default function ActivesPacts() {
           onRefresh={getActivePacts}
         />
       )}
+      <ResetNotifications
+        notifications={notifications}
+        onMarkAsSeen={markAsSeen}
+        onMarkAllAsSeen={markAllAsSeen}
+      />
     </View>
   );
 }
