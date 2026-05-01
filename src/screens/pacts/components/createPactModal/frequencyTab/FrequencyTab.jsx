@@ -8,6 +8,7 @@ export default function FrequencyTab({
   setFieldFilled,
 }) {
   const [days, setDays] = useState(pactData.pact_days || []);
+  const [hours, setHours] = useState(pactData.pact_hours || null);
 
   const DAYS_OF_WEEK = [
     { id: 0, label: "D" },
@@ -19,6 +20,14 @@ export default function FrequencyTab({
     { id: 6, label: "S" },
   ];
 
+  const HOURS_RANGE = [1, 2, 3, 4, 5];
+
+  const requiresHours = pactData.habit_name?.toLowerCase() === "tiempo en pantalla";
+  useEffect(() => {
+    console.log(pactData.habit_name?.toLowerCase())
+  }, []);
+
+
   const toggleDay = (dayId) => {
     setDays((prev) => {
       const newDays = prev.includes(dayId)
@@ -29,9 +38,10 @@ export default function FrequencyTab({
   };
 
   useEffect(() => {
-    setPactData((prev) => ({ ...prev, pact_days: days }));
+    setPactData(prev => ({ ...prev, pact_days: days, pact_hours: hours }));
 
     let isValid = days.length >= 3;
+    if (requiresHours) isValid = hours !== null;
 
     setFieldFilled(isValid);
   }, [days]);
@@ -40,7 +50,7 @@ export default function FrequencyTab({
     <View style={styles.container}>
       <Text style={styles.title}>Establece la frecuencia</Text>
       <Text style={styles.description}>
-        ¿Qué días quieres realizar esta actividad?
+        ¿Qué días quieres realizar esta actividad con tu compi?
       </Text>
 
       <View style={styles.daysContainer}>
@@ -95,6 +105,31 @@ export default function FrequencyTab({
           <Text style={styles.quickSelectText}>Limpiar días</Text>
         </TouchableOpacity>
       </View>
+
+      {requiresHours && (
+        <>
+          <Text style={[styles.description, { marginTop: theme.spacing.xl }]}>
+            ¿Cuánto tiempo podrán usar el celular al día?
+          </Text>
+          <View style={styles.hoursContainer}>
+            {HOURS_RANGE.map((hour) => {
+              const isSelected = hours === hour;
+              return (
+                <TouchableOpacity
+                  key={hour}
+                  style={[styles.hourBox, isSelected && styles.hourBoxSelected]}
+                  onPress={() => setHours(hour)}
+                  activeOpacity={0.8}
+                >
+                  <Text style={[styles.hourText, isSelected && styles.hourTextSelected]}>
+                    {hour + "h"}
+                  </Text>
+                </TouchableOpacity>
+              );
+            })}
+          </View>
+        </>
+      )}
     </View>
   );
 }
@@ -156,5 +191,33 @@ const styles = StyleSheet.create({
     fontSize: theme.textSizes.sm,
     color: theme.colors.textMuted,
     fontWeight: theme.font.semibold.toString(),
+  },
+
+  hoursContainer: {
+    flexDirection: "row",
+    flexWrap: "wrap",
+    gap: theme.spacing.md,
+  },
+  hourBox: {
+    width: "30%", // approx 3 items per row
+    paddingVertical: theme.spacing.md,
+    backgroundColor: theme.colors.surface,
+    borderRadius: theme.radius.md,
+    justifyContent: "center",
+    alignItems: "center",
+    borderWidth: 2,
+    borderColor: "transparent",
+  },
+  hourBoxSelected: {
+    backgroundColor: theme.colors.surface,
+    borderColor: theme.colors.primary,
+  },
+  hourText: {
+    fontSize: theme.textSizes.md,
+    color: theme.colors.textMuted,
+    fontWeight: theme.font.semibold.toString(),
+  },
+  hourTextSelected: {
+    color: theme.colors.primary,
   },
 });

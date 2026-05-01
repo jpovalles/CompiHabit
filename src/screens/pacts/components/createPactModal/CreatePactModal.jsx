@@ -26,8 +26,7 @@ export default function CreatePactModal({ visible, onClose }) {
     setFieldFilled(false);
   };
 
-  // Object to be sent to the database
-  const [pactData, setPactData] = useState({
+  const pact_data = {
     id_host: session.user.id,
     id_guest: "",
     guest_name: "",
@@ -36,7 +35,11 @@ export default function CreatePactModal({ visible, onClose }) {
     habit_name: "",
     habit_description: "",
     pact_days: [],
-  });
+    pact_hours: null,
+  };
+
+  // Object to be sent to the database
+  const [pactData, setPactData] = useState(pact_data);
 
   const handleCreatePact = async () => {
     const { guest_name, habit_name, habit_description, ...rest } = pactData;
@@ -51,16 +54,7 @@ export default function CreatePactModal({ visible, onClose }) {
 
   const handleClose = () => {
     setActiveTab(0);
-    setPactData({
-      id_host: session.user.id,
-      id_guest: "",
-      guest_name: "",
-      id_status_pact: 1,
-      id_habit_type: 0,
-      habit_name: "",
-      habit_description: "",
-      pact_days: [],
-    });
+    setPactData(pact_data);
     onClose();
   };
 

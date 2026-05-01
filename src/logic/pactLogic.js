@@ -39,6 +39,7 @@ const getInvitations = async (userId, type = "received") => {
     id_host,
     id_guest,
     pact_days,
+    pact_hours,
     id_status_pact,
     habit_type (
       habit_name

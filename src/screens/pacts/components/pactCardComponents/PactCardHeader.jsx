@@ -1,10 +1,12 @@
 import { theme } from '@/src/constants/theme';
 import FlameBadge from '@/src/screens/pacts/components/FlameBadge';
-import React from 'react';
+import { FontAwesome5 } from '@expo/vector-icons';
 import { Image, StyleSheet, Text, View } from 'react-native';
+
 
 export default function PactCardHeader({
   habitName,
+  pact_hours,
   partnerAvatar,
   partnerName,
   currentBadge,
@@ -12,10 +14,25 @@ export default function PactCardHeader({
   currentDays,
   isActive,
 }) {
+  console.log("habit name ", habitName);
+  console.log("pact_hours", pact_hours);
   return (
     <View style={styles.topRow}>
       <View style={styles.titleBlock}>
         <Text style={styles.title}>{habitName}</Text>
+        {pact_hours && (
+          <View style={styles.detailItem}>
+            <FontAwesome5
+              name="clock"
+              size={14}
+              color={theme.colors.textPrimary}
+              style={styles.icon}
+            />
+            <Text style={styles.detailText}>
+              {pact_hours ? `${pact_hours}h` : "No especificado"}
+            </Text>
+          </View>
+        )}
         <View style={styles.partnerRow}>
           {partnerAvatar ? (
             <Image
@@ -107,5 +124,24 @@ const styles = StyleSheet.create({
     fontSize: 11,
     fontWeight: theme.font.bold.toString(),
     letterSpacing: 0.5,
+  },
+  detailItem: {
+    marginVertical: theme.spacing.xs,
+    width: "50%",
+    backgroundColor: theme.colors.primary,
+    borderRadius: theme.radius.md,
+    paddingHorizontal: theme.spacing.sm,
+    paddingVertical: theme.spacing.xs,
+    flexDirection: "row",
+    alignItems: "center",
+  },
+  icon: {
+    width: 20,
+    textAlign: "center",
+  },
+  detailText: {
+    color: theme.colors.textPrimary,
+    fontSize: theme.textSizes.sm,
+    marginLeft: theme.spacing.sm,
   },
 });

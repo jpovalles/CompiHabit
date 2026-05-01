@@ -11,7 +11,7 @@ export default function InvitationCard({
   handleShowModal,
   refreshInvitations,
 }) {
-  const { host, guest, habit_type, pact_days } = invitation;
+  const { host, guest, habit_type, pact_days, pact_hours } = invitation;
 
   const isReceived = type === "received";
   const person = isReceived ? host : guest;
@@ -76,6 +76,19 @@ export default function InvitationCard({
           </Text>
         </View>
 
+        {pact_hours && (
+          <View style={styles.detailItem}>
+            <FontAwesome5
+              name="clock"
+              size={14}
+              color={theme.colors.textMuted}
+              style={styles.icon}
+            />
+            <Text style={styles.detailText}>
+              {pact_hours ? `${pact_hours}h` : "No especificado"}
+            </Text>
+          </View>
+        )}
       </View>
 
       <View style={styles.actionsContainer}>
@@ -165,11 +178,12 @@ const styles = StyleSheet.create({
     marginTop: 2,
   },
   detailsContainer: {
+    justifyContent: "space-around",
+    flexDirection: "row",
     backgroundColor: "#1e1e3a",
     borderRadius: theme.radius.md || 10,
     padding: theme.spacing.sm,
     marginBottom: theme.spacing.md,
-    gap: theme.spacing.sm,
   },
   detailItem: {
     flexDirection: "row",

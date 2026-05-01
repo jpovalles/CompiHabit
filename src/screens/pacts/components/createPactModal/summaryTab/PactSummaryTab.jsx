@@ -46,6 +46,16 @@ export default function PactSummaryTab({ pactData, setFieldFilled }) {
                                 : "Ninguno"}
                         </Text>
                     </View>
+
+                    {pactData.pact_hours && (
+                        <View style={styles.summaryItem}>
+                            <Text style={styles.itemLabel}>Tiempo en pantalla permitido:</Text>
+                            <Text style={styles.itemValue}>
+                                {pactData.pact_hours
+                                    ? `${pactData.pact_hours}h`
+                                    : "No especificado"}
+                            </Text>
+                        </View>)}
                 </View>
             </View>
 
@@ -57,7 +67,6 @@ export default function PactSummaryTab({ pactData, setFieldFilled }) {
                             username: pactData.guest_name || pactData.id_guest || "Sin compañero seleccionado",
                         }}
                         selected={false}
-                        onSelect={() => { }}
                     />
                 </View>
             </View>
