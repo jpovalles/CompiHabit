@@ -111,9 +111,9 @@ export default function InvitationsPacts() {
 
 const styles = StyleSheet.create({
   emptyText: {
-    color: theme.colors.textMuted,
+    fontSize: theme.textSizes.md,
+    color: theme.colors.textPrimary,
     textAlign: "center",
     marginTop: 20,
-    fontSize: theme.textSizes.sm,
   },
 });

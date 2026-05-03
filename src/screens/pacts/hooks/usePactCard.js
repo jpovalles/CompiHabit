@@ -40,7 +40,6 @@ const getBadgeData = (currentDays = 0, id_streak_colors, badgeColors) => {
 
 export const usePactCard = (pact, streak, badgeColors) => {
   const { user: currentUser } = useAuth();
-  console.log(streak);
 
   return {
     ...getParticipantData(currentUser, pact, streak),

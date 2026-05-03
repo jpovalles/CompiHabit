@@ -62,6 +62,25 @@ export const check_morning_streak = async (achievement) => {
     return { ...achievement, current_progress: achieved ? 1 : 0, achieved: achieved }
 }
 
+export const check_master_consistency = async (achievement) => {
+    const { data: badge_data, error: badge_error } = await supabase
+        .rpc("get_max_badge_level", { user_id: achievement.id_user });
+
+    const { data: streak_data, error: streak_error } = await supabase
+        .from("streak_colors")
+        .select("id_streak_colors")
+
+    const levels = streak_data?.length
+    const achieved = badge_data >= levels;
+
+    console.log("badge_data", badge_data)
+    console.log("levels", levels)
+    console.log("achieved", achieved)
+
+    await update_achievement(achievement, badge_data, achieved);
+    return { ...achievement, current_progress: badge_data, achieved: achieved }
+}
+
 const checkAchieved = async (achievement) => {
     if (achievement.achieved) return achievement;
 

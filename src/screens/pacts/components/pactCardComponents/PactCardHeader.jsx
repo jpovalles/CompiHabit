@@ -14,8 +14,8 @@ export default function PactCardHeader({
   currentDays,
   isActive,
 }) {
-  console.log("habit name ", habitName);
-  console.log("pact_hours", pact_hours);
+  const lightFlame = currentDays !== 0 && (isDayCompleted || !isActive);
+
   return (
     <View style={styles.topRow}>
       <View style={styles.titleBlock}>
@@ -55,13 +55,13 @@ export default function PactCardHeader({
           primary={currentBadge?.primary_color}
           secondary={currentBadge?.secondary_color}
           size={40}
-          active={isDayCompleted || !isActive}
+          active={lightFlame}
         />
         <Text
           style={[
             styles.streakCount,
             {
-              color: isDayCompleted || !isActive
+              color: lightFlame
                 ? theme.colors.primary
                 : theme.colors.textMuted,
             },

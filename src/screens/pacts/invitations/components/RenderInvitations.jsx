@@ -24,7 +24,8 @@ export default function RenderInvitations({
       ListEmptyComponent={
         <Text
           style={{
-            color: theme.colors.textMuted,
+            fontSize: theme.textSizes.md,
+            color: theme.colors.textPrimary,
             textAlign: "center",
             marginTop: 20,
           }}

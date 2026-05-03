@@ -6,7 +6,7 @@ import { useCallback } from "react";
 import { FlatList, StyleSheet, Text } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import AchievementCard from "./components/AchievementCard";
-import { check_morning_streak, check_night_streak } from "./hooks/useCheckAchievements";
+import { check_master_consistency, check_morning_streak, check_night_streak } from "./hooks/useCheckAchievements";
 
 
 export default function Achievements() {
@@ -65,6 +65,9 @@ export default function Achievements() {
                     }
                     if (achievement.title === "Guardián de la noche") {
                         check_night_streak(achievement);
+                    }
+                    if (achievement.title === "Maestro de la constancia") {
+                        check_master_consistency(achievement);
                     }
                 });
             };
