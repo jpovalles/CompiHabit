@@ -74,11 +74,7 @@ export default function Achievements() {
             <FlatList
                 data={achievements}
                 style={{ flex: 1, marginTop: theme.spacing.lg, width: "100%" }}
-                contentContainerStyle={{ justifyContent: "space-between" }}
-                numColumns={2}
-                columnWrapperStyle={{
-                    justifyContent: "space-between"
-                }}
+                numColumns={1}
                 renderItem={({ item }) => (
                     <AchievementCard
                         icon={item.icon}

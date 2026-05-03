@@ -12,7 +12,5 @@ export const fetchUserAchievements = async (id_user) => {
         current_progress: item.current_progress,
         ...item.achievements,
     }));
-    console.log(formatted[0]);
-    console.log(formatted.length);
     return formatted;
 }   

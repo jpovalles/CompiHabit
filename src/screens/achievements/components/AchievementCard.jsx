@@ -99,8 +99,8 @@ const styles = StyleSheet.create({
     borderTopColor: theme.colors.border,
   },
   description: {
-    color: theme.colors.textMuted,
-    fontSize: theme.textSizes.sm,
+    color: theme.colors.textPrimary,
+    fontSize: theme.textSizes.md,
     lineHeight: 20,
   }
 });
