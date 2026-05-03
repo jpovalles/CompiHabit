@@ -1,6 +1,6 @@
 import { theme } from "@/src/constants/theme";
 import { useAuth } from "@/src/context/AuthContext";
-import { handleEditUsername, fetchUserById } from "@/src/logic/profileLogic";
+import { fetchUserById, handleEditUsername } from "@/src/logic/profileLogic";
 import { useEffect, useState } from "react";
 import { Alert, StyleSheet, Text } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
