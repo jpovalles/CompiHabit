@@ -2,7 +2,8 @@ import { StyleSheet, View } from "react-native";
 import { Defs, G, LinearGradient, Path, Stop, Svg } from "react-native-svg";
 
 export default function FlameBadge({ primary, secondary, size = 30, active = true }) {
-
+  console.log("primary", primary);
+  console.log("secondary", secondary);
   const colors = active
     ? { gradient: [primary, secondary], fills: [secondary] }
     : { gradient: ["#ffffff", "#a29a9a"], fills: ["#a29a9a"] };

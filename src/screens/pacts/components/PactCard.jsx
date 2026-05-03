@@ -37,7 +37,7 @@ export default function PactCard({
 
 
   // Badge data
-  const { currentBadge, nextBadge, nextLevelTarget, progressPercent } = badge;
+  const { currentBadge, nextBadge, daysRequired, progressPercent } = badge;
 
 
   const { current_days, id_streak } = streak;
@@ -75,7 +75,7 @@ export default function PactCard({
           nextBadge={nextBadge}
           progressPercent={progressPercent}
           currentDays={current_days}
-          nextLevelTarget={nextLevelTarget}
+          daysRequired={daysRequired}
         />
 
         {/* expand button */}

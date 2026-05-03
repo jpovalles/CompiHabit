@@ -104,6 +104,7 @@ export default function CheckProofModal({
       handleClose();
     } catch (error) {
       Alert.alert("Error", "No se pudo aceptar la demostración.");
+      console.error(error);
     }
   };
 

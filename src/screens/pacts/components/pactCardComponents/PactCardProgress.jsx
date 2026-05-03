@@ -1,13 +1,13 @@
-import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
 import { theme } from '@/src/constants/theme';
 import FlameBadge from '@/src/screens/pacts/components/FlameBadge';
+import React from 'react';
+import { StyleSheet, Text, View } from 'react-native';
 
 export default function PactCardProgress({
   nextBadge,
   progressPercent,
   currentDays,
-  nextLevelTarget,
+  daysRequired,
 }) {
   if (!nextBadge) return null;
 
@@ -23,7 +23,7 @@ export default function PactCardProgress({
       </View>
       <View style={styles.progressLabelRow}>
         <Text style={styles.progressText}>
-          {currentDays} / {nextLevelTarget} días
+          {currentDays} / {daysRequired} días
         </Text>
         <FlameBadge
           primary={nextBadge?.primary_color}

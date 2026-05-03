@@ -1,17 +1,24 @@
 import { theme } from "@/src/constants/theme";
+import { useAuth } from "@/src/context/AuthContext";
+import { fetchUserAchievements } from "@/src/logic/achievements";
+import { useFocusEffect } from "expo-router";
+import { useCallback } from "react";
 import { FlatList, StyleSheet, Text } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import AchievementCard from "./components/AchievementCard";
+import { check_morning_streak, check_night_streak } from "./hooks/useCheckAchievements";
+
 
 export default function Achievements() {
+    const { session } = useAuth();
     const achievements = [
         {
             "achieved": false,
             "current_progress": 0,
             "title": "Deber diario",
-            "description": "Crea un pacto configurado para cumplirse todos los días y completa una semana de racha. Este logro refleja tu intención de construir hábitos sólidos y constantes.",
+            "description": "Crea un pacto configurado para cumplirse todos los días y completa una semana de racha.",
             "icon": "calendar-check",
-            "goal_value": 1
+            "goal_value": 7
         },
         {
             "icon": "palette",
@@ -25,7 +32,7 @@ export default function Achievements() {
             "icon": "moon",
             "achieved": false,
             "title": "Guardián de la noche",
-            "description": "Activa una racha con tu compi después de las 9:00 p.m. Ideal para quienes encuentran su productividad en la noche.",
+            "description": "Activa una racha con tu compi después de las 9:00 p.m.",
             "current_progress": 0,
             "goal_value": 1
         },
@@ -33,7 +40,7 @@ export default function Achievements() {
             "icon": "cloud-sun",
             "achieved": false,
             "title": "Disciplina mañanera",
-            "description": "Activa una racha con tu compi antes de las 10:00 a.m. Un logro para quienes empiezan el día con disciplina y energía.",
+            "description": "Activa una racha con tu compi antes de las 10:00 a.m.",
             "current_progress": 0,
             "goal_value": 1
         },
@@ -41,11 +48,29 @@ export default function Achievements() {
             "icon": "balance-scale",
             "achieved": false,
             "title": "Maestro de la constancia",
-            "description": "Obtén todas las insignias de racha disponibles en un mismo pacto. Este logro representa disciplina a largo plazo y dedicación continua.",
+            "description": "Obtén todas las insignias de racha disponibles en un mismo pacto.",
             "current_progress": 0,
             "goal_value": 5
         }
     ]
+
+
+    useFocusEffect(
+        useCallback(() => {
+            const run = async () => {
+                const data = await fetchUserAchievements(session?.user?.id);
+                data.forEach((achievement) => {
+                    if (achievement.title === "Disciplina mañanera") {
+                        check_morning_streak(achievement);
+                    }
+                    if (achievement.title === "Guardián de la noche") {
+                        check_night_streak(achievement);
+                    }
+                });
+            };
+            run();
+        }, [])
+    );
 
     return (
         <SafeAreaView style={styles.container}>
