@@ -42,7 +42,7 @@ const check_multiple_habits = async (achievement) => {
     return { ...achievement, current_progress: uniqueHabitTypes.size, achieved: hasAllCategories }
 }
 
-export const check_night_streak = async (achievement) => {
+const check_night_streak = async (achievement) => {
     const { data, error } = await supabase
         .rpc("get_night_streaks", { user_id: achievement.id_user });
 
@@ -52,7 +52,7 @@ export const check_night_streak = async (achievement) => {
     return { ...achievement, current_progress: achieved ? 1 : 0, achieved: achieved }
 }
 
-export const check_morning_streak = async (achievement) => {
+const check_morning_streak = async (achievement) => {
     const { data, error } = await supabase
         .rpc("get_morning_streaks", { user_id: achievement.id_user });
 
@@ -62,7 +62,7 @@ export const check_morning_streak = async (achievement) => {
     return { ...achievement, current_progress: achieved ? 1 : 0, achieved: achieved }
 }
 
-export const check_master_consistency = async (achievement) => {
+const check_master_consistency = async (achievement) => {
     const { data: badge_data, error: badge_error } = await supabase
         .rpc("get_max_badge_level", { user_id: achievement.id_user });
 

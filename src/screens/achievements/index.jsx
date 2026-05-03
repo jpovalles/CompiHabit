@@ -7,7 +7,13 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import AchievementCard from "./components/AchievementCard";
 import useCheckAchievements from "./hooks/useCheckAchievements";
 
-
+const LoadingMessage = () => {
+    return (
+        <View style={styles.centered}>
+            <Text style={styles.loadingText}>Cargando pactos...</Text>
+        </View>
+    );
+};
 
 export default function Achievements() {
     const { session } = useAuth();
@@ -58,17 +64,26 @@ export default function Achievements() {
 
     const [achievements, setAchievements] = useState([]);
 
+
+    const run = async () => {
+        const data = await useCheckAchievements(session?.user?.id);
+        setAchievements(data);
+    };
+
     useFocusEffect(
         useCallback(() => {
-            const run = async () => {
-                const data = await useCheckAchievements(session?.user?.id);
-                setAchievements(data);
-            };
             run();
         }, [])
     );
 
+    if (achievements.length === 0) {
+        return (
+            <LoadingMessage />
+        )
+    }
+
     return (
+
         <SafeAreaView style={styles.container}>
             <Text style={styles.title}>Mis logros</Text>
             <FlatList
