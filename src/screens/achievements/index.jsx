@@ -17,50 +17,6 @@ const LoadingMessage = () => {
 
 export default function Achievements() {
     const { session } = useAuth();
-    /*
-    const achievements = [
-        {
-            "achieved": false,
-            "current_progress": 0,
-            "title": "Deber diario",
-            "description": "Crea un pacto configurado para cumplirse todos los días y completa una semana de racha.",
-            "icon": "calendar-check",
-            "goal_value": 7
-        },
-        {
-            "icon": "palette",
-            "achieved": false,
-            "title": "Arcoíris de hábitos",
-            "description": "Crea un total de 3 pactos de hábitos diferentes. Explora distintas áreas de tu vida y comienza a construir una rutina sólida.",
-            "current_progress": 0,
-            "goal_value": 3
-        },
-        {
-            "icon": "moon",
-            "achieved": false,
-            "title": "Guardián de la noche",
-            "description": "Activa una racha con tu compi después de las 9:00 p.m.",
-            "current_progress": 0,
-            "goal_value": 1
-        },
-        {
-            "icon": "cloud-sun",
-            "achieved": false,
-            "title": "Disciplina mañanera",
-            "description": "Activa una racha con tu compi antes de las 10:00 a.m.",
-            "current_progress": 0,
-            "goal_value": 1
-        },
-        {
-            "icon": "balance-scale",
-            "achieved": false,
-            "title": "Maestro de la constancia",
-            "description": "Obtén todas las insignias de racha disponibles en un mismo pacto.",
-            "current_progress": 0,
-            "goal_value": 5
-        }
-    ]
-        */
 
     const [achievements, setAchievements] = useState([]);
 
