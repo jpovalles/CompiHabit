@@ -1,16 +1,17 @@
 import { theme } from "@/src/constants/theme";
 import { useAuth } from "@/src/context/AuthContext";
-import { fetchUserAchievements } from "@/src/logic/achievements";
 import { useFocusEffect } from "expo-router";
-import { useCallback } from "react";
+import { useCallback, useState } from "react";
 import { FlatList, StyleSheet, Text } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import AchievementCard from "./components/AchievementCard";
-import { check_master_consistency, check_morning_streak, check_night_streak } from "./hooks/useCheckAchievements";
+import useCheckAchievements from "./hooks/useCheckAchievements";
+
 
 
 export default function Achievements() {
     const { session } = useAuth();
+    /*
     const achievements = [
         {
             "achieved": false,
@@ -53,23 +54,15 @@ export default function Achievements() {
             "goal_value": 5
         }
     ]
+        */
 
+    const [achievements, setAchievements] = useState([]);
 
     useFocusEffect(
         useCallback(() => {
             const run = async () => {
-                const data = await fetchUserAchievements(session?.user?.id);
-                data.forEach((achievement) => {
-                    if (achievement.title === "Disciplina mañanera") {
-                        check_morning_streak(achievement);
-                    }
-                    if (achievement.title === "Guardián de la noche") {
-                        check_night_streak(achievement);
-                    }
-                    if (achievement.title === "Maestro de la constancia") {
-                        check_master_consistency(achievement);
-                    }
-                });
+                const data = await useCheckAchievements(session?.user?.id);
+                setAchievements(data);
             };
             run();
         }, [])

@@ -73,9 +73,6 @@ export const check_master_consistency = async (achievement) => {
     const levels = streak_data?.length
     const achieved = badge_data >= levels;
 
-    console.log("badge_data", badge_data)
-    console.log("levels", levels)
-    console.log("achieved", achieved)
 
     await update_achievement(achievement, badge_data, achieved);
     return { ...achievement, current_progress: badge_data, achieved: achieved }
@@ -83,8 +80,6 @@ export const check_master_consistency = async (achievement) => {
 
 const checkAchieved = async (achievement) => {
     if (achievement.achieved) return achievement;
-
-    const new_progress = achievement
 
     switch (achievement.title) {
         case "Deber diario":
@@ -103,5 +98,7 @@ const checkAchieved = async (achievement) => {
 export default async function useCheckAchievements(id_user) {
     const achievements = await fetchUserAchievements(id_user);
 
-    // const checkAchievementsProgress = achievements.map(checkAchieved)
+    const checkAchievementsProgress = await Promise.all(achievements.map(checkAchieved))
+
+    return checkAchievementsProgress
 }
