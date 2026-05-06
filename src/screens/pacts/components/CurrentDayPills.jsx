@@ -1,7 +1,7 @@
 import { theme } from "@/src/constants/theme";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 
-export default function CurrentDayPills() {
+export default function CurrentDayPills({ pactDays = [], style, fontSize = 16 }) {
     const DAYS_OF_WEEK = [
         { id: 0, label: "D" },
         { id: 1, label: "L" },
@@ -13,16 +13,16 @@ export default function CurrentDayPills() {
     ];
 
     return (
-        <View style={styles.daysContainer}>
+        <View style={[styles.daysContainer, style]}>
             {DAYS_OF_WEEK.map((day) => {
-                const isSelected = day.id === new Date().getDay();
+                const isSelected = pactDays.length === 0 ? day.id === new Date().getDay() : pactDays.includes(day.id);
                 return (
                     <TouchableOpacity
                         key={day.id}
                         style={[styles.dayCircle, isSelected && styles.dayCircleSelected]}
                         activeOpacity={0.8}
                     >
-                        <Text style={[styles.dayText, isSelected && styles.dayTextSelected]}>
+                        <Text style={[styles.dayText, isSelected && styles.dayTextSelected, fontSize && { fontSize }]}>
                             {day.label}
                         </Text>
                     </TouchableOpacity>
@@ -39,15 +39,16 @@ const styles = StyleSheet.create({
         alignItems: "center",
         borderRadius: 50,
         gap: 5,
-        marginBottom: theme.spacing.md,
         backgroundColor: theme.colors.background,
         paddingVertical: theme.spacing.sm,
         paddingHorizontal: theme.spacing.md,
     },
     dayCircle: {
-        width: 40,
-        height: 40,
-        borderRadius: 20,
+        height: "100%",
+        width: "100%",
+        flex: 1,
+        aspectRatio: 1,
+        borderRadius: 100,
         backgroundColor: theme.colors.surface,
         justifyContent: "center",
         alignItems: "center",
@@ -59,7 +60,7 @@ const styles = StyleSheet.create({
         borderColor: theme.colors.primary,
     },
     dayText: {
-        fontSize: theme.textSizes.md,
+        fontSize: 16,
         color: theme.colors.textMuted,
         fontWeight: theme.font.semibold.toString(),
     },

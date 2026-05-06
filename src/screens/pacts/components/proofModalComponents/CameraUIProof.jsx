@@ -2,7 +2,7 @@ import PrimaryButton from "@/src/components/PrimaryButton";
 import { theme } from "@/src/constants/theme";
 import { FontAwesome5 } from "@expo/vector-icons";
 import { CameraView, useCameraPermissions } from "expo-camera";
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { Image, Pressable, StyleSheet, Text, View } from "react-native";
 
 export default function CameraUIProof({
@@ -11,6 +11,11 @@ export default function CameraUIProof({
   inputLabel,
 }) {
   const [permission, requestPermission] = useCameraPermissions();
+  const [facing, setFacing] = useState("back");    // Controls the camera facing front or back
+
+  const toggleCamera = () => {
+    setFacing((prev) => (prev === "back" ? "front" : "back"));
+  };
   const cameraRef = useRef(null);
 
   const takePicture = async () => {
@@ -57,10 +62,13 @@ export default function CameraUIProof({
               />
             </View>
           ) : (
-            <CameraView style={styles.camera} facing="back" ref={cameraRef}>
+            <CameraView style={styles.camera} facing={facing} ref={cameraRef}>
               <View style={styles.cameraOverlay}>
                 <Pressable style={styles.captureButton} onPress={takePicture}>
                   <View style={styles.captureButtonInner} />
+                </Pressable>
+                <Pressable style={styles.btnRotateCamera} onPress={toggleCamera}>
+                  <FontAwesome5 name="sync" size={24} color="#ffffff" />
                 </Pressable>
               </View>
             </CameraView>
@@ -105,15 +113,19 @@ const styles = StyleSheet.create({
   },
   cameraOverlay: {
     flex: 1,
+    flexDirection: "row",
     backgroundColor: "transparent",
-    justifyContent: "flex-end",
-    alignItems: "center",
-    paddingBottom: theme.spacing.md,
+    alignItems: "flex-end",
+    justifyContent: "center",
+    padding: theme.spacing.md,
+    paddingBottom: theme.spacing.lg,
   },
   captureButton: {
     width: 60,
     height: 60,
     borderRadius: 30,
+    position: "absolute",
+    marginBottom: theme.spacing.md,
     backgroundColor: "rgba(255,255,255,0.3)",
     justifyContent: "center",
     alignItems: "center",
@@ -123,6 +135,17 @@ const styles = StyleSheet.create({
     height: 50,
     borderRadius: 25,
     backgroundColor: "#ffffff",
+  },
+  btnRotateCamera: {
+    width: 30,
+    height: 30,
+    borderRadius: 30,
+    backgroundColor: "rgba(255,255,255,0.3)",
+    justifyContent: "center",
+    alignItems: "center",
+    marginRight: 0,
+    marginLeft: "auto"
+
   },
   imagePreviewContainer: {
     height: 300,

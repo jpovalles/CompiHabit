@@ -2,7 +2,7 @@ import { theme } from "@/src/constants/theme";
 import { useAuth } from "@/src/context/AuthContext";
 import { useFocusEffect } from "expo-router";
 import { useCallback, useState } from "react";
-import { FlatList, StyleSheet, Text } from "react-native";
+import { FlatList, StyleSheet, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import AchievementCard from "./components/AchievementCard";
 import useCheckAchievements from "./hooks/useCheckAchievements";

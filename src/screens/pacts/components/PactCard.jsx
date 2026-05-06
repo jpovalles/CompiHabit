@@ -41,7 +41,7 @@ export default function PactCard({
 
 
   const { current_days, id_streak } = streak;
-  const { habit_name, pact_hours } = pact;
+  const { habit_name, pact_hours, pact_days } = pact;
 
   const [showButtons, setShowButtons] = useState(false);
 
@@ -58,17 +58,20 @@ export default function PactCard({
     }
   };
 
+  console.log("current_days", current_days);
+
   return (
     <View style={styles.card}>
       <View style={styles.content}>
         <PactCardHeader
           habitName={habit_name}
           pact_hours={pact_hours}
+          pact_days={pact_days}
           partnerName={partnerName}
           currentBadge={currentBadge}
           isDayCompleted={isDayCompleted}
-          currentDays={current_days}
           isActive={isActive}
+          currentDays={current_days}
         />
 
         <PactCardProgress

@@ -51,6 +51,7 @@ export const getCurrentDayPact = async (idUser, day) => {
     id_host,
     id_guest,
     pact_hours,
+    pact_days,
     host_name:profiles!pacts_id_host_fkey (
       username
     ),

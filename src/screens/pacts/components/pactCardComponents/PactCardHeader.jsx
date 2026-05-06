@@ -1,12 +1,14 @@
 import { theme } from '@/src/constants/theme';
 import FlameBadge from '@/src/screens/pacts/components/FlameBadge';
 import { FontAwesome5 } from '@expo/vector-icons';
-import { Image, StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
+import CurrentDayPills from '../CurrentDayPills';
 
 
 export default function PactCardHeader({
   habitName,
   pact_hours,
+  pact_days,
   partnerAvatar,
   partnerName,
   currentBadge,
@@ -14,39 +16,38 @@ export default function PactCardHeader({
   currentDays,
   isActive,
 }) {
-  const lightFlame = currentDays !== 0 && (isDayCompleted || !isActive);
+  const lightFlame = currentDays !== 0 && (isDayCompleted || !isActive);    // activated when theres more than 0 days acumulated and the day is completed or the pact is not active (for presentation)
 
   return (
     <View style={styles.topRow}>
       <View style={styles.titleBlock}>
-        <Text style={styles.title}>{habitName}</Text>
-        {pact_hours && (
-          <View style={styles.detailItem}>
-            <FontAwesome5
-              name="clock"
-              size={14}
-              color={theme.colors.textPrimary}
-              style={styles.icon}
-            />
-            <Text style={styles.detailText}>
-              {pact_hours ? `${pact_hours}h` : "No especificado"}
-            </Text>
-          </View>
-        )}
-        <View style={styles.partnerRow}>
-          {partnerAvatar ? (
-            <Image
-              source={{ uri: partnerAvatar }}
-              style={styles.avatar}
-            />
-          ) : (
+        <View style={{ flexDirection: "row", alignItems: "center", gap: theme.spacing.md, marginBottom: theme.spacing.xs }}>
+          <Text style={styles.title}>{habitName}</Text>
+          <View style={styles.partnerRow}>
             <View style={styles.avatarFallback}>
               <Text style={styles.avatarFallbackText}>
                 {partnerName?.[0]?.toUpperCase()}
               </Text>
             </View>
+            <Text style={styles.partnerName}>con {partnerName}</Text>
+          </View>
+        </View>
+        <View style={{ marginBottom: theme.spacing.xs }}>
+          <CurrentDayPills pactDays={pact_days} style={{ width: 200 }} fontSize={10} />
+          {pact_hours && (
+            <View style={styles.detailItem}>
+              <FontAwesome5
+                name="clock"
+                size={14}
+                color={theme.colors.textPrimary}
+                style={styles.icon}
+              />
+              <Text style={styles.detailText}>
+                {pact_hours ? `${pact_hours}h` : "No especificado"}
+              </Text>
+            </View>
           )}
-          <Text style={styles.partnerName}>con {partnerName}</Text>
+
         </View>
       </View>
 
@@ -113,8 +114,8 @@ const styles = StyleSheet.create({
     fontWeight: theme.font.bold.toString(),
   },
   partnerName: {
-    fontSize: 13,
-    color: theme.colors.textMuted,
+    fontSize: 16,
+    color: theme.colors.textPrimary,
   },
   streakBlock: {
     alignItems: "center",
@@ -127,21 +128,20 @@ const styles = StyleSheet.create({
   },
   detailItem: {
     marginVertical: theme.spacing.xs,
-    width: "50%",
+    alignSelf: "flex-start",
     backgroundColor: theme.colors.primary,
     borderRadius: theme.radius.md,
-    paddingHorizontal: theme.spacing.sm,
+    paddingHorizontal: theme.spacing.md,
     paddingVertical: theme.spacing.xs,
     flexDirection: "row",
     alignItems: "center",
   },
   icon: {
     width: 20,
-    textAlign: "center",
   },
   detailText: {
     color: theme.colors.textPrimary,
     fontSize: theme.textSizes.sm,
-    marginLeft: theme.spacing.sm,
+
   },
 });
