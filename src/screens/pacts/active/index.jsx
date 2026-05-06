@@ -99,7 +99,7 @@ export default function ActivesPacts() {
       ) : (
         <>
           <View
-            style={{ marginBottom: 10, marginHorizontal: theme.spacing.md }}
+            style={{ marginVertical: 10, marginHorizontal: theme.spacing.md }}
           >
             <Text style={styles.title}>Pactos de hoy</Text>
             <Text style={styles.subtitle}>

@@ -12,10 +12,13 @@ export default function CurrentDayPills({ pactDays = [], style, fontSize = 16 })
         { id: 6, label: "S" },
     ];
 
+    const showCurrentDay = pactDays?.length === 0;
+
     return (
         <View style={[styles.daysContainer, style]}>
+            {showCurrentDay && <Text style={styles.label}>Día en curso</Text>}
             {DAYS_OF_WEEK.map((day) => {
-                const isSelected = pactDays.length === 0 ? day.id === new Date().getDay() : pactDays.includes(day.id);
+                const isSelected = showCurrentDay ? day.id === new Date().getDay() : pactDays.includes(day.id);
                 return (
                     <TouchableOpacity
                         key={day.id}
@@ -33,6 +36,12 @@ export default function CurrentDayPills({ pactDays = [], style, fontSize = 16 })
 }
 
 const styles = StyleSheet.create({
+    label: {
+        fontSize: theme.textSizes.md,
+        fontWeight: theme.font.semibold.toString(),
+        color: theme.colors.primary,
+        marginRight: theme.spacing.xs,
+    },
     daysContainer: {
         flexDirection: "row",
         justifyContent: "space-between",
