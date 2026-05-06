@@ -7,7 +7,7 @@ import PactCard from "@/src/screens/pacts/components/PactCard";
 import { getDateDay } from "@/src/utils/extractDate";
 import { parsePact } from "@/src/utils/parsePact";
 import { useFocusEffect } from "expo-router";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useState } from "react";
 import { Alert, FlatList, StyleSheet, Text, View } from "react-native";
 import CheckProofModal from "../components/CheckProofModal";
 import ResetNotifications from "../components/ResetNotifications";
@@ -85,9 +85,6 @@ export default function ActivesPacts() {
     getActivePacts();
   });
 
-  useEffect(() => {
-    console.log(activePacts);
-  }, [activePacts]);
 
   return (
     <View style={{ flex: 1 }}>

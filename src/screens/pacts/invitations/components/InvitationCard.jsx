@@ -34,7 +34,6 @@ export default function InvitationCard({
       Alert.alert("Invitación aceptada");
       refreshInvitations();
     } catch (error) {
-      console.log(error);
       Alert.alert("Error al aceptar la invitación ", error.message);
     }
   };

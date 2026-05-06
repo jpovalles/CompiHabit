@@ -60,14 +60,6 @@ export default function InactivePacts() {
     getBadgeLevels();
   }, []);
 
-  //For testing
-  useEffect(() => {
-    console.log(inactivePacts);
-    badgeColors.forEach((badgeColor) => {
-      console.log("badgeColor ", badgeColor);
-    });
-  }, [inactivePacts, badgeColors]);
-
   return (
     <View style={{ flex: 1 }}>
       <CurrentDayPills />

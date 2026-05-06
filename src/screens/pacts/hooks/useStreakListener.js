@@ -25,7 +25,6 @@ export function useStreakListener(onReset) {
                 },
                 async (payload) => {
                     const { new: newRow, old: oldRow } = payload;
-                    console.log("🔥 EVENT RECEIVED:", payload);
 
 
                     // Checks if this streak belongs to the current user

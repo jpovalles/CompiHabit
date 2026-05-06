@@ -124,11 +124,6 @@ export default function CheckProofModal({
     }
   };
 
-  useEffect(() => {
-    console.log(textProof);
-    console.log(imageProof);
-  }, [textProof, imageProof]);
-
   return (
     <Modal
       visible={isOpen}

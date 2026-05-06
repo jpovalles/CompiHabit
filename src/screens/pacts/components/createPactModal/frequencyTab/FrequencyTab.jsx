@@ -23,9 +23,7 @@ export default function FrequencyTab({
   const HOURS_RANGE = [1, 2, 3, 4, 5];
 
   const requiresHours = pactData.habit_name?.toLowerCase() === "tiempo en pantalla";
-  useEffect(() => {
-    console.log(pactData.habit_name?.toLowerCase())
-  }, []);
+
 
 
   const toggleDay = (dayId) => {
