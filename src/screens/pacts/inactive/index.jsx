@@ -20,7 +20,7 @@ const LoadingMessage = () => {
 const NoInactivePactsMessage = () => {
   return (
     <View style={styles.centered}>
-      <Text style={styles.loadingText}>No hay pactos inactivos</Text>
+      <Text style={styles.loadingText}>No tienes pactos para mostrar</Text>
     </View>
   );
 };
@@ -95,7 +95,7 @@ export default function InactivePacts() {
 const styles = StyleSheet.create({
   centered: {
     flex: 1,
-    justifyContent: "flex-start",
+    justifyContent: "center",
     alignItems: "center",
   },
   loadingText: {

@@ -22,9 +22,8 @@ export default function FrequencyTab({
 
   const HOURS_RANGE = [1, 2, 3, 4, 5];
 
-  const requiresHours = pactData.habit_name?.toLowerCase() === "tiempo en pantalla";
-
-
+  const requiresHours =
+    pactData.habit_name?.toLowerCase() === "tiempo en pantalla";
 
   const toggleDay = (dayId) => {
     setDays((prev) => {
@@ -36,13 +35,13 @@ export default function FrequencyTab({
   };
 
   useEffect(() => {
-    setPactData(prev => ({ ...prev, pact_days: days, pact_hours: hours }));
+    setPactData((prev) => ({ ...prev, pact_days: days, pact_hours: hours }));
 
     let isValid = days.length >= 3;
-    if (requiresHours) isValid = hours !== null;
+    if (requiresHours) isValid = isValid && hours !== null;
 
     setFieldFilled(isValid);
-  }, [days]);
+  }, [days, hours]);
 
   return (
     <View style={styles.container}>
@@ -119,7 +118,12 @@ export default function FrequencyTab({
                   onPress={() => setHours(hour)}
                   activeOpacity={0.8}
                 >
-                  <Text style={[styles.hourText, isSelected && styles.hourTextSelected]}>
+                  <Text
+                    style={[
+                      styles.hourText,
+                      isSelected && styles.hourTextSelected,
+                    ]}
+                  >
                     {hour + "h"}
                   </Text>
                 </TouchableOpacity>

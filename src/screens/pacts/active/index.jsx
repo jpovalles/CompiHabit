@@ -10,6 +10,7 @@ import { useFocusEffect } from "expo-router";
 import { useCallback, useState } from "react";
 import { Alert, FlatList, StyleSheet, Text, View } from "react-native";
 import CheckProofModal from "../components/CheckProofModal";
+import FlameBadgeShowcase from "../components/FlameBadgeShowcase";
 import ResetNotifications from "../components/ResetNotifications";
 import UploadProofModal from "../components/UploadProofModal";
 import { useStreakListener } from "../hooks/useStreakListener";
@@ -85,7 +86,6 @@ export default function ActivesPacts() {
     getActivePacts();
   });
 
-
   return (
     <View style={{ flex: 1 }}>
       <CurrentDayPills />
@@ -145,6 +145,7 @@ export default function ActivesPacts() {
               onRefresh={getActivePacts}
             />
           )}
+          <FlameBadgeShowcase />
           <ResetNotifications
             notifications={notifications}
             onMarkAsSeen={markAsSeen}
@@ -159,7 +160,7 @@ export default function ActivesPacts() {
 const styles = StyleSheet.create({
   centered: {
     flex: 1,
-    justifyContent: "flex-start",
+    justifyContent: "center",
     alignItems: "center",
   },
   loadingText: {
