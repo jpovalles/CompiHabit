@@ -1,9 +1,8 @@
-import { theme } from '@/src/constants/theme';
-import FlameBadge from '@/src/screens/pacts/components/FlameBadge';
-import { FontAwesome5 } from '@expo/vector-icons';
-import { StyleSheet, Text, View } from 'react-native';
-import CurrentDayPills from '../CurrentDayPills';
-
+import { theme } from "@/src/constants/theme";
+import FlameBadge from "@/src/screens/pacts/components/FlameBadge";
+import { FontAwesome5 } from "@expo/vector-icons";
+import { StyleSheet, Text, View } from "react-native";
+import CurrentDayPills from "../CurrentDayPills";
 
 export default function PactCardHeader({
   habitName,
@@ -16,12 +15,19 @@ export default function PactCardHeader({
   currentDays,
   isActive,
 }) {
-  const lightFlame = currentDays !== 0 && (isDayCompleted || !isActive);    // activated when theres more than 0 days acumulated and the day is completed or the pact is not active (for presentation)
+  const lightFlame = currentDays !== 0 && (isDayCompleted || !isActive); // activated when theres more than 0 days acumulated and the day is completed or the pact is not active (for presentation)
 
   return (
     <View style={styles.topRow}>
       <View style={styles.titleBlock}>
-        <View style={{ flexDirection: "row", alignItems: "center", gap: theme.spacing.md, marginBottom: theme.spacing.xs }}>
+        <View
+          style={{
+            flexDirection: "row",
+            alignItems: "center",
+            gap: theme.spacing.md,
+            marginBottom: theme.spacing.xs,
+          }}
+        >
           <Text style={styles.title}>{habitName}</Text>
           <View style={styles.partnerRow}>
             <View style={styles.avatarFallback}>
@@ -33,7 +39,11 @@ export default function PactCardHeader({
           </View>
         </View>
         <View style={{ marginBottom: theme.spacing.xs }}>
-          <CurrentDayPills pactDays={pact_days} style={{ width: 200 }} fontSize={10} />
+          <CurrentDayPills
+            pactDays={pact_days}
+            style={{ width: 200 }}
+            fontSize={10}
+          />
           {pact_hours && (
             <View style={styles.detailItem}>
               <FontAwesome5
@@ -47,7 +57,6 @@ export default function PactCardHeader({
               </Text>
             </View>
           )}
-
         </View>
       </View>
 
@@ -62,9 +71,7 @@ export default function PactCardHeader({
           style={[
             styles.streakCount,
             {
-              color: lightFlame
-                ? theme.colors.primary
-                : theme.colors.textMuted,
+              color: lightFlame ? theme.colors.primary : theme.colors.textMuted,
             },
           ]}
         >
@@ -142,6 +149,5 @@ const styles = StyleSheet.create({
   detailText: {
     color: theme.colors.textPrimary,
     fontSize: theme.textSizes.sm,
-
   },
 });

@@ -1,7 +1,13 @@
 import { theme } from "@/src/constants/theme";
 import { getBadgeColors } from "@/src/services/database/badgeColorsService";
 import { useEffect, useState } from "react";
-import { ActivityIndicator, ScrollView, StyleSheet, Text, View } from "react-native";
+import {
+  ActivityIndicator,
+  ScrollView,
+  StyleSheet,
+  Text,
+  View,
+} from "react-native";
 import FlameBadge from "./FlameBadge";
 
 const DAYS = [0, 3, 7, 15, 30, 60];
@@ -14,7 +20,7 @@ export default function FlameBadgeShowcase() {
     const load = async () => {
       try {
         const data = await getBadgeColors();
-        setBadges(data.filter((badge) => badge.id_streak_colors !== 1) || []);
+        setBadges(data.filter((badge) => badge.id_streak_colors !== 0) || []);
       } catch (e) {
         console.error("Error fetching badge colors:", e);
       } finally {
@@ -23,6 +29,8 @@ export default function FlameBadgeShowcase() {
     };
     load();
   }, []);
+
+  useEffect(() => console.log(badges[0]), [badges]);
 
   if (loading) {
     return (
@@ -56,8 +64,10 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   content: {
+    width: "100%",
     flexDirection: "row",
     alignItems: "center",
+    justifyContent: "center",
     gap: theme.spacing.md,
     paddingVertical: theme.spacing.md,
   },

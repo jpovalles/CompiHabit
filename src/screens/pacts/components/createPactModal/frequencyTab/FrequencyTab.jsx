@@ -1,4 +1,5 @@
 import { theme } from "@/src/constants/theme";
+import { FontAwesome5 } from "@expo/vector-icons";
 import { useEffect, useState } from "react";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 
@@ -49,7 +50,16 @@ export default function FrequencyTab({
       <Text style={styles.description}>
         ¿Qué días quieres realizar esta actividad con tu compi?
       </Text>
-
+      <View style={styles.warningContainer}>
+        <FontAwesome5
+          name="info-circle"
+          size={14}
+          color={theme.colors.textMuted}
+        />
+        <Text style={styles.warningText}>
+          Debes seleccionar al menos 3 días
+        </Text>
+      </View>
       <View style={styles.daysContainer}>
         {DAYS_OF_WEEK.map((day) => {
           const isSelected = days.includes(day.id);
@@ -221,5 +231,20 @@ const styles = StyleSheet.create({
   },
   hourTextSelected: {
     color: theme.colors.primary,
+  },
+  warningContainer: {
+    flexDirection: "row",
+    alignItems: "flex-start",
+    backgroundColor: "#ffffff05",
+    padding: theme.spacing.sm,
+    borderRadius: theme.radius.sm || 6,
+    marginBottom: theme.spacing.xl,
+    gap: theme.spacing.sm,
+  },
+  warningText: {
+    flex: 1,
+    color: theme.colors.textMuted,
+    fontSize: theme.textSizes.sm,
+    lineHeight: 18,
   },
 });
