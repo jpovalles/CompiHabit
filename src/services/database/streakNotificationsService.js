@@ -17,24 +17,23 @@ export async function getStreakNotifications(userId) {
         )
       `,
     )
-    .eq("id_profile", userId)
-    .eq("seen", false);
+    .eq("id_profile", userId);
   if (error) throw error;
   return data;
 }
 
-export async function updateSingleNotification(notificationId) {
+export async function deleteSingleNotification(notificationId) {
   const { error } = await supabase
     .from("streak_notifications")
-    .update({ seen: true })
+    .delete()
     .eq("id_notification", notificationId);
   if (error) throw error;
 }
 
-export async function updateMultipleNotifications(ids) {
+export async function deleteMultipleNotifications(ids) {
   const { error } = await supabase
     .from("streak_notifications")
-    .update({ seen: true })
+    .delete()
     .in("id_notification", ids);
   if (error) throw error;
 }

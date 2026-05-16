@@ -1,8 +1,8 @@
 import { useAuth } from "@/src/context/AuthContext";
 import {
+  deleteMultipleNotifications,
+  deleteSingleNotification,
   getStreakNotifications,
-  updateMultipleNotifications,
-  updateSingleNotification,
 } from "@/src/services/database/streakNotificationsService";
 import { useEffect, useState } from "react";
 
@@ -40,7 +40,7 @@ export function useStreakNotifications() {
 
   const markAsSeen = async (idNotification) => {
     try {
-      await updateSingleNotification(idNotification);
+      await deleteSingleNotification(idNotification);
       setNotifications((prev) =>
         prev.filter((n) => n.id_notification !== idNotification),
       );
@@ -54,7 +54,7 @@ export function useStreakNotifications() {
     if (!ids.length) return;
 
     try {
-      await updateMultipleNotifications(ids);
+      await deleteMultipleNotifications(ids);
       setNotifications([]);
     } catch (error) {
       console.error(
