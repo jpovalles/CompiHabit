@@ -11,6 +11,7 @@ import { useFocusEffect } from "expo-router";
 import { useCallback, useState } from "react";
 import { Alert, FlatList, StyleSheet, Text, View } from "react-native";
 import CheckProofModal from "../components/CheckProofModal";
+import FlameBadgeShowcase from "../components/FlameBadgeShowcase";
 import ResetNotifications from "../components/ResetNotifications";
 import UploadProofModal from "../components/UploadProofModal";
 import { useStreakNotifications } from "../hooks/useStreakNotifications";
@@ -106,7 +107,7 @@ export default function ActivesPacts() {
   return (
     <View style={{ flex: 1 }}>
       <CurrentDayPills />
-      {/*<FlameBadgeShowcase />*/}
+      <FlameBadgeShowcase />
       <View style={{ marginVertical: 10, marginHorizontal: theme.spacing.md }}>
         <Text style={styles.title}>Pactos de hoy</Text>
         <Text style={styles.subtitle}>
@@ -146,6 +147,7 @@ export default function ActivesPacts() {
           onRefresh={getActivePacts}
         />
       )}
+
       {selectedPact && showCheckProofModal && (
         <CheckProofModal
           isOpen={showCheckProofModal}
@@ -155,6 +157,7 @@ export default function ActivesPacts() {
           onRefresh={getActivePacts}
         />
       )}
+
       <ResetNotifications
         notifications={notifications}
         onMarkAsSeen={markAsSeen}

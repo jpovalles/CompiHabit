@@ -45,10 +45,11 @@ export default function FlameBadgeShowcase() {
       {badges.map((badge, i) => (
         <View key={badge.id_streak_colors} style={styles.item}>
           <Text style={styles.days}>{DAYS[i] + " días" ?? "?"}</Text>
+
           <FlameBadge
             primary={badge.primary_color}
             secondary={badge.secondary_color}
-            size={45}
+            size={30}
             active={true}
           />
         </View>
@@ -64,12 +65,18 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   content: {
+    marginTop: 7,
     width: "100%",
     flexDirection: "row",
     alignItems: "center",
-    justifyContent: "center",
+    justifyContent: "space-around",
     gap: theme.spacing.md,
-    paddingVertical: theme.spacing.md,
+    paddingVertical: theme.spacing.sm,
+    paddingHorizontal: theme.spacing.lg,
+    backgroundColor: theme.colors.background,
+    borderStyle: "solid",
+    borderColor: theme.colors.primary,
+    borderRadius: 50,
   },
   item: {
     alignItems: "center",
@@ -78,6 +85,6 @@ const styles = StyleSheet.create({
   days: {
     fontSize: theme.textSizes.sm,
     fontWeight: theme.font.semibold.toString(),
-    color: theme.colors.textPrimary,
+    color: theme.colors.textMuted,
   },
 });

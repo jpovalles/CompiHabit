@@ -2,10 +2,11 @@ import { theme } from "@/src/constants/theme";
 import AntDesign from "@expo/vector-icons/AntDesign";
 import { Pressable, StyleSheet } from "react-native";
 
-export default function FAB({ onPress, icon = "plus", style }) {
+export default function FAB({ onPress, icon = "plus", style, children }) {
   return (
     <Pressable style={[styles.fab, style]} onPress={onPress}>
       <AntDesign name={icon} size={24} color={theme.colors.textPrimary} />
+      {children}
     </Pressable>
   );
 }
