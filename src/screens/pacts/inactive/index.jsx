@@ -20,7 +20,10 @@ const LoadingMessage = () => {
 const NoInactivePactsMessage = () => {
   return (
     <View style={styles.centered}>
-      <Text style={styles.loadingText}>No tienes pactos para mostrar</Text>
+      <Text style={styles.loadingText}>
+        No tienes pactos para mostrar.{"\n"}Crea uno nuevo o revisa tus pactos
+        de hoy.
+      </Text>
     </View>
   );
 };
@@ -77,6 +80,7 @@ export default function InactivePacts() {
               Hoy no toca… pero sigue contando.
             </Text>
           </View>
+          {}
           {inactivePacts.map((pact) => (
             <PactCard
               key={pact.pact.id_pact}
@@ -99,8 +103,10 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   loadingText: {
-    fontSize: theme.textSizes.md,
+    fontSize: theme.textSizes.lg,
     color: theme.colors.textPrimary,
+    justifyContent: "center",
+    maxWidth: "80%",
   },
   title: {
     fontSize: theme.textSizes.lg,
