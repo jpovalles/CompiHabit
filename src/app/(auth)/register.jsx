@@ -33,6 +33,15 @@ export default function RegisterScreen() {
     }
   };
 
+  const catchUsername = (username) => {
+    const newUsername = username.toLowerCase().trim();
+    if (newUsername.includes(" ")) {
+      Alert.alert("Error", "El nombre de usuario no puede contener espacios");
+      return;
+    }
+    setUsername(newUsername);
+  };
+
   return (
     <KeyboardAvoidingView
       style={styles.container}
