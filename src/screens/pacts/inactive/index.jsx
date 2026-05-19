@@ -3,6 +3,7 @@ import { useAuth } from "@/src/context/AuthContext";
 import { fetchBadgeColors } from "@/src/logic/badgeLogic";
 import { fetchNoCurrentDayPacts } from "@/src/logic/pactLogic";
 import CurrentDayPills from "@/src/screens/pacts/components/CurrentDayPills";
+import FlameBadgeShowcase from "@/src/screens/pacts/components/FlameBadgeShowcase";
 import PactCard from "@/src/screens/pacts/components/PactCard";
 import { getDateDay } from "@/src/utils/extractDate";
 import { parsePact } from "@/src/utils/parsePact";
@@ -72,10 +73,11 @@ export default function InactivePacts() {
         <NoInactivePactsMessage />
       ) : (
         <View>
+          <FlameBadgeShowcase />
           <View
-            style={{ marginBottom: 10, marginHorizontal: theme.spacing.md }}
+            style={{ marginVertical: 10, marginHorizontal: theme.spacing.md }}
           >
-            <Text style={styles.title}>Pactos Inactivos</Text>
+            <Text style={styles.title}>Estado de mis pactos</Text>
             <Text style={styles.subtitle}>
               Hoy no toca… pero sigue contando.
             </Text>

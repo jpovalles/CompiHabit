@@ -58,7 +58,7 @@ export default function InvitationCard({
               </>
             )}
           </Text>
-          <Text style={styles.subtitle}>Pacto: {habitName}</Text>
+          <Text style={styles.subtitle}>Hábito: {habitName}</Text>
         </View>
       </View>
 

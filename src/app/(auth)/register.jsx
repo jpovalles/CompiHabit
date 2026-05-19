@@ -71,7 +71,7 @@ export default function RegisterScreen() {
           <FancyInput
             placeholder="Nombre de usuario"
             value={username}
-            onChangeText={setUsername}
+            onChangeText={catchUsername}
             autoCapitalize="none"
           />
           <FancyInput
