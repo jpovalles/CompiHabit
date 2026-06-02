@@ -65,6 +65,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   content: {
+    maxHeight: 80,
     marginTop: 7,
     width: "100%",
     flexDirection: "row",

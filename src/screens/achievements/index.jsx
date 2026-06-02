@@ -12,7 +12,7 @@ import useCheckAchievements from "./hooks/useCheckAchievements";
 const LoadingMessage = () => {
   return (
     <View style={styles.centered}>
-      <Text style={styles.loadingText}>Cargando pactos...</Text>
+      <Text style={styles.loadingText}>Cargando logros...</Text>
     </View>
   );
 };
@@ -40,13 +40,16 @@ export default function Achievements() {
     checkAchievements();
   });
 
+  /*
   if (achievements.length === 0) {
     return <LoadingMessage />;
   }
+    */
 
   return (
     <SafeAreaView style={styles.container}>
       <Text style={styles.title}>Mis logros</Text>
+      {achievements.length === 0 && <LoadingMessage />}
       <FlatList
         data={achievements}
         style={{ flex: 1, marginTop: theme.spacing.lg, width: "100%" }}
@@ -79,5 +82,14 @@ const styles = StyleSheet.create({
     fontWeight: theme.font.bold.toString(),
     color: theme.colors.textPrimary,
     marginTop: theme.spacing.lg,
+  },
+  centered: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  loadingText: {
+    fontSize: theme.textSizes.md,
+    color: theme.colors.textPrimary,
   },
 });
