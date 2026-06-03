@@ -32,19 +32,14 @@ export default function Achievements() {
       checkAchievements();
     }, []),
   );
-  useStreakListener(() => {
-    checkAchievements();
+
+  useStreakListener(async () => {
+    await useCheckAchievements(session?.user?.id);
   });
 
-  usePactListener(() => {
-    checkAchievements();
+  usePactListener(async () => {
+    await useCheckAchievements(session?.user?.id);
   });
-
-  /*
-  if (achievements.length === 0) {
-    return <LoadingMessage />;
-  }
-    */
 
   return (
     <SafeAreaView style={styles.container}>

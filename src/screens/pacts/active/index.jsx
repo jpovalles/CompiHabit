@@ -10,7 +10,6 @@ import { parsePact } from "@/src/utils/parsePact";
 import { useFocusEffect } from "expo-router";
 import { useCallback, useState } from "react";
 import { Alert, FlatList, StyleSheet, Text, View } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
 import CheckProofModal from "../components/CheckProofModal";
 import FlameBadgeShowcase from "../components/FlameBadgeShowcase";
 import ResetNotifications from "../components/ResetNotifications";
@@ -106,46 +105,45 @@ export default function ActivesPacts() {
   }
 
   return (
-    <View>
+    <View style={{ flex: 1 }}>
       <CurrentDayPills />
       <FlameBadgeShowcase />
-      <SafeAreaView>
-        <View
-          style={{
-            marginVertical: 0,
-            marginHorizontal: theme.spacing.md,
-          }}
-        >
-          <Text style={styles.title}>Pactos de hoy</Text>
-          <Text style={styles.subtitle}>
-            ¡Hagan sus hábitos y mantengan la racha como equipo!
-          </Text>
-        </View>
-        <FlatList
-          data={activePacts}
-          keyExtractor={(item) => item.pact.id_pact.toString()}
-          renderItem={({ item }) => (
-            <PactCard
-              pact={item.pact}
-              streak={item.streak}
-              badgeColors={badgeColors}
-              onPressSubmit={() => {
-                setShowProofModal(true);
-                setSelectedPact(item);
-              }}
-              onPressValidate={() => {
-                setShowCheckProofModal(true);
-                setSelectedPact(item);
-              }}
-              onRefresh={getActivePacts}
-            />
-          )}
-          ListEmptyComponent={
-            <Text style={styles.loadingText}>No hay pactos activos</Text>
-          }
-          contentContainerStyle={{ paddingBottom: 100 }}
-        />
-      </SafeAreaView>
+
+      <View
+        style={{
+          marginVertical: 10,
+          marginHorizontal: theme.spacing.md,
+        }}
+      >
+        <Text style={styles.title}>Pactos de hoy</Text>
+        <Text style={styles.subtitle}>
+          ¡Hagan sus hábitos y mantengan la racha como equipo!
+        </Text>
+      </View>
+      <FlatList
+        data={activePacts}
+        keyExtractor={(item) => item.pact.id_pact.toString()}
+        renderItem={({ item }) => (
+          <PactCard
+            pact={item.pact}
+            streak={item.streak}
+            badgeColors={badgeColors}
+            onPressSubmit={() => {
+              setShowProofModal(true);
+              setSelectedPact(item);
+            }}
+            onPressValidate={() => {
+              setShowCheckProofModal(true);
+              setSelectedPact(item);
+            }}
+            onRefresh={getActivePacts}
+          />
+        )}
+        ListEmptyComponent={
+          <Text style={styles.loadingText}>No hay pactos activos</Text>
+        }
+        contentContainerStyle={{ paddingBottom: 100 }}
+      />
       {selectedPact && showProofModal && (
         <UploadProofModal
           isOpen={showProofModal}
