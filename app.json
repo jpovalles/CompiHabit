@@ -44,8 +44,7 @@
     "experiments": {
       "typedRoutes": true,
       "reactCompiler": true
-    }
-    /*
+    },
     "extra": {
       "router": {},
       "eas": {
@@ -59,6 +58,5 @@
     "updates": {
       "url": "https://u.expo.dev/5b3a357d-4013-4813-86a2-1c6cc30670f1"
     }
-      */
   }
 }
