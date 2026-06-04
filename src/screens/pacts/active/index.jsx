@@ -106,44 +106,48 @@ export default function ActivesPacts() {
 
   return (
     <View style={{ flex: 1 }}>
-      <CurrentDayPills />
-      <FlameBadgeShowcase />
-
-      <View
-        style={{
-          marginVertical: 10,
-          marginHorizontal: theme.spacing.md,
-        }}
-      >
-        <Text style={styles.title}>Pactos de hoy</Text>
-        <Text style={styles.subtitle}>
-          ¡Hagan sus hábitos y mantengan la racha como equipo!
-        </Text>
+      <View>
+        <CurrentDayPills />
+        <FlameBadgeShowcase />
       </View>
-      <FlatList
-        data={activePacts}
-        keyExtractor={(item) => item.pact.id_pact.toString()}
-        renderItem={({ item }) => (
-          <PactCard
-            pact={item.pact}
-            streak={item.streak}
-            badgeColors={badgeColors}
-            onPressSubmit={() => {
-              setShowProofModal(true);
-              setSelectedPact(item);
-            }}
-            onPressValidate={() => {
-              setShowCheckProofModal(true);
-              setSelectedPact(item);
-            }}
-            onRefresh={getActivePacts}
-          />
-        )}
-        ListEmptyComponent={
-          <Text style={styles.loadingText}>No hay pactos activos</Text>
-        }
-        contentContainerStyle={{ paddingBottom: 100 }}
-      />
+      <View style={{ flex: 1 }}>
+        <View
+          style={{
+            marginVertical: 10,
+            marginHorizontal: theme.spacing.md,
+          }}
+        >
+          <Text style={styles.title}>Pactos de hoy</Text>
+          <Text style={styles.subtitle}>
+            ¡Hagan sus hábitos y mantengan la racha como equipo!
+          </Text>
+        </View>
+        <FlatList
+          data={activePacts}
+          keyExtractor={(item) => item.pact.id_pact.toString()}
+          renderItem={({ item }) => (
+            <PactCard
+              pact={item.pact}
+              streak={item.streak}
+              badgeColors={badgeColors}
+              onPressSubmit={() => {
+                setShowProofModal(true);
+                setSelectedPact(item);
+              }}
+              onPressValidate={() => {
+                setShowCheckProofModal(true);
+                setSelectedPact(item);
+              }}
+              onRefresh={getActivePacts}
+            />
+          )}
+          ListEmptyComponent={
+            <Text style={styles.loadingText}>No hay pactos activos</Text>
+          }
+          contentContainerStyle={{ paddingBottom: 100 }}
+        />
+      </View>
+
       {selectedPact && showProofModal && (
         <UploadProofModal
           isOpen={showProofModal}
