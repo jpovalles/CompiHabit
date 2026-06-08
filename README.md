@@ -40,30 +40,38 @@ This project was developed as part of an undergraduate thesis in Systems Enginee
 
 ### Authentication
 
+<div align="center">
 <img src="docs/images/login.jpg" width="200">
 <img src="docs/images/register.jpeg" width="200">
+</div>
 
 ### Create a Pact
 
+<div align="center">
 <img src="docs/images/pact_habit.jpeg" width="200">
 <img src="docs/images/pact_days.jpeg" width="200">
 <img src="docs/images/pact_partner.jpeg" width="200">
 <img src="docs/images/pact_summary.jpeg" width="200">
+</div>
 
 ### Home Screen  (Pacts view)
 
 <img src="docs/images/pacts.jpeg" width="200">
 
-### Habit Support Evidence
+### Habit Evidence
 
+<div align="center">
 <img src="docs/images/text_proof.jpeg" width="200">
 <img src="docs/images/photo_proof.jpeg" width="200">
 <img src="docs/images/image_proof.jpeg" width="200">
+</div>
 
 ### Pact Invitations
 
+<div align="center">
 <img src="docs/images/rec_invitations.jpeg" width="200">
 <img src="docs/images/sent_invitations.jpeg" width="200">
+</div>
 
 ### Achievements
 
