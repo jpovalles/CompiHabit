@@ -1,6 +1,6 @@
 <div align="center">
 
-![](docs/images/icon.png)
+<img src="docs/images/icon.png" width="200">
 
 # CompiHabit
 
@@ -40,29 +40,42 @@ This project was developed as part of an undergraduate thesis in Systems Enginee
 
 ### Authentication
 
-![Authentication Screen](docs/images/authentication.png)
+<img src="docs/images/login.jpg" width="200">
+<img src="docs/images/register.jpeg" width="200">
 
-### Home Screen
+### Create a Pact
 
-![Home Screen](docs/images/home.png)
+<img src="docs/images/pact_habit.jpeg" width="200">
+<img src="docs/images/pact_days.jpeg" width="200">
+<img src="docs/images/pact_partner.jpeg" width="200">
+<img src="docs/images/pact_summary.jpeg" width="200">
 
-### Habit Pacts
+### Home Screen  (Pacts view)
 
-![Habit Pacts](docs/images/pacts.png)
+<img src="docs/images/pacts.jpeg" width="200">
 
-### Streak Tracking
+### Habit Support Evidence
 
-![Streak Tracking](docs/images/streaks.png)
+<img src="docs/images/text_proof.jpeg" width="200">
+<img src="docs/images/photo_proof.jpeg" width="200">
+<img src="docs/images/image_proof.jpeg" width="200">
+
+### Pact Invitations
+
+<img src="docs/images/rec_invitations.jpeg" width="200">
+<img src="docs/images/sent_invitations.jpeg" width="200">
 
 ### Achievements
 
-![Achievements](docs/images/achievements.png)
+<img src="docs/images/achievements.jpeg" width="200">
 
 ### Profile
 
-![Profile](docs/images/profile.png)
+<img src="docs/images/profile.jpeg" width="200">
 
-> Create a `docs/images/` folder and replace the placeholder images with actual application screenshots.
+### Habit Streak Restart
+
+<img src="docs/images/streak_restart.jpeg" width="200">
 
 ---
 
