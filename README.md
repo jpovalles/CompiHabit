@@ -1,5 +1,7 @@
 <div align="center">
 
+![](docs/images/icon.png)
+
 # CompiHabit
 
 **Mobile application that promotes healthy habit adoption through shared accountability and gamification.**
